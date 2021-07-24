@@ -1,35 +1,42 @@
 <template>
-    <app-layout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                API Tokens
-            </h2>
-        </template>
-
-        <div>
-            <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
-                <api-token-manager :tokens="tokens"
-                                   :available-permissions="availablePermissions"
-                                   :default-permissions="defaultPermissions" />
-            </div>
-        </div>
-    </app-layout>
+    <component :is="component" :tokens="tokens" :available-permissions="availablePermissions" :default-permissions="defaultPermissions" />
 </template>
 
 <script>
-    import ApiTokenManager from './ApiTokenManager'
-    import AppLayout from '@/Layouts/AppLayout'
+import AdminAPI from '@/Pages/Admin/API/Show'
+import SellerAPI from '@/Pages/Seller/API/Show'
+import UserAPI from '@/Pages/API/Show'
 
-    export default {
-        props: [
-            'tokens',
-            'availablePermissions',
-            'defaultPermissions',
-        ],
+export default {
+    props: [
+        'tokens',
+        'availablePermissions',
+        'defaultPermissions',
+    ],
 
-        components: {
-            ApiTokenManager,
-            AppLayout,
-        },
+    components: {
+        AdminAPI,
+        SellerAPI,
+        UserAPI,
+    },
+
+    computed: {
+        component() {
+            if (this.is_admin) {
+                return 'AdminAPI';
+            }
+            if (this.is_seller) {
+                return 'SellerAPI';
+            }
+            return 'UserAPI';
+        }
+    },
+
+    data() {
+        return {
+            is_admin: this.$page.props.is_admin,
+            is_seller: this.$page.props.is_seller,
+        };
     }
+}
 </script>

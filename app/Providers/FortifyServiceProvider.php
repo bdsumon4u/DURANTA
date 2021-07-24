@@ -6,11 +6,17 @@ use App\Actions\Fortify\CreateNewUser;
 use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
+use App\Models\Admin;
+use App\Models\Seller;
+use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Route;
 use Laravel\Fortify\Fortify;
+use Laravel\Fortify\FortifyServiceProvider as ServiceProvider;
+use Laravel\Fortify\Http\Requests\LoginRequest;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -21,7 +27,12 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if (\request()->isAdmin()) {
+            config(['fortify.guard' => 'admin']);
+        }
+        if (\request()->isSeller()) {
+            config(['fortify.guard' => 'seller']);
+        }
     }
 
     /**
@@ -42,6 +53,28 @@ class FortifyServiceProvider extends ServiceProvider
 
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
+        });
+
+        foreach (['admin', 'seller'] as $type) {
+            Route::group(['prefix' => $type, 'as' => "$type."], function () {
+                $this->configureRoutes();
+            });
+        }
+
+        Fortify::authenticateUsing(function (LoginRequest $request) {
+            switch ($request->segment(1)) {
+                case 'admin': $model = Admin::class; break;
+                case 'seller': $model = Seller::class; break;
+                default: $model = User::class;
+            }
+
+            $user = $model::where('email', $request->email)
+                ->first();
+
+            if ($user &&
+                Hash::check($request->password, $user->password)) {
+                return $user;
+            }
         });
     }
 }

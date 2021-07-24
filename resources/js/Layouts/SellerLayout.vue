@@ -11,7 +11,7 @@
             </div>
 
             <!-- Sidebar -->
-            <sidebar :home="route('dashboard')" :items="sidebar" :isMobileMainMenuOpen="isMobileMainMenuOpen" @hamburger="isOpen => this.isMobileMainMenuOpen = isOpen" />
+            <sidebar :home="route('seller.dashboard')" :items="sidebar" :isMobileMainMenuOpen="isMobileMainMenuOpen" @hamburger="isOpen => this.isMobileMainMenuOpen = isOpen" />
 
             <div class="flex flex-col flex-1 min-h-screen overflow-x-hidden overflow-y-auto">
                 <!-- Navbar -->
@@ -65,11 +65,11 @@
                                                 </div>
 
                                                 <!-- Team Settings -->
-                                                <jet-dropdown-link :href="route('teams.show', $page.props.user.current_team)">
+                                                <jet-dropdown-link :href="route('seller.teams.show', $page.props.user.current_team)">
                                                     Team Settings
                                                 </jet-dropdown-link>
 
-                                                <jet-dropdown-link :href="route('teams.create')" v-if="$page.props.jetstream.canCreateTeams">
+                                                <jet-dropdown-link :href="route('seller.teams.create')" v-if="$page.props.jetstream.canCreateTeams">
                                                     Create New Team
                                                 </jet-dropdown-link>
 
@@ -125,11 +125,11 @@
                                             Manage Account
                                         </div>
 
-                                        <jet-dropdown-link :href="route('profile.show')">
+                                        <jet-dropdown-link :href="route('seller.profile.show')">
                                             Profile
                                         </jet-dropdown-link>
 
-                                        <jet-dropdown-link :href="route('api-tokens.index')" v-if="$page.props.jetstream.hasApiFeatures">
+                                        <jet-dropdown-link :href="route('seller.api-tokens.index')" v-if="$page.props.jetstream.hasApiFeatures">
                                             API Tokens
                                         </jet-dropdown-link>
 
@@ -189,7 +189,7 @@ export default {
                 {
                     name: 'Dashboard',
                     icon: '<path d="M6 19h12V9.157l-6-5.454-6 5.454V19zm13 2H5a1 1 0 0 1-1-1v-9H1l10.327-9.388a1 1 0 0 1 1.346 0L23 11h-3v9a1 1 0 0 1-1 1zM7.5 13h2a2.5 2.5 0 1 0 5 0h2a4.5 4.5 0 1 1-9 0z"/>',
-                    href: route('dashboard'),
+                    href: route('seller.dashboard'),
                 },
                 {
                     name: 'E-Commerce',
@@ -265,7 +265,7 @@ export default {
 
     methods: {
         switchToTeam(team) {
-            this.$inertia.put(route('current-team.update'), {
+            this.$inertia.put(route('seller.current-team.update'), {
                 'team_id': team.id
             }, {
                 preserveState: false
@@ -273,7 +273,7 @@ export default {
         },
 
         logout() {
-            this.$inertia.post(route('logout'));
+            this.$inertia.post(route('seller.logout'));
         },
     },
 
