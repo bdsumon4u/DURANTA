@@ -1,6 +1,7 @@
 require('./bootstrap');
 
 // Import modules...
+import { ucfirst, ucwords } from "./functions";
 import { createApp, h } from 'vue';
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
@@ -14,7 +15,7 @@ createApp({
             resolveComponent: (name) => require(`./Pages/${name}`).default,
         }),
 })
-    .mixin({ methods: { route } })
+    .mixin({ methods: { route, ucfirst, ucwords } })
     .use(InertiaPlugin)
     .mount(el);
 
