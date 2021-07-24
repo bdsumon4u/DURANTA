@@ -3,11 +3,11 @@
         <form @submit.prevent="submit" method="post">
             <div class="flex flex-wrap md:-mx-2">
                 <div class="md:px-2 w-full md:w-1/2">
-                    Image Picker
+                    <ImagePicker name="logo" :value="form.logo" @pick="logo => form.logo = logo" />
                     <jet-input-error :message="form.errors.logo" class="mt-2" />
                 </div>
                 <div class="md:px-2 w-full md:w-1/2">
-                    Image Picker
+                    <ImagePicker name="favicon" :value="form.favicon" @pick="favicon => form.favicon = favicon" />
                     <jet-input-error :message="form.errors.favicon" class="mt-2" />
                 </div>
             </div>
@@ -73,9 +73,10 @@
 </template>
 
 <script>
-import Layout from "./Layout";
+import ImagePicker from "@/Components/ImagePicker";
 import JetButton from '@/Jetstream/Button'
 import JetInputError from '@/Jetstream/InputError'
+import Layout from "./Layout";
 
 export default {
     name: "General",
@@ -83,6 +84,7 @@ export default {
     props: ['settings', 'tabs'],
 
     components: {
+        ImagePicker,
         JetButton,
         JetInputError,
         Layout

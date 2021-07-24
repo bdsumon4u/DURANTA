@@ -1095,6 +1095,17 @@ select {
 .prose > :last-child {
 	margin-bottom: 0;
 }
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	white-space: nowrap;
+	border-width: 0;
+}
 .fixed {
 	position: fixed;
 }
@@ -1841,6 +1852,9 @@ select {
 .pb-2 {
 	padding-bottom: 0.5rem;
 }
+.pb-6 {
+	padding-bottom: 1.5rem;
+}
 .text-left {
 	text-align: left;
 }
@@ -2169,6 +2183,10 @@ select {
 .hover\:text-blue-600:hover {
 	--tw-text-opacity: 1;
 	color: rgba(37, 99, 235, var(--tw-text-opacity));
+}
+.hover\:text-indigo-500:hover {
+	--tw-text-opacity: 1;
+	color: rgba(99, 102, 241, var(--tw-text-opacity));
 }
 .focus\:z-10:focus {
 	z-index: 10;

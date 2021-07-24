@@ -30,8 +30,8 @@ class SettingRequest extends FormRequest
         switch ($this->route()->parameter('tab')) {
             case 'general':
                 return [
-                    'logo' => 'nullable|image',
-                    'favicon' => 'nullable|image',
+                    'logo' => 'nullable',
+                    'favicon' => 'nullable',
                     'site_name' => 'required',
                     'tagline' => 'required|max:255',
                     'contact_email' => 'required|email',

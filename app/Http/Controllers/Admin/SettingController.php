@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\SettingRequest;
+use App\Models\Library;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Spatie\LaravelSettings\Settings;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class SettingController extends Controller
 {
@@ -51,18 +55,41 @@ class SettingController extends Controller
      */
     private function update(string $tab, array $data)
     {
+        $settings = $this->settings($tab);
         if ($tab === 'general') {
-            if ($old = $data['logo']) {
-                $data['logo'] = 'logo';
-                // Delete Old
+            if ($data['logo'] instanceof UploadedFile) {
+                try {
+                    $media = Library::firstOrCreate(['type' => 'branding'])
+                        ->addMedia($data['logo'])
+                        ->toMediaCollection('logo');
+                    $fullUrl = $media->getFullUrl();
+                    $hostname = parse_url($fullUrl, PHP_URL_HOST);
+                    $data['logo'] = Str::after($fullUrl, $hostname);
+                    // Delete Old
+                    preg_match("/storage\/(\d+)\/.+/", $settings->logo, $matches);
+                    Media::findOrFail($matches[1])->delete();
+                } catch (\Exception $exception) {
+                    return $this->dangerBanner($exception->getMessage());
+                }
             }
-            if ($old = $data['favicon']) {
-                $data['favicon'] = 'favicon';
-                // Delete Old
+            if ($data['favicon'] instanceof UploadedFile) {
+                try {
+                    $media = Library::firstOrCreate(['type' => 'branding'])
+                        ->addMedia($data['favicon'])
+                        ->toMediaCollection('favicon');
+                    $fullUrl = $media->getFullUrl();
+                    $hostname = parse_url($fullUrl, PHP_URL_HOST);
+                    $data['favicon'] = Str::after($fullUrl, $hostname);
+                    // Delete Old
+                    preg_match("/storage\/(\d+)\/.+/", $settings->favicon, $matches);
+                    Media::findOrFail($matches[1])->delete();
+                } catch (\Exception $exception) {
+                    return $this->dangerBanner($exception->getMessage());
+                }
             }
         }
 
-        $this->settings($tab)->fill($data)->save();
+        $settings->fill($data)->save();
         return $this->banner('Settings Updated.');
     }
 }
