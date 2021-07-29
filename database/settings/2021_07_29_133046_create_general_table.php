@@ -3,7 +3,7 @@
 use Spatie\LaravelSettings\Migrations\SettingsBlueprint;
 use Spatie\LaravelSettings\Migrations\SettingsMigration;
 
-class CreateGeneralSettings extends SettingsMigration
+class CreateGeneralTable extends SettingsMigration
 {
     public function up(): void
     {
