@@ -19,5 +19,6 @@ Route::prefix('seller')->group(function ($router) {
 
     Route::group(['middleware' => ['auth:seller', 'verified'], 'as' => 'seller.'], function () {
         Route::get(RouteServiceProvider::HOME, \App\Http\Controllers\Seller\DashboardController::class)->name('dashboard');
+        Route::resource('products', \App\Http\Controllers\Seller\ProductController::class);
     });
 });
