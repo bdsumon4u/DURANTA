@@ -69,12 +69,14 @@ class JetstreamServiceProvider extends ServiceProvider
                 return redirect()->route('admin.dashboard');
             }
 
-            return Inertia::render('Auth/Register');
+            return Inertia::render($typeDir . 'Auth/Register');
         });
 
         Fortify::loginView(function () use ($typeDir) {
+            $prefix = strtolower(trim($typeDir, '/'));
+
             return Inertia::render($typeDir . 'Auth/Login', [
-                'canResetPassword' => Route::has('' . 'password.request'),
+                'canResetPassword' => Route::has($prefix . 'password.request'),
                 'status' => session('status'),
             ]);
         });

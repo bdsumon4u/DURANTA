@@ -11,9 +11,26 @@ module.exports = {
     ],
 
     theme: {
+        screens: {
+            sm: '576px',
+            md: '768px',
+            lg: '992px',
+            xl: '1200px',
+            '2xl': '1400px',
+        },
+        container: {
+            center: true,
+            padding: '1rem',
+        },
         extend: {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+                oswald: ['Oswald', ...defaultTheme.fontFamily.sans],
+                roboto: ['Roboto', ...defaultTheme.fontFamily.sans],
+                'roboto-condensed': ['Roboto Condensed', ...defaultTheme.fontFamily.sans],
+            },
+            colors: {
+                primary: '#FD3D57',
             },
         },
     },
@@ -24,5 +41,5 @@ module.exports = {
         },
     },
 
-    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/line-clamp'), require('@tailwindcss/typography')],
 };

@@ -1,9 +1,7 @@
 <?php
 
 use App\Providers\RouteServiceProvider;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,15 +14,14 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
+Route::get('/products', \App\Http\Controllers\ProductController::class)->name('products');
+Route::get('/products/{slug}', [\App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get(RouteServiceProvider::HOME, \App\Http\Controllers\DashboardController::class)->name('dashboard');
+    Route::get('user/password', \App\Http\Controllers\ChangePasswordController::class)->name('password.change');
+    Route::get('/checkout', \App\Http\Controllers\CheckoutController::class)->name('checkout');
+    Route::get('/addresses/{type}', \App\Http\Controllers\AddressController::class)
+        ->where('type', 'home|office|billing')->name('address');
 });
