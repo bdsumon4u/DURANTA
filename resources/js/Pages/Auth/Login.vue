@@ -15,10 +15,10 @@
                 <form @submit.prevent="submit">
                     <div class="space-y-4">
                         <div>
-                            <label for="email" class="text-gray-600 mb-2 block">
-                                Email <span class="text-primary">*</span>
+                            <label for="phone" class="text-gray-600 mb-2 block">
+                                Phone <span class="text-primary">*</span>
                             </label>
-                            <input id="email" type="email" class="input-box" v-model="form.email">
+                            <input id="phone" type="text" class="input-box" v-model="form.phone">
                         </div>
                         <div>
                             <label for="password" class="text-gray-600 mb-2 block">
@@ -96,7 +96,7 @@ export default {
     data() {
         return {
             form: this.$inertia.form({
-                email: '',
+                phone: '',
                 password: '',
                 remember: false
             })

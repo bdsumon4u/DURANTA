@@ -56,7 +56,7 @@ class FortifyServiceProvider extends ServiceProvider
         });
 
         foreach (['admin', 'seller'] as $type) {
-            Route::group(['prefix' => $type, 'as' => "$type."], function () {
+            Route::group(['middleware' => ['web', 'auth:'.$type], 'prefix' => $type, 'as' => "$type."], function () {
                 $this->configureRoutes();
             });
         }

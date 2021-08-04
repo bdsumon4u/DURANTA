@@ -14,15 +14,15 @@
                     <div class="space-y-4">
                         <div>
                             <label class="text-gray-600 mb-2 block">
-                                Full Name <span class="text-primary">*</span>
+                                Name <span class="text-primary">*</span>
                             </label>
                             <input type="text" class="input-box" v-model="form.name">
                         </div>
                         <div>
                             <label class="text-gray-600 mb-2 block">
-                                Email Address <span class="text-primary">*</span>
+                                Phone <span class="text-primary">*</span>
                             </label>
-                            <input type="email" class="input-box" v-model="form.email">
+                            <input type="text" class="input-box" v-model="form.phone">
                         </div>
                         <div>
                             <label class="text-gray-600 mb-2 block">Password
@@ -45,7 +45,7 @@
                     </div>
                     <div class="mt-4">
                         <button type="submit" class="block w-full py-2 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition uppercase font-roboto font-medium" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                            Create Account
+                            Send OTP Code
                         </button>
                     </div>
                 </form>
@@ -74,7 +74,7 @@ export default {
         return {
             form: this.$inertia.form({
                 name: '',
-                email: '',
+                phone: '',
                 password: '',
                 password_confirmation: '',
                 terms: false,

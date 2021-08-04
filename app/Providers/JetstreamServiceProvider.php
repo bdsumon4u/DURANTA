@@ -9,6 +9,11 @@ use App\Actions\Jetstream\DeleteUser;
 use App\Actions\Jetstream\InviteTeamMember;
 use App\Actions\Jetstream\RemoveTeamMember;
 use App\Actions\Jetstream\UpdateTeamName;
+use App\Models\Admin;
+use App\Models\Seller;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Fortify;
@@ -59,9 +64,17 @@ class JetstreamServiceProvider extends ServiceProvider
         }
 
         switch (request()->segment(1)) {
-            case 'admin': $typeDir = 'Admin/'; break;
-            case 'seller': $typeDir = 'Seller/'; break;
-            default: $typeDir = '';
+            case 'admin':
+                $model = Admin::class;
+                $typeDir = 'Admin/';
+                break;
+            case 'seller':
+                $model = Seller::class;
+                $typeDir = 'Seller/';
+                break;
+            default:
+                $model = User::class;
+                $typeDir = '';
         }
 
         Fortify::registerView(function () use ($typeDir) {
@@ -106,6 +119,15 @@ class JetstreamServiceProvider extends ServiceProvider
 
         Fortify::confirmPasswordView(function () use ($typeDir) {
             return Inertia::render($typeDir . 'Auth/ConfirmPassword');
+        });
+
+        Fortify::authenticateUsing(function (Request $request) use ($model) {
+            $user = $model::where('phone', $request->phone)->first();
+
+            if ($user &&
+                Hash::check($request->password, $user->password)) {
+                return $user;
+            }
         });
     }
 
