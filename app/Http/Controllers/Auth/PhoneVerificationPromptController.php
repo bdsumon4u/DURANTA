@@ -21,6 +21,7 @@ class PhoneVerificationPromptController extends Controller
         }
 
         return Inertia::render('Auth/VerifyPhone', [
+            'is_seller' => $request->isSeller(),
             'status' => session('status'),
         ]);
     }

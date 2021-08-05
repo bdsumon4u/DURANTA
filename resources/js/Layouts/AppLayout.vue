@@ -88,7 +88,7 @@
                         </a>
                     </div>
                     <div>
-                        <inertia-link :href="route('login')" class="py-2 lg:py-4 block text-center text-gray-700 hover:text-primary transition">
+                        <inertia-link :href="route('dashboard')" class="py-2 lg:py-4 block text-center text-gray-700 hover:text-primary transition">
                             <div class="grid place-content-center shadow rounded-md">
                                 <div v-if="$page.props.user && $page.props.jetstream.managesProfilePhotos" class="p-1">
                                     <img height="32" width="32" class="rounded-md object-fill" :src="$page.props.user.profile_photo_url" :alt="$page.props.user.name" />
@@ -139,9 +139,9 @@
                             <a href="#" class="text-gray-200 hover:text-white transition font-roboto text-sm font-medium hover:underline">About us</a>
                             <a href="#" class="text-gray-200 hover:text-white transition font-roboto text-sm font-medium hover:underline">Contact us</a>
                         </div>
-                        <a href="" class="ml-auto justify-self-end text-gray-200 hover:text-gray-400 transition font-roboto text-sm font-medium">
-                            Track Order
-                        </a>
+                        <inertia-link :href="route('seller.dashboard')" class="ml-auto justify-self-end text-gray-200 hover:text-gray-400 transition font-roboto text-sm font-medium">
+                            Seller Center
+                        </inertia-link>
                     </div>
                     <!-- nav menu end -->
                 </div>

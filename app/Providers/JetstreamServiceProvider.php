@@ -59,7 +59,7 @@ class JetstreamServiceProvider extends ServiceProvider
 
         foreach (['admin', 'seller'] as $type) {
             Route::group(['middleware' => ['web'], 'prefix' => $type, 'as' => "$type."], function () {
-                $this->configureRoutes();
+                require base_path('routes/jetstream.php');
             });
         }
 
@@ -89,7 +89,7 @@ class JetstreamServiceProvider extends ServiceProvider
             $prefix = strtolower(trim($typeDir, '/'));
 
             return Inertia::render($typeDir . 'Auth/Login', [
-                'canResetPassword' => Route::has($prefix . 'password.request'),
+                'canResetPassword' => Route::has(($prefix ? $prefix . '.' : '') . 'password.request'),
                 'status' => session('status'),
             ]);
         });

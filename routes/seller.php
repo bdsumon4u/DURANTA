@@ -14,11 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::prefix('seller')->group(function ($router) {
+Route::group(['prefix' => 'seller', 'as' => 'seller.'], function ($router) {
     Route::redirect('/', $router->getLastGroupPrefix() . RouteServiceProvider::HOME);
 
-    Route::group(['middleware' => ['auth:seller', 'verified'], 'as' => 'seller.'], function () {
-        Route::get(RouteServiceProvider::HOME, \App\Http\Controllers\Seller\DashboardController::class)->name('dashboard');
-        Route::resource('products', \App\Http\Controllers\Seller\ProductController::class);
+    Route::middleware('auth:seller')->group(function () {
+        Route::get('/phone/verify', [\App\Http\Controllers\Auth\PhoneVerificationPromptController::class, '__invoke'])
+            ->name('verification.notice');
+        Route::middleware('throttle:6,1',)->group(function () {
+            Route::get('/phone/verify/{id}/{code}', [\App\Http\Controllers\Auth\VerifyPhoneController::class, '__invoke'])
+                ->name('verification.verify');
+            Route::post('/phone/verification-notification', [\App\Http\Controllers\Auth\PhoneVerificationNotificationController::class, 'store'])
+                ->name('verification.send');
+        });
+
+        Route::middleware('verified:seller.verification.notice')->group(function () {
+            Route::get(RouteServiceProvider::HOME, \App\Http\Controllers\Seller\DashboardController::class)->name('dashboard');
+            Route::resource('products', \App\Http\Controllers\Seller\ProductController::class);
+        });
     });
 });

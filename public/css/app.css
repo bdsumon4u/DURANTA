@@ -1164,9 +1164,6 @@ select {
 .invisible {
 	visibility: hidden;
 }
-.static {
-	position: static;
-}
 .fixed {
 	position: fixed;
 }
@@ -1420,9 +1417,6 @@ select {
 .inline-block {
 	display: inline-block;
 }
-.inline {
-	display: inline;
-}
 .flex {
 	display: flex;
 }
@@ -1434,9 +1428,6 @@ select {
 }
 .grid {
 	display: grid;
-}
-.contents {
-	display: contents;
 }
 .hidden {
 	display: none;
@@ -1681,9 +1672,6 @@ select {
 	   -moz-user-select: none;
 	    -ms-user-select: none;
 	        user-select: none;
-}
-.resize {
-	resize: both;
 }
 .list-inside {
 	list-style-position: inside;

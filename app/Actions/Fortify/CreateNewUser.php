@@ -52,7 +52,9 @@ class CreateNewUser implements CreatesNewUsers
                 'phone' => $input['phone'],
                 'password' => Hash::make($input['password']),
             ]), function ($user) {
-                $this->createTeam($user);
+                if (method_exists($user, 'personalTeam')) {
+                    $this->createTeam($user);
+                }
             });
         });
     }

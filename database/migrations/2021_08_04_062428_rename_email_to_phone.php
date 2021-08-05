@@ -13,10 +13,12 @@ class RenameEmailToPhone extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('email', 'phone');
-            $table->renameColumn('email_verified_at', 'phone_verified_at');
-        });
+        foreach (['users', 'admins', 'sellers'] as $table) {
+            Schema::table($table, function (Blueprint $table) {
+                $table->renameColumn('email', 'phone');
+                $table->renameColumn('email_verified_at', 'phone_verified_at');
+            });
+        }
         Schema::table('password_resets', function (Blueprint $table) {
             $table->renameColumn('email', 'phone');
         });
@@ -29,10 +31,12 @@ class RenameEmailToPhone extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->renameColumn('phone', 'email');
-            $table->renameColumn('phone_verified_at', 'email_verified_at');
-        });
+        foreach (['users', 'admins', 'sellers'] as $table) {
+            Schema::table($table, function (Blueprint $table) {
+                $table->renameColumn('phone', 'email');
+                $table->renameColumn('phone_verified_at', 'email_verified_at');
+            });
+        }
         Schema::table('password_resets', function (Blueprint $table) {
             $table->renameColumn('phone', 'email');
         });

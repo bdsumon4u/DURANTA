@@ -54,6 +54,7 @@
         },
 
         props: {
+            is_seller: Boolean,
             status: String
         },
 
@@ -70,10 +71,10 @@
 
         methods: {
             verify() {
-                this.$inertia.visit(route('phone.verification.verify', {id: this.form.id, code: this.form.code}))
+                this.$inertia.visit(route(this.prefix + 'verification.verify', {id: this.form.id, code: this.form.code}))
             },
             resend() {
-                this.form.post(this.route('phone.verification.send'))
+                this.form.post(this.route(this.prefix + 'verification.send'))
             },
             handleInput(ev, i) {
                 const value = ev.target.value;
@@ -113,6 +114,9 @@
         computed: {
             verificationLinkSent() {
                 return this.status === 'verification-code-sent';
+            },
+            prefix() {
+                return this.is_seller ? 'seller.' : '';
             }
         },
 

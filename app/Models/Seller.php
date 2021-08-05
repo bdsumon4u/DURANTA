@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\MustVerifyPhone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -10,11 +10,12 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
-class Seller extends Authenticatable
+class Seller extends Authenticatable implements \App\Contracts\Auth\MustVerifyPhone
 {
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
+    use MustVerifyPhone;
     use Notifiable;
     use TwoFactorAuthenticatable;
 
@@ -24,7 +25,7 @@ class Seller extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'phone', 'password',
     ];
 
     /**
@@ -45,7 +46,7 @@ class Seller extends Authenticatable
      * @var array
      */
     protected $casts = [
-        'email_verified_at' => 'datetime',
+        'phone_verified_at' => 'datetime',
     ];
 
     /**

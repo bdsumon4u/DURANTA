@@ -17,7 +17,7 @@ class VerifyPhoneRequest extends FormRequest
             return false;
         }
 
-        if (! hash_equals((string) $this->route('code'), cache('otp:' . $this->user()->getKey()))) {
+        if (! hash_equals((string) $this->route('code'), cache($this->user()->getTable() . ':otp:' . $this->user()->getKey()))) {
             return false;
         }
 

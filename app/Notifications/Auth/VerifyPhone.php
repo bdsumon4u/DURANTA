@@ -3,6 +3,7 @@
 namespace App\Notifications\Auth;
 
 use App\Channels\OtpChannel;
+use App\Models\Seller;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
@@ -44,7 +45,7 @@ class VerifyPhone extends Notification
     public function toOtp($notifiable)
     {
         cache()->put(
-            'otp:' . $notifiable->getKey(),
+            $notifiable->getTable() . ':otp:' . $notifiable->getKey(),
             $code = Str::upper(Str::random(6)),
             Config::get('auth.verification.expire', 60)
         );
@@ -74,7 +75,8 @@ class VerifyPhone extends Notification
             return call_user_func(static::$createUrlCallback, $notifiable);
         }
 
-        return route('phone.verification.verify', [$notifiable->getKey(), $code]);
+        $prefix = $notifiable instanceof Seller ? 'seller.' : '';
+        return route($prefix . 'verification.verify', [$notifiable->getKey(), $code]);
     }
 
     /**

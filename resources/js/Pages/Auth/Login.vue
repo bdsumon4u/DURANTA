@@ -3,7 +3,7 @@
         <!-- form wrapper -->
         <div class="container py-16">
             <div class="max-w-lg mx-auto bg-white shadow border px-6 py-7 rounded overflow-hidden">
-                <h2 class="text-2xl uppercase font-medium mb-1">
+                <h2 class="text-2xl uppercase font-medium mb-2">
                     LOGIN
                 </h2>
 
@@ -77,7 +77,7 @@
 
 <script>
 import JetValidationErrors from '@/Jetstream/ValidationErrors'
-import AppLayout from "../../Layouts/AppLayout";
+import AppLayout from "@/Layouts/AppLayout";
 
 export default {
     name: "Login",

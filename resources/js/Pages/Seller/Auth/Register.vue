@@ -13,8 +13,8 @@
             </div>
 
             <div class="mt-4">
-                <jet-label for="email" value="Email" />
-                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required />
+                <jet-label for="phone" value="Phone" />
+                <jet-input id="phone" type="text" class="mt-1 block w-full" v-model="form.phone" required />
             </div>
 
             <div class="mt-4">
@@ -45,7 +45,7 @@
                 </inertia-link>
 
                 <jet-button class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                    Register
+                    Send OTP
                 </jet-button>
             </div>
         </form>
@@ -76,7 +76,7 @@
             return {
                 form: this.$inertia.form({
                     name: '',
-                    email: '',
+                    phone: '',
                     password: '',
                     password_confirmation: '',
                     terms: false,
