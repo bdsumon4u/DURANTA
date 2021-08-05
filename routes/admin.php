@@ -22,5 +22,6 @@ Route::prefix('admin')->group(function ($router) {
         Route::match(['get', 'post'], '/settings/{tab?}', \App\Http\Controllers\Admin\SettingController::class)->name('settings');
         Route::resource('brands', \App\Http\Controllers\Admin\BrandController::class);
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+        Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
     });
 });

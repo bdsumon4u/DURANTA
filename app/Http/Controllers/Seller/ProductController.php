@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Seller\ProductRequest;
+use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
 use App\Models\Brand;
 use App\Models\Category;
@@ -60,8 +60,8 @@ class ProductController extends Controller
 
         $product = $request->user()->products()->create($data);
         $this->addMedia($product, $data['media']);
+        $product->categories()->sync($data['categories']);
 
-        $this->banner('New Product Added.');
         return redirect()->action([static::class, 'index'])->banner('New Product is Added.');
     }
 
@@ -85,7 +85,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         return Inertia::render('Seller/Products/Editor', [
-            'product' => new ProductResource($product->load('media')),
+            'product' => new ProductResource($product->load('media', 'categories')),
             'brands' => $this->selectable(Brand::class),
             'categories' => $this->selectable(Category::class),
         ]);
@@ -103,8 +103,8 @@ class ProductController extends Controller
         $data = $request->validated();
         $product->update($data);
         $this->addMedia($product, $data['media']);
+        $product->categories()->sync($data['categories']);
 
-        $this->banner('New Product Added.');
         return redirect()->action([static::class, 'index'])->banner('The Product is Updated.');
     }
 

@@ -20,4 +20,9 @@ class Category extends Model implements HasMedia
     {
         return $this->getFirstMediaUrl();
     }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class);
+    }
 }

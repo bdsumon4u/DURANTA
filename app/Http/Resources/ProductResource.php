@@ -23,6 +23,10 @@ class ProductResource extends JsonResource
             $data['brand_name'] = optional($resource->brand)->name;
         }
 
+        if ($resource->relationLoaded('categories')) {
+            $data['categories'] = $resource->categories->pluck('id');
+        }
+
         if ($resource->relationLoaded('firstMedia')) {
             $data['first_media'] = optional($resource->firstMedia)->getFullUrl();
         }
@@ -41,6 +45,7 @@ class ProductResource extends JsonResource
             'discount' => $data['discount_type'] === 'percent'
                 ? round($data['price'] * $data['discount_amount'] / 100)
                 : $data['discount_amount'],
+            'status' => strtoupper($data['status']),
         ]);
     }
 }

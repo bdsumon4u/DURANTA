@@ -29,6 +29,9 @@ class Product extends Model implements HasMedia
         'stock_track',
         'stock_count',
         'pickup_point',
+        'commission_amount',
+        'commission_type',
+        'commission_from',
         'status',
     ];
 
@@ -51,5 +54,10 @@ class Product extends Model implements HasMedia
     {
         return $this->morphOne(config('media-library.media_model'), 'model')
             ->oldestOfMany('order_column');
+    }
+
+    public function categories()
+    {
+        return $this->belongsToMany(Category::class);
     }
 }
