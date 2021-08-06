@@ -10,66 +10,51 @@
             <div class="lg:col-span-8 bg-white border shadow border-gray-200 px-4 py-4 rounded">
                 <form action="">
                     <h3 class="text-lg font-medium capitalize mb-4">
-                        checkout
+                        Checkout
                     </h3>
 
                     <div class="space-y-4">
-                        <div class="grid sm:grid-cols-2 gap-4">
-                            <div>
-                                <label class="text-gray-600 mb-2 block">
-                                    First Name <span class="text-primary">*</span>
+                        <div class="grid sm:grid-cols-3 gap-4">
+                            <div class="col-span-2">
+                                <label for="address" class="text-gray-600 mb-2 block">
+                                    Address
                                 </label>
-                                <input type="text" class="input-box">
+                                <select id="address" v-model="form.address" class="input-box">
+                                    <option v-for="address in addresses" :value="address.id">{{ ucfirst(address.type) }} Address</option>
+                                </select>
                             </div>
                             <div>
-                                <label class="text-gray-600 mb-2 block">
-                                    Last Name <span class="text-primary">*</span>
-                                </label>
-                                <input type="text" class="input-box">
+                                <label class="text-gray-600 mb-2 block">.</label>
+                                <inertia-link :href="route('dashboard')" class="bg-primary border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-transparent hover:text-primary transition text-sm w-full block text-center">
+                                    Edit Address
+                                </inertia-link>
                             </div>
                         </div>
                         <div>
                             <label class="text-gray-600 mb-2 block">
-                                Company Name
+                                Contact Name
                             </label>
-                            <input type="text" class="input-box">
+                            <input type="text" class="input-box" v-model="form.contact_name">
                         </div>
                         <div>
                             <label class="text-gray-600 mb-2 block">
-                                County/Region <span class="text-primary">*</span>
+                                Contact Phone
                             </label>
-                            <input type="text" class="input-box">
+                            <input type="text" class="input-box" v-model="form.contact_phone">
                         </div>
-                        <div>
-                            <label class="text-gray-600 mb-2 block">
-                                Street Address <span class="text-primary">*</span>
+                        <!-- agreeement  -->
+                        <div class="flex items-center mb-4 mt-2">
+                            <input type="checkbox" id="term" class="text-primary focus:ring-0 rounded-sm cursor-pointer w-3 h-3">
+                            <label for="term" class="text-gray-600 ml-3 cursor-pointer">
+                                Agree to our
+                                <a href="#" class="text-primary">terms & conditions</a>
                             </label>
-                            <input type="text" class="input-box">
                         </div>
-                        <div>
-                            <label class="text-gray-600 mb-2 block">
-                                Town/City <span class="text-primary">*</span>
-                            </label>
-                            <input type="text" class="input-box">
-                        </div>
-                        <div>
-                            <label class="text-gray-600 mb-2 block">
-                                Zip Code <span class="text-primary">*</span>
-                            </label>
-                            <input type="text" class="input-box">
-                        </div>
-                        <div>
-                            <label class="text-gray-600 mb-2 block">
-                                Phone Number <span class="text-primary">*</span>
-                            </label>
-                            <input type="text" class="input-box">
-                        </div>
-                        <div>
-                            <label class="text-gray-600 mb-2 block">
-                                Email Address <span class="text-primary">*</span>
-                            </label>
-                            <input type="text" class="input-box">
-                        </div>
+
+                        <!-- checkout -->
+                        <button type="submit" class="bg-primary border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-transparent hover:text-primary transition text-sm font-bold w-full block text-center">
+                            Place order
+                        </button>
                     </div>
                 </form>
             </div>
@@ -79,42 +64,28 @@
             <div class="lg:col-span-4 bg-white border shadow border-gray-200 px-4 py-4 rounded mt-6 lg:mt-0">
                 <h4 class="text-gray-800 text-lg mb-4 font-medium uppercase">ORDER SUMMARY</h4>
                 <div class="space-y-2">
-                    <div class="flex justify-between" v-for="n in 3" :key="n">
+                    <div class="flex gap-2 justify-between" v-for="product in cart.content" :key="product.id">
                         <div>
-                            <h5 class="text-gray-800 font-medium">Italian Shape Sofa</h5>
-                            <p class="text-sm text-gray-600">Size: M</p>
+                            <h5 class="text-gray-800 font-medium">{{ product.name }}
+                                <span class="text-gray-600">x{{ product.qty }}</span></h5>
+                            <p class="text-sm text-gray-600">Price: {{ product.price }}</p>
                         </div>
-                        <p class="text-gray-600">x3</p>
-                        <p class="text-gray-800 font-medium">$320</p>
+                        <p class="text-gray-800 font-medium">{{ product.qty * product.price }}</p>
                     </div>
                 </div>
                 <div class="flex justify-between border-b border-gray-200 mt-1">
                     <h4 class="text-gray-800 font-medium my-3 uppercase">Subtotal</h4>
-                    <h4 class="text-gray-800 font-medium my-3 uppercase">$320</h4>
+                    <h4 class="text-gray-800 font-medium my-3 uppercase">{{ cart.subtotal }}</h4>
                 </div>
-                <div class="flex justify-between border-b border-gray-200">
-                    <h4 class="text-gray-800 font-medium my-3 uppercase">Shipping</h4>
-                    <h4 class="text-gray-800 font-medium my-3 uppercase">Free</h4>
+                <div class="flex flex-wrap justify-between border-b border-gray-200">
+                    <h4 class="flex-1 text-gray-800 font-medium my-1 uppercase">Shipping</h4>
+                    <h4 class="flex-1 text-gray-800 font-medium my-1 uppercase text-right">Later</h4>
+                    <small class="w-full">You'll call you after placing order.</small>
                 </div>
                 <div class="flex justify-between">
                     <h4 class="text-gray-800 font-semibold my-3 uppercase">Total</h4>
-                    <h4 class="text-gray-800 font-semibold my-3 uppercase">$320</h4>
+                    <h4 class="text-gray-800 font-semibold my-3 uppercase">{{ cart.total }}</h4>
                 </div>
-
-                <!-- agreeement  -->
-                <div class="flex items-center mb-4 mt-2">
-                    <input type="checkbox" id="agreement"
-                           class="text-primary focus:ring-0 rounded-sm cursor-pointer w-3 h-3">
-                    <label for="agreement" class="text-gray-600 ml-3 cursor-pointer text-sm">
-                        Agree to our
-                        <a href="#" class="text-primary">terms & conditions</a>
-                    </label>
-                </div>
-
-                <!-- checkout -->
-                <a href="order-complete.html" class="bg-primary border border-primary text-white px-4 py-3 font-medium rounded-md uppercase hover:bg-transparent hover:text-primary transition text-sm w-full block text-center">
-                    Place order
-                </a>
                 <!-- checkout end -->
             </div>
             <!-- order summary end -->
@@ -124,14 +95,45 @@
 </template>
 
 <script>
+import AppLayout from "@/Layouts/AppLayout";
 import Breadcrumb from "@/Components/Site/Breadcrumb";
-import AppLayout from "../Layouts/AppLayout";
 
 export default {
     name: "Checkout",
+    props: ['addresses'],
     components: {
         AppLayout,
         Breadcrumb,
+    },
+    methods: {
+        loadCartContent() {
+            axios.get(route('api.cart.content'))
+                .then(({data}) => {
+                    this.cart = data.cart;
+                })
+                .catch(err => console.error(err));
+        },
+    },
+    data() {
+        return {
+            cart: {
+                content: {},
+                total: 0,
+                subtotal: 0,
+            },
+            form: this.$inertia.form({
+                address: null,
+                contact_name: this.$page.props.user.name,
+                contact_phone: this.$page.props.user.phone,
+            })
+        }
+    },
+    mounted() {
+        this.loadCartContent();
     }
 }
 </script>
+
+<style scoped>
+@import "~@vueform/multiselect/themes/default.css";
+</style>

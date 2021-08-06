@@ -38,6 +38,16 @@ class Product extends Model implements HasMedia, Buyable
         'status',
     ];
 
+    public function setSlugAttribute($slug)
+    {
+        $this->attributes['slug'] = Str::beforeLast($slug ?? Str::slug($this->name), '--i');
+    }
+
+    public function getSlugAttribute($slug)
+    {
+        return ($slug ?? Str::slug($this->name)) . '--i' . $this->getKey();
+    }
+
     public static function slugOrFail(string $slug)
     {
         return static::findOrFail(Str::afterLast($slug, '--i'));

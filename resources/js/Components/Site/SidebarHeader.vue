@@ -280,7 +280,7 @@
                     <div class="flex flex-col flex-1">
                         <!-- cart content -->
                         <div>
-                            <a href="" class="text-gray-800 mb-2 text-sm font-roboto font-medium">{{ product.name }}</a>
+                            <inertia-link :href="route('products.show', product.options.slug)" class="text-gray-800 mb-2 text-sm font-roboto font-medium">{{ product.name }}</inertia-link>
                             <div class="mt-2 flex justify-between items-center">
                                 <p class="text-primary font-semibold">{{ product.price }}</p>
                                 <!-- quantity -->
@@ -299,37 +299,6 @@
                             <path fill="currentColor" d="M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3zm1 2H6v12h12V8zm-9 3h2v6H9v-6zm4 0h2v6h-2v-6zM9 4v2h6V4H9z"/>
                         </svg>
                     </button>
-                </li>
-                <li v-for="i in [1, 2, 3, 4, 5]" class="flex items-center md:justify-between gap-4 p-4 border-gray-200 flex-wrap md:flex-nowrap">
-                    <!-- cart image -->
-                    <div class="w-12 flex-shrink-0">
-                        <img :src="`/images/products/product${i}.jpg`"  class="w-full">
-                    </div>
-                    <!-- cart image end -->
-                    <div class="flex flex-col flex-1">
-                        <!-- cart content -->
-                        <div>
-                            <a href="" class="text-gray-800 mb-2 text-sm font-roboto font-medium">
-                                Nice Beautiful Handsome Italian L Shape Sofa
-                            </a>
-                            <div class="mt-2 flex justify-between items-center">
-                                <p class="text-primary font-semibold">$320.00</p>
-                                <!-- quantity -->
-                                <div class="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
-                                    <div class="h-6 w-6 text-xl flex items-center justify-center cursor-pointer select-none">-</div>
-                                    <div class="h-6 w-8 flex items-center justify-center">4</div>
-                                    <div class="h-6 w-6 text-xl flex items-center justify-center cursor-pointer select-none">+</div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- cart content end -->
-                    </div>
-                    <div class="text-gray-600 hover:text-primary cursor-pointer">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                            <path fill="none" d="M0 0h24v24H0z"/>
-                            <path fill="currentColor" d="M17 6h5v2h-2v13a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V8H2V6h5V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3zm1 2H6v12h12V8zm-9 3h2v6H9v-6zm4 0h2v6h-2v-6zM9 4v2h6V4H9z"/>
-                        </svg>
-                    </div>
                 </li>
                 <!-- single wishlist end -->
             </ul>
@@ -359,13 +328,13 @@
                     </div>
                 </div>
                 <div>
-                    <a href="#" class="flex items-center justify-center py-1 mx-1 mb-1 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition">
+                    <inertia-link :href="route('checkout')" class="flex items-center justify-center py-1 mx-1 mb-1 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <path fill="none" d="M0 0h24v24H0z"></path>
                             <path fill="currentColor" d="M4 6.414L.757 3.172l1.415-1.415L5.414 5h15.242a1 1 0 0 1 .958 1.287l-2.4 8a1 1 0 0 1-.958.713H6v2h11v2H5a1 1 0 0 1-1-1V6.414zM6 7v6h11.512l1.8-6H6zm-.5 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm12 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"></path>
                         </svg>
                         <span class="font-semibold ml-1">Proceed To Checkout</span>
-                    </a>
+                    </inertia-link>
                 </div>
             </div>
             <!-- cart end -->

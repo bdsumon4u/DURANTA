@@ -30,8 +30,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::middleware('verified')->group(function () {
         Route::get(RouteServiceProvider::HOME, \App\Http\Controllers\DashboardController::class)->name('dashboard');
         Route::get('user/password', \App\Http\Controllers\ChangePasswordController::class)->name('password.change');
-        Route::get('/checkout', \App\Http\Controllers\CheckoutController::class)->name('checkout');
-        Route::get('/addresses/{type}', \App\Http\Controllers\AddressController::class)
+        Route::match(['get', 'post'], '/checkout', \App\Http\Controllers\CheckoutController::class)->name('checkout');
+        Route::get('/order/complete', [\App\Http\Controllers\CheckoutController::class, 'complete'])->name('order-complete');
+        Route::match(['get', 'post'],'/addresses/{type}', \App\Http\Controllers\AddressController::class)
             ->where('type', 'home|office|billing')->name('address');
     });
 });

@@ -15,9 +15,9 @@
                         <inertia-link :href="route('address', 'home')" class="text-primary">Edit</inertia-link>
                     </div>
                     <div class="space-y-1">
-                        <h4 class="text-gray-700 font-medium">Sumon Ahmed</h4>
-                        <p class="text-gray-800">example@mail.com</p>
-                        <p class="text-gray-800">(123) 456-789</p>
+                        <h4 class="text-gray-700 font-medium">{{ home.name }}</h4>
+                        <p class="text-gray-800">{{ home.phone }}</p>
+                        <p class="text-gray-800">{{ home.address }}</p>
                     </div>
                 </div>
                 <!-- single card end -->
@@ -28,10 +28,9 @@
                         <inertia-link :href="route('address', 'office')" class="text-primary">Edit</inertia-link>
                     </div>
                     <div class="space-y-1">
-                        <h4 class="text-gray-700 font-medium">Sumon Ahmed</h4>
-                        <p class="text-gray-800">3891 Ranchview Dr.</p>
-                        <p class="text-gray-800">Richardson, Califora</p>
-                        <p class="text-gray-800">(123) 456-789</p>
+                        <h4 class="text-gray-700 font-medium">{{ office.name }}</h4>
+                        <p class="text-gray-800">{{ office.phone }}</p>
+                        <p class="text-gray-800">{{ office.address }}</p>
                     </div>
                 </div>
                 <!-- single card end -->
@@ -42,10 +41,9 @@
                         <inertia-link :href="route('address', 'billing')" class="text-primary">Edit</inertia-link>
                     </div>
                     <div class="space-y-1">
-                        <h4 class="text-gray-700 font-medium">Sumon Ahmed</h4>
-                        <p class="text-gray-800">3891 Ranchview Dr.</p>
-                        <p class="text-gray-800">Richardson, Califora</p>
-                        <p class="text-gray-800">(123) 456-789</p>
+                        <h4 class="text-gray-700 font-medium">{{ billing.name }}</h4>
+                        <p class="text-gray-800">{{ billing.phone }}</p>
+                        <p class="text-gray-800">{{ billing.address }}</p>
                     </div>
                 </div>
                 <!-- single card end -->
@@ -62,9 +60,33 @@ import Sidebar from "./Sidebar";
 
 export default {
     name: "Dashboard",
+    props: ['addresses'],
     components: {
         Sidebar,
         AppLayout,
     },
+    computed: {
+        home() {
+            return this.addresses.find(address => address.type === 'home') ?? this.dummy;
+        },
+        office() {
+            return this.addresses.find(address => address.type === 'office') ?? this.dummy;
+        },
+        billing() {
+            return this.addresses.find(address => address.type === 'billing') ?? this.dummy;
+        },
+    },
+    data() {
+        return {
+            dummy: {
+                name: '',
+                phone: '',
+                division: '',
+                district: '',
+                town: '',
+                address: '',
+            }
+        }
+    }
 }
 </script>

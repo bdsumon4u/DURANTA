@@ -59,4 +59,9 @@ class User extends Authenticatable implements \App\Contracts\Auth\MustVerifyPhon
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function addresses()
+    {
+        return $this->hasMany(Address::class);
+    }
 }

@@ -1258,6 +1258,9 @@ select {
 .col-span-1 {
 	grid-column: span 1 / span 1;
 }
+.col-span-2 {
+	grid-column: span 2 / span 2;
+}
 .m-1 {
 	margin: 0.25rem;
 }
@@ -1296,6 +1299,10 @@ select {
 .-my-2 {
 	margin-top: -0.5rem;
 	margin-bottom: -0.5rem;
+}
+.my-2 {
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
 }
 .ml-3 {
 	margin-left: 0.75rem;
@@ -1410,6 +1417,9 @@ select {
 }
 .-mr-px {
 	margin-right: -1px;
+}
+.mb-8 {
+	margin-bottom: 2rem;
 }
 .block {
 	display: block;
@@ -1601,6 +1611,9 @@ select {
 }
 .max-w-sm {
 	max-width: 24rem;
+}
+.max-w-3xl {
+	max-width: 48rem;
 }
 .flex-1 {
 	flex: 1 1 0%;
@@ -2285,6 +2298,9 @@ select {
 .pb-2 {
 	padding-bottom: 0.5rem;
 }
+.pb-24 {
+	padding-bottom: 6rem;
+}
 .text-left {
 	text-align: left;
 }
@@ -2332,6 +2348,10 @@ select {
 .text-xl {
 	font-size: 1.25rem;
 	line-height: 1.75rem;
+}
+.text-3xl {
+	font-size: 1.875rem;
+	line-height: 2.25rem;
 }
 .font-medium {
 	font-weight: 500;

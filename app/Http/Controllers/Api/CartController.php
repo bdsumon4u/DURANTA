@@ -13,6 +13,7 @@ class CartController extends Controller
     {
         Cart::add($product, $request->get('quantity', 1), [
             'first_media' => $product->getFirstMediaUrl(),
+            'slug' => $product->slug,
         ]);
         return response()->json(['success' => 'Product Is Added To Cart.']);
     }
