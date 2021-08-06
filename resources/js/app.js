@@ -1,5 +1,8 @@
 require('./bootstrap');
 
+import mitt from "mitt";
+const emitter = mitt();
+
 // Import modules...
 import { ucfirst, ucwords } from "./functions";
 import { createApp, h } from 'vue';
@@ -8,7 +11,7 @@ import { InertiaProgress } from '@inertiajs/progress';
 
 const el = document.getElementById('app');
 
-createApp({
+const app = createApp({
     render: () =>
         h(InertiaApp, {
             initialPage: JSON.parse(el.dataset.page),
@@ -16,7 +19,9 @@ createApp({
         }),
 })
     .mixin({ methods: { route, ucfirst, ucwords } })
-    .use(InertiaPlugin)
-    .mount(el);
+    .use(InertiaPlugin);
+
+app.config.globalProperties.emitter = emitter;
+app.mount(el);
 
 InertiaProgress.init({ color: '#4B5563' });

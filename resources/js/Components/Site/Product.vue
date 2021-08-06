@@ -21,6 +21,7 @@
         <!-- product content end -->
         <!-- product button -->
         <a href="#"
+           @click.prevent="addToCart(i)"
            class="flex items-center justify-center py-1 mx-1 mb-1 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                 <path fill="none" d="M0 0h24v24H0z"/>
@@ -36,5 +37,14 @@
 export default {
     name: "Product",
     props: ['i'],
+    methods: {
+        addToCart(i) {
+            axios.post(route('api.cart.add', i))
+                .then(({data}) => {
+                    this.emitter.emit('cart-updated', data.success)
+                })
+                .catch(err => console.log(err));
+        }
+    }
 }
 </script>
