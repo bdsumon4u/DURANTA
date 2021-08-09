@@ -73,4 +73,9 @@ class Product extends Model implements HasMedia, Buyable
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function orders()
+    {
+        return $this->belongsToMany(Order::class);
+    }
 }

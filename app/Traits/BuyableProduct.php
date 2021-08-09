@@ -20,7 +20,7 @@ trait BuyableProduct
     }
 
     public function getBuyablePrice($options = null) {
-        return $this->price - $this->getBuyableDiscount($options);
+        return $this->price;
     }
 
     public function getBuyableWeight($options = null) {

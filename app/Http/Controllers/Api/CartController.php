@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Facades\Cart;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -14,6 +14,7 @@ class CartController extends Controller
         Cart::add($product, $request->get('quantity', 1), [
             'first_media' => $product->getFirstMediaUrl(),
             'slug' => $product->slug,
+            'discount' => $product->getBuyableDiscount(),
         ]);
         return response()->json(['success' => 'Product Is Added To Cart.']);
     }
@@ -42,13 +43,12 @@ class CartController extends Controller
 
     public function content(Request $request)
     {
-        Cart::store($request->getClientIp());
-        Cart::restore($request->getClientIp());
         return response()->json([
             'cart' => [
                 'total' => Cart::total(),
                 'content' => Cart::content(),
                 'subtotal' => Cart::subtotal(),
+                'discount' => Cart::discount(),
             ],
         ]);
     }

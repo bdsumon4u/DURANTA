@@ -8,12 +8,13 @@
         <div class="container lg:grid grid-cols-12 gap-6 items-start pb-16 pt-4">
             <!-- checkout form -->
             <div class="lg:col-span-8 bg-white border shadow border-gray-200 px-4 py-4 rounded">
-                <form action="">
+                <form @submit.prevent="submit">
                     <h3 class="text-lg font-medium capitalize mb-4">
                         Checkout
                     </h3>
 
                     <div class="space-y-4">
+                        <validation-errors />
                         <div class="grid sm:grid-cols-3 gap-4">
                             <div class="col-span-2">
                                 <label for="address" class="text-gray-600 mb-2 block">
@@ -43,11 +44,11 @@
                             <input type="text" class="input-box" v-model="form.contact_phone">
                         </div>
                         <!-- agreeement  -->
-                        <div class="flex items-center mb-4 mt-2">
-                            <input type="checkbox" id="term" class="text-primary focus:ring-0 rounded-sm cursor-pointer w-3 h-3">
+                        <div class="flex items-center mb-4 mt-2" v-if="$page.props.jetstream.hasTermsAndPrivacyPolicyFeature">
+                            <input type="checkbox" id="term" v-model="form.term" class="text-primary focus:ring-0 rounded-sm cursor-pointer w-3 h-3">
                             <label for="term" class="text-gray-600 ml-3 cursor-pointer">
                                 Agree to our
-                                <a href="#" class="text-primary">terms & conditions</a>
+                                <inertia-link :href="route('terms.show')" class="text-primary">terms & conditions</inertia-link>
                             </label>
                         </div>
 
@@ -77,10 +78,15 @@
                     <h4 class="text-gray-800 font-medium my-3 uppercase">Subtotal</h4>
                     <h4 class="text-gray-800 font-medium my-3 uppercase">{{ cart.subtotal }}</h4>
                 </div>
+                <div class="flex justify-between border-b border-gray-200 mt-1">
+                    <h4 class="text-gray-800 font-medium my-3 uppercase">Discount</h4>
+                    <h4 class="text-gray-800 font-medium my-3 uppercase">{{ cart.discount }}</h4>
+                </div>
                 <div class="flex flex-wrap justify-between border-b border-gray-200">
                     <h4 class="flex-1 text-gray-800 font-medium my-1 uppercase">Shipping</h4>
                     <h4 class="flex-1 text-gray-800 font-medium my-1 uppercase text-right">Later</h4>
-                    <small class="w-full">You'll call you after placing order.</small>
+                    <small class="w-full">Charge varies from area to area and product to product.</small>
+                    <small class="w-full">We'll estimate charge & call you after placing order.</small>
                 </div>
                 <div class="flex justify-between">
                     <h4 class="text-gray-800 font-semibold my-3 uppercase">Total</h4>
@@ -97,6 +103,7 @@
 <script>
 import AppLayout from "@/Layouts/AppLayout";
 import Breadcrumb from "@/Components/Site/Breadcrumb";
+import ValidationErrors from "@/Jetstream/ValidationErrors";
 
 export default {
     name: "Checkout",
@@ -104,6 +111,7 @@ export default {
     components: {
         AppLayout,
         Breadcrumb,
+        ValidationErrors,
     },
     methods: {
         loadCartContent() {
@@ -113,6 +121,9 @@ export default {
                 })
                 .catch(err => console.error(err));
         },
+        submit() {
+            this.form.post(route('checkout'));
+        }
     },
     data() {
         return {
@@ -120,11 +131,13 @@ export default {
                 content: {},
                 total: 0,
                 subtotal: 0,
+                discount: 0,
             },
             form: this.$inertia.form({
                 address: null,
                 contact_name: this.$page.props.user.name,
                 contact_phone: this.$page.props.user.phone,
+                term: false,
             })
         }
     },

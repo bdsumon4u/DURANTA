@@ -311,14 +311,14 @@
                         {{ cart.subtotal }}
                     </div>
                 </div>
-<!--                <div class="flex font-semibold py-2">-->
-<!--                    <div class="flex-1">-->
-<!--                        Discount-->
-<!--                    </div>-->
-<!--                    <div class="text-primary">-->
-<!--                        $2200-->
-<!--                    </div>-->
-<!--                </div>-->
+                <div class="flex font-semibold py-2">
+                    <div class="flex-1">
+                        Discount
+                    </div>
+                    <div class="text-primary">
+                        {{ cart.discount }}
+                    </div>
+                </div>
                 <div class="flex font-semibold py-2">
                     <div class="flex-1">
                         Total
@@ -390,6 +390,7 @@ export default {
                 content: {},
                 total: 0,
                 subtotal: 0,
+                discount: 0,
             },
             cart_open: false,
             categories_open: false,

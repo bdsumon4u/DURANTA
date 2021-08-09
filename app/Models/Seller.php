@@ -62,4 +62,12 @@ class Seller extends Authenticatable implements \App\Contracts\Auth\MustVerifyPh
     {
         return $this->hasMany(Product::class);
     }
+
+    // Not A Relationship.
+    public function orders()
+    {
+        return Order::query()->whereHas('products', function ($query) {
+            $query->where('seller_id', $this->getKey());
+        });
+    }
 }

@@ -64,4 +64,9 @@ class User extends Authenticatable implements \App\Contracts\Auth\MustVerifyPhon
     {
         return $this->hasMany(Address::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }
