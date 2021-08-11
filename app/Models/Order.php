@@ -13,6 +13,11 @@ class Order extends Model
         'address_id', 'contact_name', 'contact_phone', 'contact_phone', 'note', 'subtotal', 'discount', 'shipping', 'total', 'meta', 'status',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function address()
     {
         return $this->belongsTo(Address::class);

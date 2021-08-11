@@ -1,5 +1,5 @@
 <template>
-    <seller-layout>
+    <admin-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 {{ form.id ? 'Edit Product' : 'Add Product' }}
@@ -7,10 +7,11 @@
         </template>
 
         <product-editor :admin="true" :brands="brands" :categories="categories" :product="product" />
-    </seller-layout>
+    </admin-layout>
 </template>
 
 <script>
+import AdminLayout from '@/Layouts/AdminLayout';
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import draggable from 'vuedraggable';
@@ -19,12 +20,12 @@ import JetInputError from "@/Jetstream/InputError";
 import JetValidationErrors from "@/Jetstream/ValidationErrors";
 import Multiselect from '@vueform/multiselect';
 import ProductEditor from '@/Components/ProductEditor/Editor';
-import SellerLayout from '@/Layouts/SellerLayout';
 
 export default {
     name: "Editor",
     props: ['product', 'brands', 'categories'],
     components: {
+        AdminLayout,
         ckeditor: CKEditor.component,
         draggable,
         JetButton,
@@ -32,7 +33,6 @@ export default {
         JetValidationErrors,
         Multiselect,
         ProductEditor,
-        SellerLayout,
     },
     computed: {
         dragOptions() {

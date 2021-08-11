@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\Cart;
+use App\Http\Requests\OrderRequest;
+use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Notifications\OrderReceived;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
@@ -14,7 +20,10 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        $orders = \request()->user()->orders()->with('address')->withCount('products')->paginate(10);
+        return Inertia::render('Orders/Index', [
+            'orders' => OrderResource::collection($orders),
+        ]);
     }
 
     /**
@@ -24,7 +33,9 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Orders/Create', [
+            'addresses' => \request()->user()->addresses,
+        ]);
     }
 
     /**
@@ -33,9 +44,33 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(OrderRequest $request)
     {
-        //
+        DB::beginTransaction();
+        $products = Cart::content()->mapWithKeys(function ($item) {
+            $count = $item->qty;
+            $model = $item->model;
+            if ($model->stock_track) {
+                ($item->qty > $model->stock_count) && (
+                $count = $model->stock_count
+                );
+                $model->decrement('stock_count', $count);
+            }
+
+            return [$item->id => array_merge($item->options->toArray(), [
+                'quantity' => $count,
+                'price' => $model->getBuyablePrice(),
+            ])];
+        })->toArray();
+
+        if ($order = $request->user()->orders()->create($request->all())) {
+            $order->products()->sync($products);
+            $request->user()->notify(new OrderReceived($order));
+            Cart::destroy();
+        }
+        DB::commit();
+
+        return $order ? redirect()->route('orders.complete') : back();
     }
 
     /**
@@ -46,7 +81,10 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        $order->load('address', 'products');
+        return Inertia::render('Orders/Show', [
+            'order' => new OrderResource($order),
+        ]);
     }
 
     /**

@@ -74,7 +74,9 @@
                 this.$inertia.visit(route(this.prefix + 'verification.verify', {id: this.form.id, code: this.form.code}))
             },
             resend() {
-                this.form.post(this.route(this.prefix + 'verification.send'))
+                this.form.post(this.route(this.prefix + 'verification.send'), {
+                    onFinish: () => this.timer = 10,
+                });
             },
             handleInput(ev, i) {
                 const value = ev.target.value;

@@ -23,13 +23,7 @@
             <!-- single link end -->
             <!-- single link -->
             <div class="space-y-1 pl-8 pt-4">
-                <a href="#" class="hover:text-primary transition block">Orders</a>
-                <a href="#" class="hover:text-primary transition block">Cancels</a>
-                <a href="#" class="hover:text-primary transition block">Returns</a>
-            </div>
-            <!-- single link end -->
-            <!-- single link -->
-            <div class="space-y-1 pl-8 pt-4">
+                <inertia-link :href="route('orders.index')" class="hover:text-primary transition block" :class="{'text-primary': route().current('orders.index')}">Orders</inertia-link>
                 <a href="#" class="hover:text-primary transition block">Refunds</a>
                 <a href="#" class="hover:text-primary transition block">Payments</a>
             </div>

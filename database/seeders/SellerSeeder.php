@@ -16,7 +16,7 @@ class SellerSeeder extends Seeder
     public function run()
     {
         Seller::firstOrCreate(
-            ['email' => 'seller@seller.com'],
+            ['phone' => '01783110247'],
             [
                 'name' => 'Hotash Seller',
                 'password' => Hash::make('password'),

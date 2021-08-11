@@ -1,5 +1,5 @@
 <template>
-    <seller-layout>
+    <admin-layout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                 Products
@@ -49,17 +49,17 @@
                 </div>
             </div>
         </div>
-    </seller-layout>
+    </admin-layout>
 </template>
 
 <script>
-import SellerLayout from "@/Layouts/SellerLayout";
+import AdminLayout from "@/Layouts/AdminLayout";
 
 export default {
     name: "Index",
     props: ['products'],
     components: {
-        SellerLayout,
+        AdminLayout,
     },
     methods: {
         destroy (product) {

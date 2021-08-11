@@ -2,14 +2,17 @@
 
 namespace App\Notifications\Auth;
 
-use App\Channels\OtpChannel;
+use App\Channels\SmsChannel;
 use App\Models\Seller;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Str;
 
-class VerifyPhone extends Notification
+class VerifyPhone extends Notification implements ShouldQueue
 {
+    use Queueable;
+
     /**
      * The callback that should be used to create the verify phone URL.
      *
@@ -32,7 +35,7 @@ class VerifyPhone extends Notification
      */
     public function via($notifiable)
     {
-        return [OtpChannel::class];
+        return [SmsChannel::class];
     }
 
     /**
@@ -42,11 +45,11 @@ class VerifyPhone extends Notification
      * @return array
      * @throws \Exception
      */
-    public function toOtp($notifiable)
+    public function toArray($notifiable)
     {
         cache()->put(
             $notifiable->getTable() . ':otp:' . $notifiable->getKey(),
-            $code = Str::upper(Str::random(6)),
+            $code = sprintf('%06d', random_int(0, 999999)),
             Config::get('auth.verification.expire', 60)
         );
 
@@ -57,8 +60,7 @@ class VerifyPhone extends Notification
         }
 
         return [
-            'code' => $code,
-            'link' => $link,
+            'message' => 'Your OTP for DURANTA is: ' . $code,
         ];
     }
 

@@ -9,6 +9,7 @@ class ProductRequest extends FormRequest
 {
     private const RULES = [
         'media' => 'array',
+        'media.*' => 'required',
 
         'sku' => '',
         'name' => 'required|max:255',
@@ -17,6 +18,7 @@ class ProductRequest extends FormRequest
 
         'brand' => 'nullable|integer',
         'categories' => 'required|array',
+        'categories.*' => 'required|integer',
 
         'price' => 'required|integer|gt:0',
         'discount_amount' => 'required|integer|gt:-1',

@@ -1,7 +1,7 @@
 <template>
     <app-layout>
         <!-- account wrapper -->
-        <div class="container lg:grid grid-cols-12 items-start gap-6 pt-4 pb-16">
+        <div class="container lg:grid grid-cols-12 items-start gap-6 pt-4 pb-8">
             <!-- sidebar -->
             <sidebar />
             <!-- sidebar end -->

@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Facades\Cart;
 use Illuminate\Foundation\Http\FormRequest;
+use Laravel\Jetstream\Jetstream;
 
 class OrderRequest extends FormRequest
 {
@@ -27,7 +29,20 @@ class OrderRequest extends FormRequest
             return [];
         }
         return [
-            //
+            'address' => 'required|integer',
+            'contact_name' => 'required',
+            'contact_phone' => 'required|numeric|digits:11',
+            'term' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
         ];
+    }
+
+    public function all($keys = null)
+    {
+        return array_merge(parent::all($keys), [
+            'address_id' => $this->get('address'),
+            'subtotal' => Cart::subtotal(),
+            'discount' => Cart::discount(),
+            'total' => Cart::total(),
+        ]);
     }
 }
