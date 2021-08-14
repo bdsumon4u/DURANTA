@@ -28,4 +28,13 @@ class Order extends Model
         return $this->belongsToMany(Product::class)
             ->withPivot('first_media', 'slug', 'discount', 'price', 'quantity');
     }
+
+    // Not A Relationship.
+    public function sellers()
+    {
+        $products = $this->products->pluck('id')->toArray();
+        return Seller::query()->whereHas('products', function ($query) use ($products) {
+            $query->whereIn('id', $products);
+        });
+    }
 }

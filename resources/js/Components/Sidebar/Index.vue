@@ -1,6 +1,6 @@
 <template>
     <aside
-        class="flex-shrink-0 fixed z-50 inset-y-0 w-64 max-h-screen overflow-hidden transition-all transform bg-gray-800 border-r md:static"
+        class="print:hidden flex-shrink-0 fixed z-50 inset-y-0 w-64 max-h-screen overflow-hidden transition-all transform bg-gray-800 border-r md:static"
         :class="{'-translate-x-full md:translate-x-0': !isMobileMainMenuOpen}"
     >
         <div class="flex flex-col h-full" :class="{'pt-15 md:pt-0': isMobileMainMenuOpen}">

@@ -58,7 +58,8 @@
                         </div>
                         <div>
                             <label class="text-gray-600 mb-2 block">
-                                Address
+                                Full Address
+                                <small class="block">(Including District, Town & Others)</small>
                             </label>
                             <input type="text" class="input-box" v-model="form.address">
                         </div>

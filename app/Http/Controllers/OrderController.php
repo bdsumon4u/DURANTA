@@ -20,7 +20,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = \request()->user()->orders()->with('address')->withCount('products')->paginate(10);
+        $orders = \request()->user()->orders()->with('address')->withCount('products')->latest('id')->paginate(10);
         return Inertia::render('Orders/Index', [
             'orders' => OrderResource::collection($orders),
         ]);

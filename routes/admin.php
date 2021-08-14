@@ -23,5 +23,6 @@ Route::prefix('admin')->group(function ($router) {
         Route::resource('brands', \App\Http\Controllers\Admin\BrandController::class);
         Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+        Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);
     });
 });

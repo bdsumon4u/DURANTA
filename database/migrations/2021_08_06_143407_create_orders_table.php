@@ -31,7 +31,7 @@ class CreateOrdersTable extends Migration
             $table->integer('shipping')->default(0);
             $table->integer('total');
             $table->json('meta')->nullable();
-            $table->string('status')->default('pending');
+            $table->string('status')->default('PENDING');
             $table->timestamps();
         });
 

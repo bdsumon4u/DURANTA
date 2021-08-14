@@ -15,7 +15,7 @@
 
             <div class="flex flex-col flex-1 min-h-screen overflow-x-hidden overflow-y-auto">
                 <!-- Navbar -->
-                <header class="relative z-30 bg-white shadow">
+                <header class="print:hidden relative z-30 bg-white shadow">
                     <div class="flex items-center justify-between p-2 border-b">
                         <!-- Mobile menu button -->
                         <button
@@ -194,7 +194,7 @@ export default {
                 {
                     name: 'E-Commerce',
                     icon: '<path d="M7.83 20A3.001 3.001 0 1 1 4 16.17V7.83A3.001 3.001 0 1 1 7.83 4h8.34A3.001 3.001 0 1 1 20 7.83v8.34A3.001 3.001 0 1 1 16.17 20H7.83zm0-2h8.34A3.008 3.008 0 0 1 18 16.17V7.83A3.008 3.008 0 0 1 16.17 6H7.83A3.008 3.008 0 0 1 6 7.83v8.34A3.008 3.008 0 0 1 7.83 18zM5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm14 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM5 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>',
-                    open: route().current('admin.brands.index') || route().current('admin.brands.edit') || route().current('admin.categories.index') || route().current('admin.categories.edit') || route().current('admin.products.index'),
+                    open: route().current('admin.brands.index') || route().current('admin.brands.edit') || route().current('admin.categories.index') || route().current('admin.categories.edit') || route().current('admin.products.index') || route().current('admin.orders.index'),
                     items: [
                         {
                             name: 'Brands',
@@ -217,13 +217,14 @@ export default {
                         },
                         {
                             name: 'Orders',
-                            href: '/orders',
+                            active: route().current('admin.orders.index'),
+                            href: route('admin.orders.index'),
                         },
                     ],
                 },
                 {
                     name: 'Pending',
-                    open: route().current('admin.products.index', {status: 'pending'}),
+                    open: route().current('admin.products.index', {status: 'pending'}) || route().current('admin.orders.index', {status: 'pending'}),
                     icon: '<path d="M5 8v12h14V8H5zm0-2h14V4H5v2zm15 16H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1zM7 10h4v4H7v-4zm0 6h10v2H7v-2zm6-5h4v2h-4v-2z"/>',
                     items: [
                         {
@@ -233,7 +234,8 @@ export default {
                         },
                         {
                             name: 'Orders',
-                            href: '/pages/create',
+                            active: route().current('admin.orders.index', {status: 'pending'}),
+                            href: route('admin.orders.index', {status: 'pending'}),
                         },
                     ],
                 },

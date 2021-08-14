@@ -25,14 +25,17 @@ class OrderRequest extends FormRequest
      */
     public function rules()
     {
-        if ($this->isMethod('GET')) {
-            return [];
+        if ($this->isMethod('POST')) {
+            return [
+                'address' => 'required|integer',
+                'contact_name' => 'required',
+                'contact_phone' => 'required|numeric|digits:11',
+                'term' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
+            ];
         }
+
         return [
-            'address' => 'required|integer',
-            'contact_name' => 'required',
-            'contact_phone' => 'required|numeric|digits:11',
-            'term' => Jetstream::hasTermsAndPrivacyPolicyFeature() ? ['required', 'accepted'] : '',
+            'status' => 'required',
         ];
     }
 
