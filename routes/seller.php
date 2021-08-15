@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+notificationRoutes(['middleware' => ['web', 'auth:seller'], 'prefix' => 'seller', 'as' => 'seller.']);
+
 Route::group(['prefix' => 'seller', 'as' => 'seller.'], function ($router) {
     Route::redirect('/', $router->getLastGroupPrefix() . RouteServiceProvider::HOME);
 

@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+notificationRoutes(['middleware' => ['web', 'auth:admin'], 'prefix' => 'admin', 'as' => 'admin.']);
+
 Route::prefix('admin')->group(function ($router) {
     Route::redirect('/', $router->getLastGroupPrefix() . RouteServiceProvider::HOME);
 

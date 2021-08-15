@@ -18,6 +18,8 @@ Route::get('/', \App\Http\Controllers\HomeController::class)->name('home');
 Route::get('/products', \App\Http\Controllers\ProductController::class)->name('products');
 Route::get('/products/{slug}', [\App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 
+notificationRoutes(['middleware' => ['web', 'auth:sanctum']]);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/phone/verify', [\App\Http\Controllers\Auth\PhoneVerificationPromptController::class, '__invoke'])
         ->name('verification.notice');

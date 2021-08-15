@@ -92,7 +92,7 @@ class OrderController extends Controller
     {
         $data = $request->validated();
         $order->update($data);
-        if ($order->isDirty('status')) {
+        if ($order->wasChanged('status')) {
             $order->user->notify(new OrderStatusChanged($order));
             Notification::send($order->sellers()->get(), new OrderStatusChanged($order));
         }
