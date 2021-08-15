@@ -4,7 +4,7 @@ import mitt from "mitt";
 const emitter = mitt();
 
 // Import modules...
-import { ucfirst, ucwords } from "./functions";
+import { ucfirst, ucwords, calculateTotal, moneyFormat } from "./functions";
 import { createApp, h } from 'vue';
 import { App as InertiaApp, plugin as InertiaPlugin } from '@inertiajs/inertia-vue3';
 import { InertiaProgress } from '@inertiajs/progress';
@@ -18,7 +18,7 @@ const app = createApp({
             resolveComponent: (name) => require(`./Pages/${name}`).default,
         }),
 })
-    .mixin({ methods: { route, ucfirst, ucwords } })
+    .mixin({ methods: { route, ucfirst, ucwords, calculateTotal, moneyFormat } })
     .use(InertiaPlugin);
 
 app.config.globalProperties.emitter = emitter;

@@ -36,6 +36,7 @@ class OrderRequest extends FormRequest
 
         return [
             'status' => 'required',
+            'shipping' => 'required|integer',
         ];
     }
 

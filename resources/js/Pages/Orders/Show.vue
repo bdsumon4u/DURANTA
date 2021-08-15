@@ -24,41 +24,52 @@
                             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                                     <div class="overflow-hidden sm:rounded-lg">
-                                        <table class="min-w-full divide-y divide-gray-200">
+                                        <table class="overflow-hidden border border-gray-200 min-w-full divide-y divide-gray-200">
                                             <thead class="bg-gray-50">
-                                                <tr>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        Product
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        Total
-                                                    </th>
-                                                </tr>
+                                            <tr>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold bg-gray-100 text-gray-500 uppercase tracking-wider">
+                                                    Product
+                                                </th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold bg-gray-100 text-gray-500 uppercase tracking-wider">
+                                                    Price
+                                                </th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold bg-gray-100 text-gray-500 uppercase tracking-wider">
+                                                    Discount
+                                                </th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold bg-gray-100 text-gray-500 uppercase tracking-wider">
+                                                    Total
+                                                </th>
+                                            </tr>
                                             </thead>
-                                            <tbody class="bg-white border-t-2">
-                                                <tr v-for="product in order.data.products" :key="product.id">
-                                                    <td class="px-6 py-2 whitespace-nowrap">
-                                                        <inertia-link class="text-blue-500 hover:underline hover:text-blue-600" :href="route('products.show', product.slug)">{{ product.name }}</inertia-link> x{{ product.pivot.quantity }}
-                                                    </td>
-                                                    <td class="px-6 py-2 whitespace-nowrap">{{ product.pivot.quantity * product.pivot.price }}</td>
-                                                </tr>
+                                            <tbody class="bg-white text-sm divide-y divide-gray-200">
+                                            <tr v-for="product in order.data.products" :key="product.id">
+                                                <td class="px-3 py-2">
+                                                    <div>
+                                                        <inertia-link class="hover:underline" :href="route('products.show', product.slug)">{{ product.name }}</inertia-link>
+                                                        <strong>&nbsp;x{{ product.pivot.quantity }}</strong>
+                                                    </div>
+                                                </td>
+                                                <td class="px-3 py-2 whitespace-nowrap">{{ product.pivot.quantity }}x{{ moneyFormat(product.pivot.price) }}</td>
+                                                <td class="px-3 py-2 whitespace-nowrap">{{ product.pivot.quantity }}x{{ moneyFormat(product.pivot.discount) }}</td>
+                                                <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500">{{ calculateTotal(product) }}</td>
+                                            </tr>
                                             </tbody>
-                                            <tbody class="bg-white border-t-2">
-                                                <tr v-for="item in ['subtotal', 'discount', 'shipping']">
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        {{ ucfirst(item) }}
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ order.data[item] }}</th>
-                                                </tr>
-                                            </tbody>
-                                            <tbody class="bg-white border-t-2">
-                                                <tr>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        Total
-                                                    </th>
-                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ order.data.total }}</th>
-                                                </tr>
-                                            </tbody>
+                                            <tfoot class="bg-gray-100">
+                                            <tr class="border-b">
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Total</th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.subtotal) }}</th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.discount) }}</th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.total) }}</th>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col" colspan="3" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Shipping</th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.shipping) }}</th>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col" colspan="3" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Payable</th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.total + order.data.shipping) }}</th>
+                                            </tr>
+                                            </tfoot>
                                         </table>
                                     </div>
                                 </div>

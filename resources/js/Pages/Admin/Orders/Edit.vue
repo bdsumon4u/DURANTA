@@ -164,11 +164,19 @@
                                             </tr>
                                             </tbody>
                                             <tfoot class="bg-gray-100">
-                                            <tr>
+                                            <tr class="border-b">
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Total</th>
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.subtotal) }}</th>
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.discount) }}</th>
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.total) }}</th>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col" colspan="3" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Shipping</th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.shipping) }}</th>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col" colspan="3" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Payable</th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.total + order.data.shipping) }}</th>
                                             </tr>
                                             </tfoot>
                                         </table>
@@ -180,18 +188,21 @@
                     </div>
                 </div>
                 <div class="w-96 print:hidden">
-                    <div class="sm:max-w-lg w-full p-10 bg-white rounded-xl z-10">
-                        <div class="text-center">
-                            <h2 class="text-2xl font-bold text-gray-900">Header</h2>
-                        </div>
-                        <form class="mt-5 space-y-3" @submit.prevent="submit">
-                            <div class="grid grid-cols-1 space-y-2">
+                    <div class="sm:max-w-lg w-full px-8 py-8 bg-white rounded-xl z-10">
+                        <form @submit.prevent="submit">
+                            <div class="mb-4">
+                                <validation-errors />
+                            </div>
+                            <div class="w-full mb-4">
                                 <label class="block mb-2 text-sm font-bold text-gray-700" for="status">Status</label>
                                 <Multiselect id="status" v-model="form.status" mode="single" :options="statuses" placeholder="Select Status" />
                             </div>
-
+                            <div class="w-full mb-4">
+                                <label class="block mb-2 text-sm font-bold text-gray-700" for="shipping">Shipping</label>
+                                <input type="text" id="shipping" v-model="form.shipping" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" placeholder="Charge">
+                            </div>
                             <div>
-                                <button type="submit" class="my-5 w-full flex justify-center bg-blue-500 text-gray-100 p-4 rounded-md tracking-wide
+                                <button type="submit" class="w-full flex justify-center bg-blue-500 text-gray-100 p-4 rounded-md tracking-wide
                                     font-semibold focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-md cursor-pointer transition ease-in duration-300">
                                     Update
                                 </button>
@@ -207,6 +218,7 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout";
 import Multiselect from '@vueform/multiselect'
+import ValidationErrors from "@/Jetstream/ValidationErrors";
 
 export default {
     name: "Show",
@@ -214,6 +226,7 @@ export default {
     components: {
         AdminLayout,
         Multiselect,
+        ValidationErrors,
     },
     computed: {
         invoiceNumber() {
@@ -228,17 +241,6 @@ export default {
         }
     },
     methods: {
-        calculateTotal(product) {
-            return this.moneyFormat((product.pivot.price - product.pivot.discount) * product.pivot.quantity);
-        },
-        moneyFormat(amount) {
-            return amount + ' TK';
-            return amount.toLocaleString("en-US", {
-                style: "currency",
-                currency: "BDT"
-            });
-        },
-
         printInvoice() {
             window.print();
         },
