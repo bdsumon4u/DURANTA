@@ -27,12 +27,7 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if (\request()->isAdmin()) {
-            config(['fortify.guard' => 'admin']);
-        }
-        if (\request()->isSeller()) {
-            config(['fortify.guard' => 'seller']);
-        }
+        //
     }
 
     /**
@@ -55,11 +50,11 @@ class FortifyServiceProvider extends ServiceProvider
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
 
-        foreach (['admin', 'seller'] as $type) {
-            Route::group(['middleware' => ['web'], 'prefix' => $type, 'as' => "$type."], function () {
-                require base_path('routes/fortify.php');
-            });
-        }
+        $context = require base_path('routes/fortify.php');
+        collect(['admin', 'seller'])->each(function ($type) use ($context) {
+            Route::group(['middleware' => ['web'], 'prefix' => $type, 'as' => "$type."], fn () => $context(['guard' => $type]));
+        });
+
 
         Fortify::authenticateUsing(function (LoginRequest $request) {
             switch ($request->segment(1)) {

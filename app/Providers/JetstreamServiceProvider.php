@@ -57,11 +57,10 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::deleteTeamsUsing(DeleteTeam::class);
         Jetstream::deleteUsersUsing(DeleteUser::class);
 
-        foreach (['admin', 'seller'] as $type) {
-            Route::group(['middleware' => ['web'], 'prefix' => $type, 'as' => "$type."], function () {
-                require base_path('routes/jetstream.php');
-            });
-        }
+        $context = require base_path('routes/jetstream.php');
+        collect(['admin', 'seller'])->each(function ($type) use ($context) {
+            Route::group(['middleware' => ['web'], 'prefix' => $type, 'as' => "$type."], fn () => $context(['guard' => $type]));
+        });
 
         switch (request()->segment(1)) {
             case 'admin':
