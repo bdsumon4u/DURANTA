@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SellershipResource;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,6 +17,9 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Inertia::render('Seller/Dashboard');
+        if (!($application = $request->user()->sellership) || $application->status !== 'approved') {
+            $application = new SellershipResource($application->load('media'));
+        }
+        return Inertia::render('Seller/Dashboard', compact('application'));
     }
 }

@@ -19,6 +19,14 @@ class OrderResource extends JsonResource
         $data = parent::toArray($request);
         Arr::pull($data, 'address_id');
 
+        if ($resource->relationLoaded('products')) {
+            $data['products'] = $resource->products->map(function ($product) {
+                return array_merge($product->toArray(), [
+                    'seller' => $product->seller->sellership->store_name,
+                ]);
+            })->toArray();
+        }
+
         return array_merge($data, [
             'created_at' => $resource->created_at->format('d M, Y'),
         ]);

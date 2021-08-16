@@ -6,24 +6,35 @@
             </h2>
         </template>
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
-                    <welcome />
-                </div>
-            </div>
+        <div v-if="application?.status !== 'approved'" class="py-6">
+            <sellership :application="application.data" />
         </div>
     </seller-layout>
 </template>
 
 <script>
     import SellerLayout from '@/Layouts/SellerLayout'
-    import Welcome from '@/Jetstream/Welcome'
+    import Sellership from './Sellership'
 
     export default {
+        props: {
+            application: {
+                type: Object,
+                default: {
+                    store_name: '',
+                    store_email: '',
+                    store_phone: '',
+                    store_address: '',
+                    nid_front: '',
+                    nid_back: '',
+                    license: '',
+                    signboard: '',
+                }
+            }
+        },
         components: {
             SellerLayout,
-            Welcome,
+            Sellership,
         },
     }
 </script>

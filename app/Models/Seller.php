@@ -58,6 +58,11 @@ class Seller extends Authenticatable implements \App\Contracts\Auth\MustVerifyPh
         'profile_photo_url',
     ];
 
+    public function sellership()
+    {
+        return $this->hasOne(Sellership::class);
+    }
+
     public function products()
     {
         return $this->hasMany(Product::class);

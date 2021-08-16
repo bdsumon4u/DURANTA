@@ -156,7 +156,7 @@
                                                         <inertia-link class="hover:underline" :href="route('products.show', product.slug)">{{ product.name }}</inertia-link>
                                                         <strong>&nbsp;x{{ product.pivot.quantity }}</strong>
                                                     </div>
-                                                    <p class="print:hidden ml-5">By, <inertia-link class="text-primary hover:underline" href="">{{ product.seller.name }}</inertia-link></p>
+                                                    <p class="print:hidden whitespace-nowrap ml-5">By, <inertia-link class="text-primary hover:underline" href="">{{ product.seller }}</inertia-link></p>
                                                 </td>
                                                 <td class="px-3 py-2 whitespace-nowrap">{{ product.pivot.quantity }}x{{ moneyFormat(product.pivot.price) }}</td>
                                                 <td class="px-3 py-2 whitespace-nowrap">{{ product.pivot.quantity }}x{{ moneyFormat(product.pivot.discount) }}</td>

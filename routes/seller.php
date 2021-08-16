@@ -31,8 +31,11 @@ Route::group(['prefix' => 'seller', 'as' => 'seller.'], function ($router) {
 
         Route::middleware('verified:seller.verification.notice')->group(function () {
             Route::get(RouteServiceProvider::HOME, \App\Http\Controllers\Seller\DashboardController::class)->name('dashboard');
-            Route::resource('products', \App\Http\Controllers\Seller\ProductController::class);
-            Route::resource('orders', \App\Http\Controllers\Seller\OrderController::class);
+            Route::post('sellership', \App\Http\Controllers\Seller\SellershipController::class)->name('sellership');
+            Route::middleware('approved')->group(function () {
+                Route::resource('products', \App\Http\Controllers\Seller\ProductController::class);
+                Route::resource('orders', \App\Http\Controllers\Seller\OrderController::class);
+            });
         });
     });
 });
