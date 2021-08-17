@@ -16,6 +16,15 @@ class SellershipRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation()
+    {
+        if ($this->isSeller()) {
+            $this->merge([
+                'status' => 'PENDING',
+            ]);
+        }
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -23,15 +32,12 @@ class SellershipRequest extends FormRequest
      */
     public function rules()
     {
-        $RULES = [
+        return [
             'store_name' => 'required',
             'store_email' => 'required|email',
             'store_phone' => 'required|numeric|digits:11',
             'store_address' => 'required|max:255',
-        ];
-
-        return $this->isSeller() ? $RULES : array_merge($RULES, [
             'status' => 'required',
-        ]);
+        ];
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Requests\SellershipRequest;
 use App\Models\Admin;
 use App\Models\Sellership;
 use App\Notifications\SellerApplication;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Notification;
 
 class SellershipController extends Controller
@@ -19,7 +20,9 @@ class SellershipController extends Controller
      */
     public function __invoke(SellershipRequest $request)
     {
-        $sellership = $request->user()->sellership()->firstOrCreate($request->validated());
+        $sellership = $request->user()->sellership()->updateOrCreate(
+            Arr::only($data = $request->validated(), ['email', 'phone']), $data
+        );
 
         foreach (['nid_front', 'nid_back', 'license', 'signboard'] as $type) {
             if ($request->hasFile($type)) {

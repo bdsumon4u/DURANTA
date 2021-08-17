@@ -6,15 +6,15 @@
             </h2>
         </template>
 
-        <div v-if="application?.status !== 'approved'" class="py-6">
-            <sellership :application="application.data" />
+        <div v-if="application?.data?.status !== 'APPROVED'" class="py-6">
+            <sellership-manager :application="application.data" />
         </div>
     </seller-layout>
 </template>
 
 <script>
     import SellerLayout from '@/Layouts/SellerLayout'
-    import Sellership from './Sellership'
+    import SellershipManager from '@/Components/SellershipManager'
 
     export default {
         props: {
@@ -34,7 +34,7 @@
         },
         components: {
             SellerLayout,
-            Sellership,
+            SellershipManager,
         },
     }
 </script>
