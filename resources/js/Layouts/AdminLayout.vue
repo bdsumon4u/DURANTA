@@ -194,7 +194,7 @@ export default {
                 {
                     name: 'E-Commerce',
                     icon: '<path d="M7.83 20A3.001 3.001 0 1 1 4 16.17V7.83A3.001 3.001 0 1 1 7.83 4h8.34A3.001 3.001 0 1 1 20 7.83v8.34A3.001 3.001 0 1 1 16.17 20H7.83zm0-2h8.34A3.008 3.008 0 0 1 18 16.17V7.83A3.008 3.008 0 0 1 16.17 6H7.83A3.008 3.008 0 0 1 6 7.83v8.34A3.008 3.008 0 0 1 7.83 18zM5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm14 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM5 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>',
-                    open: route().current('admin.brands.index') || route().current('admin.brands.edit') || route().current('admin.categories.index') || route().current('admin.categories.edit') || route().current('admin.products.index') || route().current('admin.orders.index'),
+                    open: route().current('admin.brands.index') || route().current('admin.brands.edit') || route().current('admin.categories.index') || route().current('admin.categories.edit'),
                     items: [
                         {
                             name: 'Brands',
@@ -210,32 +210,79 @@ export default {
                             name: 'Gift Cards',
                             href: '/gift-cards',
                         },
-                        {
-                            name: 'Products',
-                            active: route().current('admin.products.index'),
-                            href: route('admin.products.index'),
-                        },
-                        {
-                            name: 'Orders',
-                            active: route().current('admin.orders.index'),
-                            href: route('admin.orders.index'),
-                        },
                     ],
                 },
                 {
-                    name: 'Pending',
-                    open: route().current('admin.products.index', {status: 'pending'}) || route().current('admin.orders.index', {status: 'pending'}),
+                    name: 'Products',
+                    open: route().current('admin.products.index'),
                     icon: '<path d="M5 8v12h14V8H5zm0-2h14V4H5v2zm15 16H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1zM7 10h4v4H7v-4zm0 6h10v2H7v-2zm6-5h4v2h-4v-2z"/>',
                     items: [
                         {
-                            name: 'Products',
+                            name: 'All',
+                            active: route().current('admin.products.index', {status: ''}),
+                            href: route('admin.products.index', {status: ''}),
+                        },
+                        {
+                            name: 'Pending',
                             active: route().current('admin.products.index', {status: 'pending'}),
                             href: route('admin.products.index', {status: 'pending'}),
                         },
                         {
-                            name: 'Orders',
+                            name: 'Approved',
+                            active: route().current('admin.products.index', {status: 'approved'}),
+                            href: route('admin.products.index', {status: 'approved'}),
+                        },
+                    ],
+                },
+                {
+                    name: 'Orders',
+                    open: route().current('admin.orders.index'),
+                    icon: '<path d="M5 8v12h14V8H5zm0-2h14V4H5v2zm15 16H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1zM7 10h4v4H7v-4zm0 6h10v2H7v-2zm6-5h4v2h-4v-2z"/>',
+                    items: [
+                        {
+                            name: 'All',
+                            active: route().current('admin.orders.index', {status: ''}),
+                            href: route('admin.orders.index', {status: ''}),
+                        },
+                        {
+                            name: 'Pending',
                             active: route().current('admin.orders.index', {status: 'pending'}),
                             href: route('admin.orders.index', {status: 'pending'}),
+                        },
+                        {
+                            name: 'Processing',
+                            active: route().current('admin.orders.index', {status: 'processing'}),
+                            href: route('admin.orders.index', {status: 'processing'}),
+                        },
+                        {
+                            name: 'Picked',
+                            active: route().current('admin.orders.index', {status: 'picked'}),
+                            href: route('admin.orders.index', {status: 'picked'}),
+                        },
+                        {
+                            name: 'Shipping',
+                            active: route().current('admin.orders.index', {status: 'shipping'}),
+                            href: route('admin.orders.index', {status: 'shipping'}),
+                        },
+                        {
+                            name: 'Delivered',
+                            active: route().current('admin.orders.index', {status: 'delivered'}),
+                            href: route('admin.orders.index', {status: 'delivered'}),
+                        },
+                        {
+                            name: 'Completed',
+                            active: route().current('admin.orders.index', {status: 'completed'}),
+                            href: route('admin.orders.index', {status: 'completed'}),
+                        },
+                        {
+                            name: 'Returned',
+                            active: route().current('admin.orders.index', {status: 'returned'}),
+                            href: route('admin.orders.index', {status: 'returned'}),
+                        },
+                        {
+                            name: 'Refunded',
+                            active: route().current('admin.orders.index', {status: 'refunded'}),
+                            href: route('admin.orders.index', {status: 'refunded'}),
                         },
                     ],
                 },

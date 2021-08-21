@@ -34,7 +34,7 @@
                         </thead>
                         <tbody class="bg-white text-sm divide-y divide-gray-200">
                         <tr v-for="product in products.data" :key="product.id">
-                            <td class="px-6 py-4 border-r w-20 md:w-28 h-20 md:h-28">
+                            <td class="px-3 py-2 border-r w-20 md:w-28 h-20 md:h-28">
                                 <img class="h-full w-full object-fill rounded-sm" :src="product.first_media" alt="Product Image" />
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
@@ -61,6 +61,14 @@
                         </tr>
                         </tbody>
                     </table>
+                </div>
+                <div v-if="products.meta.links.length" class="mt-2">
+                    <div class="flex flex-wrap justify-center -mb-1">
+                        <template v-for="(link, k) in products.meta.links" :key="k">
+                            <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded" v-html="link.label" />
+                            <inertia-link v-else class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-black hover:text-white focus:border-indigo-500 focus:text-indigo-500" :class="{ 'bg-blue-700 text-white': link.active }" :href="link.url" v-html="link.label" />
+                        </template>
+                    </div>
                 </div>
             </div>
         </div>

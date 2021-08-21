@@ -14,6 +14,13 @@ class SellerResource extends JsonResource
      */
     public function toArray($request)
     {
-        return parent::toArray($request);
+        $resource = $this->resource;
+        $data = parent::toArray($request);
+
+        if ($resource->relationLoaded('products')) {
+            $data['products'] = ProductResource::collection($resource->products);
+        }
+
+        return array_merge($data, []);
     }
 }

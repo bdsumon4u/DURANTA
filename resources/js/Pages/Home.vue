@@ -106,8 +106,8 @@
             <!-- product wrapper -->
             <div class="grid lg:grid-cols-6 sm:grid-cols-3 grid-cols-2 lg:gap-6 md:gap-4 gap-2">
                 <!-- single product -->
-                <template v-for="i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]">
-                    <product :i="i" />
+                <template v-for="product in latest.data">
+                    <product :product="product" />
                 </template>
                 <!-- single product end -->
             </div>
@@ -148,6 +148,7 @@ import AppLayout from "../Layouts/AppLayout";
 
 export default {
     name: "Home",
+    props: ['latest'],
     components: {
         AppLayout,
         Product,

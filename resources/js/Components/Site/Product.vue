@@ -2,26 +2,26 @@
     <div class="group flex flex-col rounded bg-white shadow overflow-hidden">
         <!-- product image -->
         <div class="relative">
-            <img :src="`/images/products/product${i}.jpg`" class="w-full">
+            <img :src="product.first_media" class="w-full">
             <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"></div>
         </div>
         <!-- product image end -->
         <!-- product content -->
         <div class="flex-1 pt-4 pb-3 px-4">
-            <a href="">
+            <a :href="route('products.show', product.slug)">
                 <h4 class="font-medium text-sm font-roboto line-clamp-2 mb-2 text-gray-800 hover:text-primary transition">
-                    Product Name
+                    {{ product.name }}
                 </h4>
             </a>
             <div class="flex items-baseline mb-1 space-x-2">
-                <p class="text-xl text-primary font-roboto font-semibold">$45.00</p>
-                <p class="text-sm text-gray-400 font-roboto line-through">$55.00</p>
+                <p class="text-xl text-primary font-roboto font-semibold">{{ moneyFormat(product.price - product.discount) }}</p>
+                <p class="text-sm text-gray-400 font-roboto line-through">{{ moneyFormat(product.price) }}</p>
             </div>
         </div>
         <!-- product content end -->
         <!-- product button -->
         <a href="#"
-           @click.prevent="addToCart(i)"
+           @click.prevent="addToCart(product)"
            class="flex items-center justify-center py-1 mx-1 mb-1 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                 <path fill="none" d="M0 0h24v24H0z"/>
@@ -36,15 +36,6 @@
 <script>
 export default {
     name: "Product",
-    props: ['i'],
-    methods: {
-        addToCart(i) {
-            axios.post(route('api.cart.add', i))
-                .then(({data}) => {
-                    this.emitter.emit('cart-updated', data.success)
-                })
-                .catch(err => console.log(err));
-        }
-    }
+    props: ['product'],
 }
 </script>

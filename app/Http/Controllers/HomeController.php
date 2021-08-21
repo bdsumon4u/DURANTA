@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -15,6 +17,9 @@ class HomeController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Inertia::render('Home');
+        $latest = Product::with('firstMedia')->latest('id')->take(12)->get();
+        return Inertia::render('Home', [
+            'latest' => ProductResource::collection($latest),
+        ]);
     }
 }

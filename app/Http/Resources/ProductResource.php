@@ -24,7 +24,9 @@ class ProductResource extends JsonResource
         }
 
         if ($resource->relationLoaded('categories')) {
-            $data['categories'] = $resource->categories->pluck('id');
+            $data['categories'] = $request->isAdmin()
+                ? $resource->categories->pluck('id')
+                : $resource->categories;
         }
 
         if ($resource->relationLoaded('firstMedia')) {
@@ -35,6 +37,11 @@ class ProductResource extends JsonResource
             $data['media'] = $resource->getMedia()->map(function ($media) {
                 return ['id' => $media->id, 'link' => $media->getFullUrl()];
             })->toArray();
+            $data['first_media'] = data_get(data_get($data['media'], 0), 'link');
+        }
+
+        if ($resource->relationLoaded('seller')) {
+            $data['seller'] = new SellerResource($resource->seller);
         }
 
         return array_merge($data, [

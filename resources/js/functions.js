@@ -12,3 +12,26 @@ export function moneyFormat(amount) {
         currency: "BDT"
     });
 }
+
+export function addToCart(product, quantity) {
+    axios.post(route('api.cart.add', product.id), {
+        quantity: quantity,
+    })
+        .then(({data}) => {
+            this.emitter.emit('cart-updated', data.success)
+        })
+        .catch(err => console.log(err));
+}
+
+export function updateCart(product, type) {
+    axios.post(route('api.cart.update', {
+        rowId: product.rowId,
+        product: product.id,
+        qty: product.qty,
+        type,
+    })).then(({data}) => {
+        if (data.success) {
+            this.emitter.emit('cart-updated', data.success);
+        }
+    }).catch(err => console.error(err));
+}

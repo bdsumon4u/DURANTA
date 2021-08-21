@@ -25,6 +25,7 @@ class ProductController extends Controller
             ->when(\request('status'), function ($query) {
                 $query->where('status', \request('status'));
             })
+            ->latest('id')
             ->paginate(10);
 
         return Inertia::render('Admin/Products/Index', [

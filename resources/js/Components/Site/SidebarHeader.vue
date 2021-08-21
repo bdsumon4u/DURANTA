@@ -261,7 +261,7 @@
             </h3>
             <ul class="divide-y overflow-y-auto" style="height: calc(100% - 240px)">
                 <!-- single wishlist -->
-                <li v-for="(product, key) in cart.content" class="flex items-center md:justify-between gap-4 p-4 border-gray-200 flex-wrap md:flex-nowrap">
+                <li v-for="product in cart.content" class="flex items-center md:justify-between gap-4 p-4 border-gray-200 flex-wrap md:flex-nowrap">
                     <!-- cart image -->
                     <div class="w-12 flex-shrink-0">
                         <img :src="product.options.first_media"  class="w-full">
@@ -275,9 +275,9 @@
                                 <p class="text-primary font-semibold">{{ product.price }}</p>
                                 <!-- quantity -->
                                 <div class="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
-                                    <button class="h-6 w-6 text-xl flex items-center justify-center cursor-pointer select-none" @click.prevent="updateCart(key, product, 'decrement')">-</button>
+                                    <button class="h-6 w-6 text-xl flex items-center justify-center cursor-pointer select-none" @click.prevent="updateCart(product, 'decrement')">-</button>
                                     <button class="h-6 w-8 flex items-center justify-center">{{ product.qty }}</button>
-                                    <button class="h-6 w-6 text-xl flex items-center justify-center cursor-pointer select-none" @click.prevent="updateCart(key, product, 'increment')">+</button>
+                                    <button class="h-6 w-6 text-xl flex items-center justify-center cursor-pointer select-none" @click.prevent="updateCart(product, 'increment')">+</button>
                                 </div>
                             </div>
                         </div>
@@ -355,18 +355,6 @@ export default {
                     this.cart = data.cart;
                 })
                 .catch(err => console.error(err));
-        },
-        updateCart(key, product, type) {
-            axios.post(route('api.cart.update', {
-                rowId: product.rowId,
-                product: product.id,
-                qty: product.qty,
-                type,
-            })).then(({data}) => {
-                if (data.success) {
-                    this.loadCartContent();
-                }
-            }).catch(err => console.error(err));
         },
         remove(rowId) {
             axios.post(route('api.cart.remove', rowId))

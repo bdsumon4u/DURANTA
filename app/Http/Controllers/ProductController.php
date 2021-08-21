@@ -23,7 +23,9 @@ class ProductController extends Controller
     public function show(string $slug)
     {
         $product = Product::slugOrFail($slug);
-        $product->load('brand', 'media');
+        $product->load(['brand', 'media', 'categories', 'seller.products' => function ($query) {
+            $query->with('firstMedia')->take(12);
+        }]);
         return Inertia::render('Products/Show', [
             'product' => new ProductResource($product),
         ]);
