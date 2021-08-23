@@ -6,13 +6,13 @@ class Cart extends \Gloudemans\Shoppingcart\Facades\Cart
 {
     public static function subtotal()
     {
-        return intval(parent::subtotal());
+        return intval(str_replace(',', '', parent::subtotal()));
     }
 
     public static function discount()
     {
         return parent::content()->sum(function ($item) {
-            return $item->qty * intval($item->options->discount);
+            return $item->qty * intval(str_replace(', ', '', $item->options->discount));
         });
     }
 

@@ -272,7 +272,7 @@
                         <div>
                             <inertia-link :href="route('products.show', product.options.slug)" class="text-gray-800 mb-2 text-sm font-roboto font-medium">{{ product.name }}</inertia-link>
                             <div class="mt-2 flex justify-between items-center">
-                                <p class="text-primary font-semibold">{{ product.price }}</p>
+                                <p class="text-primary font-semibold">{{ moneyFormat(product.price) }}</p>
                                 <!-- quantity -->
                                 <div class="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
                                     <button class="h-6 w-6 text-xl flex items-center justify-center cursor-pointer select-none" @click.prevent="updateCart(product, 'decrement')">-</button>
@@ -298,7 +298,7 @@
                         Subtotal
                     </div>
                     <div class="text-primary">
-                        {{ cart.subtotal }}
+                        {{ moneyFormat(cart.subtotal) }}
                     </div>
                 </div>
                 <div class="flex font-semibold py-2">
@@ -306,7 +306,7 @@
                         Discount
                     </div>
                     <div class="text-primary">
-                        {{ cart.discount }}
+                        {{ moneyFormat(cart.discount) }}
                     </div>
                 </div>
                 <div class="flex font-semibold py-2">
@@ -314,7 +314,7 @@
                         Total
                     </div>
                     <div class="text-primary">
-                        {{ cart.total }}
+                        {{ moneyFormat(cart.total) }}
                     </div>
                 </div>
                 <div>
