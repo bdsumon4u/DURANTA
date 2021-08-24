@@ -48,5 +48,17 @@ export default {
 </script>
 
 <style scoped>
-@import '../../../../node_modules/vueperslides/dist/vueperslides.css'
+@import '~vueperslides/dist/vueperslides.css';
+.vueperslides__bullet {
+    margin: 1.5em .25em !important;
+}
+.vueperslides__bullet .default {
+    width: 18px !important;
+    height: 6px !important;
+    border-radius: 0 !important;
+}
+.vueperslides__bullet--active .default {
+    width: 30px !important;
+    border-width: 2px !important;
+}
 </style>

@@ -7,7 +7,9 @@ use Gloudemans\Shoppingcart\Contracts\Buyable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
+use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -16,6 +18,7 @@ class Product extends Model implements HasMedia, Buyable
     use BuyableProduct;
     use HasFactory;
     use InteractsWithMedia;
+    use Searchable;
     use SoftDeletes;
 
     protected $fillable = [
@@ -77,5 +80,28 @@ class Product extends Model implements HasMedia, Buyable
     public function orders()
     {
         return $this->belongsToMany(Order::class);
+    }
+
+    /**
+     * Determine if the model should be searchable.
+     *
+     * @return bool
+     */
+    public function shouldBeSearchable()
+    {
+        return true;
+        return $this->status === 'ACTIVE';
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        return Arr::only($this->toArray(), [
+            'id', 'seller_id', 'sku', 'name', 'slug', 'description',
+        ]);
     }
 }

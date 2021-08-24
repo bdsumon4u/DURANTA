@@ -18,11 +18,8 @@
                             <path fill="currentColor" d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"/>
                         </svg>
                     </span>
-                    <input type="search"
-                           class="pl-12 w-full border-2 border-r-0 border-primary py-2 px-3 rounded-l-md focus:ring-primary focus:border-primary"
-                           placeholder="Search for...">
-                    <button type="submit"
-                            class="bg-primary text-white py-2 px-8 font-medium rounded-r-md hover:bg-transparent hover:text-primary border-2 border-primary transition">
+                    <input type="search" v-model="search" @keydown.enter="doSearch" class="pl-12 w-full border-2 border-r-0 border-primary py-2 px-3 rounded-l-md focus:ring-primary focus:border-primary" placeholder="Search for...">
+                    <button type="submit" @click.prevent="doSearch" class="bg-primary text-white py-2 px-8 font-medium rounded-r-md hover:bg-transparent hover:text-primary border-2 border-primary transition">
                         Search
                     </button>
                 </div>
@@ -93,10 +90,10 @@
                     <!-- nav menu -->
                     <div class="flex items-center justify-between flex-grow pl-12">
                         <div class="flex items-center space-x-6 text-base capitalize">
-                            <inertia-link :href="route('home')" class="text-gray-200 hover:text-white transition font-roboto text-sm font-medium hover:underline">Home</inertia-link>
-                            <inertia-link :href="route('products')" class="text-gray-200 hover:text-white transition font-roboto text-sm font-medium hover:underline">Products</inertia-link>
-                            <a href="#" class="text-gray-200 hover:text-white transition font-roboto text-sm font-medium hover:underline">About us</a>
-                            <a href="#" class="text-gray-200 hover:text-white transition font-roboto text-sm font-medium hover:underline">Contact us</a>
+                            <inertia-link :href="route('home')" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('home')}">Home</inertia-link>
+                            <inertia-link :href="route('products')" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('products')}">Products</inertia-link>
+                            <a href="#" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('about-us')}">About us</a>
+                            <a href="#" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('contact-us')}">Contact us</a>
                         </div>
                         <inertia-link :href="route('seller.dashboard')" class="ml-auto justify-self-end text-gray-200 hover:text-gray-400 transition font-roboto text-sm font-medium">
                             Seller Center
@@ -121,11 +118,8 @@
                         <path fill="currentColor" d="M18.031 16.617l4.283 4.282-1.415 1.415-4.282-4.283A8.96 8.96 0 0 1 11 20c-4.968 0-9-4.032-9-9s4.032-9 9-9 9 4.032 9 9a8.96 8.96 0 0 1-1.969 5.617zm-2.006-.742A6.977 6.977 0 0 0 18 11c0-3.868-3.133-7-7-7-3.868 0-7 3.132-7 7 0 3.867 3.132 7 7 7a6.977 6.977 0 0 0 4.875-1.975l.15-.15z"/>
                     </svg>
                 </span>
-                <input type="search"
-                       class="pl-12 w-full border-2 border-r-0 border-primary py-2 px-3 rounded-l-md focus:ring-primary focus:border-primary"
-                       placeholder="Search for...">
-                <button type="submit"
-                        class="bg-primary text-white py-2 px-4 font-medium rounded-r-md hover:bg-transparent hover:text-primary border-2 border-primary transition">
+                <input type="search" v-model="search" @keydown.enter="doSearch" class="pl-12 w-full border-2 border-r-0 border-primary py-2 px-3 rounded-l-md focus:ring-primary focus:border-primary" placeholder="Search for...">
+                <button type="submit" @click.prevent="doSearch" class="bg-primary text-white py-2 px-4 font-medium rounded-r-md hover:bg-transparent hover:text-primary border-2 border-primary transition">
                     Search
                 </button>
             </div>
@@ -346,9 +340,12 @@ export default {
     computed: {
         cart_count() {
             return Object.keys(this.cart.content).length;
-        }
+        },
     },
     methods: {
+        doSearch() {
+            this.$inertia.visit(route('products', {search: this.search}));
+        },
         loadCartContent() {
             axios.get(route('api.cart.content'))
                 .then(({data}) => {
@@ -376,6 +373,7 @@ export default {
             categories_open: false,
             menu_open: false,
             search_open: false,
+            search: '',
         }
     },
     mounted() {

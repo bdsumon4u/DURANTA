@@ -30,12 +30,12 @@ class ProductResource extends JsonResource
         }
 
         if ($resource->relationLoaded('firstMedia')) {
-            $data['first_media'] = optional($resource->firstMedia)->getFullUrl();
+            $data['first_media'] = cdn(optional($resource->firstMedia)->getFullUrl());
         }
 
         if ($resource->relationLoaded('media')) {
             $data['media'] = $resource->getMedia()->map(function ($media) {
-                return ['id' => $media->id, 'link' => $media->getFullUrl()];
+                return ['id' => $media->id, 'link' => cdn($media->getFullUrl())];
             })->toArray();
             $data['first_media'] = data_get(data_get($data['media'], 0), 'link');
         }

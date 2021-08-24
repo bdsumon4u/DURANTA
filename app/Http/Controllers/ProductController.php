@@ -17,7 +17,17 @@ class ProductController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Inertia::render('Products/Index');
+        if ($search = $request->get('search')) {
+            $query = Product::search($search)->query(function ($query) {
+                $query->with('firstMedia');
+            });
+        } else {
+            $query = Product::with('firstMedia')->latest('id');
+        }
+        $products = $query->paginate(12);
+        return Inertia::render('Products/Index', [
+            'products' => ProductResource::collection($products),
+        ]);
     }
 
     public function show(string $slug)

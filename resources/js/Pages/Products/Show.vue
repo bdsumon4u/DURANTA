@@ -9,13 +9,38 @@
             <!-- product image -->
             <div>
                 <div>
-                    <img id="main-img" :src="product.data.first_media" class="w-full">
+                    <vueper-slides
+                        ref="productImageLarge"
+                        :touchable="false"
+                        fade
+                        :autoplay="false"
+                        :bullets="false"
+                        @slide="$refs.productImageSmall.goToSlide($event.currentSlide.index, { emit: false })"
+                        fixed-height="400px">
+                        <vueper-slide
+                            v-for="(media, i) in product.data.media"
+                            :key="i"
+                            :image="media.link">
+                        </vueper-slide>
+                    </vueper-slides>
                 </div>
-                <div class="grid grid-cols-5 gap-4 mt-4">
-                    <div v-for="media in product.data.media">
-                        <img :src="media.link" class="single-img w-full cursor-pointer border border-primary">
-                    </div>
-                </div>
+                <vueper-slides
+                    class="mt-3 product-image-small"
+                    ref="productImageSmall"
+                    @slide="$refs.productImageLarge.goToSlide($event.currentSlide.index, { emit: false })"
+                    :visible-slides="product.data.media.length"
+                    fixed-height="75px"
+                    :bullets="false"
+                    :touchable="false"
+                    :gap="0.25"
+                    :arrows="false">
+                    <vueper-slide
+                        v-for="(media, i) in product.data.media"
+                        :key="i"
+                        :image="media.link"
+                        @click.native="$refs.productImageSmall.goToSlide(i)">
+                    </vueper-slide>
+                </vueper-slides>
             </div>
             <!-- product image end -->
             <!-- product content -->
@@ -46,79 +71,79 @@
                     <span class="text-gray-500 text-base line-through">{{ moneyFormat(product.data.price) }}</span>
                 </div>
                 <!-- size -->
-                <div class="mt-4">
-                    <h3 class="text-base text-gray-800 mb-1">Size</h3>
-                    <div class="flex items-center gap-2">
-                        <!-- single size -->
-                        <div class="size-selector">
-                            <input type="radio" name="size" class="hidden" id="size-xs">
-                            <label for="size-xs" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
-                                XS
-                            </label>
-                        </div>
-                        <!-- single size end -->
-                        <!-- single size -->
-                        <div class="size-selector">
-                            <input type="radio" name="size" class="hidden" id="size-s">
-                            <label for="size-s" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
-                                S
-                            </label>
-                        </div>
-                        <!-- single size end -->
-                        <!-- single size -->
-                        <div class="size-selector">
-                            <input type="radio" name="size" class="hidden" id="size-m" checked>
-                            <label for="size-m" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
-                                M
-                            </label>
-                        </div>
-                        <!-- single size end -->
-                        <!-- single size -->
-                        <div class="size-selector">
-                            <input type="radio" name="size" class="hidden" id="size-l">
-                            <label for="size-l" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
-                                L
-                            </label>
-                        </div>
-                        <!-- single size end -->
-                        <!-- single size -->
-                        <div class="size-selector">
-                            <input type="radio" name="size" class="hidden" id="size-xl">
-                            <label for="size-xl" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">
-                                XL
-                            </label>
-                        </div>
-                        <!-- single size end -->
-                    </div>
-                </div>
+<!--                <div class="mt-4">-->
+<!--                    <h3 class="text-base text-gray-800 mb-1">Size</h3>-->
+<!--                    <div class="flex items-center gap-2">-->
+<!--                        &lt;!&ndash; single size &ndash;&gt;-->
+<!--                        <div class="size-selector">-->
+<!--                            <input type="radio" name="size" class="hidden" id="size-xs">-->
+<!--                            <label for="size-xs" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">-->
+<!--                                XS-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; single size end &ndash;&gt;-->
+<!--                        &lt;!&ndash; single size &ndash;&gt;-->
+<!--                        <div class="size-selector">-->
+<!--                            <input type="radio" name="size" class="hidden" id="size-s">-->
+<!--                            <label for="size-s" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">-->
+<!--                                S-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; single size end &ndash;&gt;-->
+<!--                        &lt;!&ndash; single size &ndash;&gt;-->
+<!--                        <div class="size-selector">-->
+<!--                            <input type="radio" name="size" class="hidden" id="size-m" checked>-->
+<!--                            <label for="size-m" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">-->
+<!--                                M-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; single size end &ndash;&gt;-->
+<!--                        &lt;!&ndash; single size &ndash;&gt;-->
+<!--                        <div class="size-selector">-->
+<!--                            <input type="radio" name="size" class="hidden" id="size-l">-->
+<!--                            <label for="size-l" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">-->
+<!--                                L-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; single size end &ndash;&gt;-->
+<!--                        &lt;!&ndash; single size &ndash;&gt;-->
+<!--                        <div class="size-selector">-->
+<!--                            <input type="radio" name="size" class="hidden" id="size-xl">-->
+<!--                            <label for="size-xl" class="text-xs border border-gray-200 rounded-sm h-6 w-6 flex items-center justify-center cursor-pointer shadow-sm text-gray-600">-->
+<!--                                XL-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; single size end &ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
                 <!-- size end -->
                 <!-- color -->
-                <div class="mt-4">
-                    <h3 class="text-base text-gray-800 mb-1">Color</h3>
-                    <div class="flex items-center gap-2">
-                        <!-- single color -->
-                        <div class="color-selector">
-                            <input type="radio" name="color" class="hidden" id="color-red" checked>
-                            <label for="color-red" style="background-color : #fc3d57" class="text-xs border border-gray-200 rounded-sm h-5 w-5 flex items-center justify-center cursor-pointer shadow-sm">
-                            </label>
-                        </div>
-                        <!-- single color end -->
-                        <!-- single color -->
-                        <div class="color-selector">
-                            <input type="radio" name="color" class="hidden" id="color-white">
-                            <label for="color-white" style="background-color : #fff" class="text-xs border border-gray-200 rounded-sm h-5 w-5 flex items-center justify-center cursor-pointer shadow-sm">
-                            </label>
-                        </div>
-                        <!-- single color end -->
-                        <!-- single color -->
-                        <div class="color-selector">
-                            <input type="radio" name="color" class="hidden" id="color-black">
-                            <label for="color-black" style="background-color : #000" class="text-xs border border-gray-200 rounded-sm h-5 w-5 flex items-center justify-center cursor-pointer shadow-sm">
-                            </label>
-                        </div>
-                        <!-- single color end -->
-                    </div>
-                </div>
+<!--                <div class="mt-4">-->
+<!--                    <h3 class="text-base text-gray-800 mb-1">Color</h3>-->
+<!--                    <div class="flex items-center gap-2">-->
+<!--                        &lt;!&ndash; single color &ndash;&gt;-->
+<!--                        <div class="color-selector">-->
+<!--                            <input type="radio" name="color" class="hidden" id="color-red" checked>-->
+<!--                            <label for="color-red" style="background-color : #fc3d57" class="text-xs border border-gray-200 rounded-sm h-5 w-5 flex items-center justify-center cursor-pointer shadow-sm">-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; single color end &ndash;&gt;-->
+<!--                        &lt;!&ndash; single color &ndash;&gt;-->
+<!--                        <div class="color-selector">-->
+<!--                            <input type="radio" name="color" class="hidden" id="color-white">-->
+<!--                            <label for="color-white" style="background-color : #fff" class="text-xs border border-gray-200 rounded-sm h-5 w-5 flex items-center justify-center cursor-pointer shadow-sm">-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; single color end &ndash;&gt;-->
+<!--                        &lt;!&ndash; single color &ndash;&gt;-->
+<!--                        <div class="color-selector">-->
+<!--                            <input type="radio" name="color" class="hidden" id="color-black">-->
+<!--                            <label for="color-black" style="background-color : #000" class="text-xs border border-gray-200 rounded-sm h-5 w-5 flex items-center justify-center cursor-pointer shadow-sm">-->
+<!--                            </label>-->
+<!--                        </div>-->
+<!--                        &lt;!&ndash; single color end &ndash;&gt;-->
+<!--                    </div>-->
+<!--                </div>-->
                 <!-- color end -->
                 <!-- quantity -->
                 <div class="mt-4">
@@ -183,6 +208,7 @@
 import AppLayout from "@/Layouts/AppLayout";
 import Product from "@/Components/Site/Product";
 import Breadcrumb from "@/Components/Site/Breadcrumb";
+import { VueperSlides, VueperSlide } from 'vueperslides'
 
 export default {
     name: "Show",
@@ -191,6 +217,8 @@ export default {
         AppLayout,
         Breadcrumb,
         Product,
+        VueperSlides,
+        VueperSlide,
     },
     methods: {
         increment() {
@@ -217,6 +245,35 @@ export default {
 </script>
 
 <style>
+    @import '~vueperslides/dist/vueperslides.css';
+    .product-image-small .vueperslide {
+        box-sizing: border-box;
+        border: 1px solid #fff;
+        transition: 0.3s ease-in-out;
+        opacity: 0.7;
+        cursor: pointer;
+        max-width: 8rem;
+    }
+    .product-image-small .vueperslides__track-inner {
+        justify-content: space-between;
+    }
+    .product-image-small .vueperslide--active {
+        box-shadow: 0 0 6px rgba(0, 0, 0, 0.3);
+        opacity: 1;
+        border-color: crimson;
+    }
+    .vueperslides__bullet {
+        margin: 1.5em .25em !important;
+    }
+    .vueperslides__bullet .default {
+        width: 18px !important;
+        height: 6px !important;
+        border-radius: 0 !important;
+    }
+    .vueperslides__bullet--active .default {
+        width: 30px !important;
+        border-width: 2px !important;
+    }
     .product-description figure.table {
         margin: 1rem auto;
     }
