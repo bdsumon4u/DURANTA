@@ -16,6 +16,11 @@ class Category extends Model implements HasMedia
     protected $with = ['media'];
     protected $appends = ['image'];
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('default')->singleFile();
+    }
+
     public function getImageAttribute()
     {
         return $this->getFirstMediaUrl();

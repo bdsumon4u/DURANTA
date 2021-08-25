@@ -15,6 +15,13 @@ class Library extends Model implements HasMedia
 
     protected $fillable = ['type'];
 
+    public function registerMediaCollections(): void
+    {
+        foreach (['logo', 'favicon'] as $type) {
+            $this->addMediaCollection($type)->singleFile();
+        }
+    }
+
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('300x100')

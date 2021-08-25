@@ -57,34 +57,14 @@ class SettingController extends Controller
     {
         $settings = $this->settings($tab);
         if ($tab === 'general') {
-            if ($data['logo'] instanceof UploadedFile) {
-                try {
-                    $media = Library::firstOrCreate(['type' => 'branding'])
-                        ->addMedia($data['logo'])
-                        ->toMediaCollection('logo');
-                    $fullUrl = $media->getFullUrl();
+            foreach (['logo', 'favicon'] as $type) {
+                if ($data[$type] instanceof UploadedFile) {
+                    $fullUrl = Library::firstOrCreate(['type' => 'branding'])
+                        ->addMedia($data[$type])
+                        ->toMediaCollection($type)
+                        ->getFullUrl();
                     $hostname = parse_url($fullUrl, PHP_URL_HOST);
-                    $data['logo'] = Str::after($fullUrl, $hostname);
-                    // Delete Old
-                    preg_match("/storage\/(\d+)\/.+/", $settings->logo, $matches);
-                    Media::findOrFail($matches[1])->delete();
-                } catch (\Exception $exception) {
-                    return $this->dangerBanner($exception->getMessage());
-                }
-            }
-            if ($data['favicon'] instanceof UploadedFile) {
-                try {
-                    $media = Library::firstOrCreate(['type' => 'branding'])
-                        ->addMedia($data['favicon'])
-                        ->toMediaCollection('favicon');
-                    $fullUrl = $media->getFullUrl();
-                    $hostname = parse_url($fullUrl, PHP_URL_HOST);
-                    $data['favicon'] = Str::after($fullUrl, $hostname);
-                    // Delete Old
-                    preg_match("/storage\/(\d+)\/.+/", $settings->favicon, $matches);
-                    Media::findOrFail($matches[1])->delete();
-                } catch (\Exception $exception) {
-                    return $this->dangerBanner($exception->getMessage());
+                    $data[$type] = Str::after($fullUrl, $hostname);
                 }
             }
         }
