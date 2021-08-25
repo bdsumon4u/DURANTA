@@ -56,6 +56,11 @@ class Product extends Model implements HasMedia, Buyable
         return static::findOrFail(Str::afterLast($slug, '--i'));
     }
 
+    public function scopeApproved($query, $status = 'APPROVED')
+    {
+        return $query->where(compact('status'));
+    }
+
     public function seller()
     {
         return $this->belongsTo(Seller::class);

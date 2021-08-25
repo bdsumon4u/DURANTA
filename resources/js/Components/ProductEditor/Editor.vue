@@ -320,7 +320,7 @@ export default {
             editorConfig: {
                 // The configuration of the editor.
             },
-            statuses: ['PENDING', 'ACTIVE', 'DISABLED', 'REJECTED'],
+            statuses: ['PENDING', 'APPROVED', 'DISABLED', 'REJECTED'],
         };
     },
 }

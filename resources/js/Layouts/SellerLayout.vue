@@ -197,19 +197,29 @@ export default {
                     open: route().current('seller.products.index') || route().current('seller.products.create'),
                     items: [
                         {
-                            name: 'Active',
-                            active: route().current('seller.products.index', {status: 'active'}),
-                            href: route('seller.products.index', {status: 'active'}),
-                        },
-                        {
-                            name: 'Pending',
-                            active: route().current('seller.products.index', {status: 'pending'}),
-                            href: route('seller.products.index', {status: 'pending'}),
-                        },
-                        {
                             name: 'Add New',
                             active: route().current('seller.products.create'),
                             href: route('seller.products.create'),
+                        },
+                        {
+                            name: 'Approved',
+                            active: route().current('seller.products.index', {status: 'APPROVED'}),
+                            href: route('seller.products.index', {status: 'APPROVED'}),
+                        },
+                        {
+                            name: 'Pending',
+                            active: route().current('seller.products.index', {status: 'PENDING'}),
+                            href: route('seller.products.index', {status: 'PENDING'}),
+                        },
+                        {
+                            name: 'Disabled',
+                            active: route().current('seller.products.index', {status: 'DISABLED'}),
+                            href: route('seller.products.index', {status: 'DISABLED'}),
+                        },
+                        {
+                            name: 'Rejected',
+                            active: route().current('seller.products.index', {status: 'REJECTED'}),
+                            href: route('seller.products.index', {status: 'REJECTED'}),
                         },
                     ],
                 },

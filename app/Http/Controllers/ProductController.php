@@ -22,7 +22,7 @@ class ProductController extends Controller
                 $query->with('firstMedia');
             });
         } else {
-            $query = Product::with('firstMedia')->latest('id');
+            $query = Product::with('firstMedia')->approved()->latest('id');
         }
         $products = $query->paginate(12);
         return Inertia::render('Products/Index', [

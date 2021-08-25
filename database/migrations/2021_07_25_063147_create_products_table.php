@@ -44,7 +44,7 @@ class CreateProductsTable extends Migration
             $table->integer('stock_count')->default(0);
             $table->string('pickup_point')->nullable();
 
-            $table->string('status', 15)->default('pending');
+            $table->string('status', 15)->default('PENDING');
             $table->softDeletes();
             $table->timestamps();
 
