@@ -244,8 +244,11 @@ export default {
 }
 </script>
 
+<style scoped>
+@import '~vueperslides/dist/vueperslides.css';
+</style>
+
 <style>
-    @import '~vueperslides/dist/vueperslides.css';
     .product-image-small .vueperslide {
         box-sizing: border-box;
         border: 1px solid #fff;

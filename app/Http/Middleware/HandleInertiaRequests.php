@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Http\Resources\SlideResource;
+use App\Models\Library;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -36,10 +38,27 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request)
     {
-        return array_merge(parent::share($request), [
+        $data = array_merge(parent::share($request), [
             'app_name' => config('app.name'),
             'is_admin' => $request->isAdmin(),
             'is_seller' => $request->isSeller(),
         ]);
+
+        return $this->slides($data);
+    }
+
+    /**
+     * Merge slides if it's home route.
+     *
+     * @param array $data
+     * @return array
+     */
+    private function slides(array $data) {
+        if (\request()->routeIs('home')) {
+            return array_merge($data, [
+                'slides' => SlideResource::collection(Library::firstOrCreate(['type' => 'slides'])->getMedia())
+            ]);
+        }
+        return $data;
     }
 }

@@ -213,6 +213,23 @@ export default {
                     ],
                 },
                 {
+                    name: 'Slider',
+                    icon: '<path d="M7.83 20A3.001 3.001 0 1 1 4 16.17V7.83A3.001 3.001 0 1 1 7.83 4h8.34A3.001 3.001 0 1 1 20 7.83v8.34A3.001 3.001 0 1 1 16.17 20H7.83zm0-2h8.34A3.008 3.008 0 0 1 18 16.17V7.83A3.008 3.008 0 0 1 16.17 6H7.83A3.008 3.008 0 0 1 6 7.83v8.34A3.008 3.008 0 0 1 7.83 18zM5 6a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm14 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm0 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2zM5 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>',
+                    open: route().current('admin.slides.index') || route().current('admin.slides.create'),
+                    items: [
+                        {
+                            name: 'Add New',
+                            active: route().current('admin.slides.create'),
+                            href: route('admin.slides.create'),
+                        },
+                        {
+                            name: 'All Slides',
+                            active: route().current('admin.slides.index'),
+                            href: route('admin.slides.index'),
+                        },
+                    ],
+                },
+                {
                     name: 'Products',
                     open: route().current('admin.products.index'),
                     icon: '<path d="M5 8v12h14V8H5zm0-2h14V4H5v2zm15 16H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1zM7 10h4v4H7v-4zm0 6h10v2H7v-2zm6-5h4v2h-4v-2z"/>',
