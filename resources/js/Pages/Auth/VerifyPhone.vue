@@ -17,6 +17,10 @@
                                 A new OTP code has been sent your phone number.
                             </div>
 
+                            <div class="mb-4 font-medium text-sm text-red-600" v-if="verificationLinkExpired" >
+                                The OTP code is either invalid or expired.
+                            </div>
+
                             <div id="otp" class="flex flex-row justify-center text-center px-2 mt-5">
                                 <template v-for="i in [1, 2, 3, 4, 5, 6]">
                                     <input :ref="`item_${i}`" @input.prevent="ev => handleInput(ev, i)" @keydown.delete="ev => handleDelete(ev, i)" class="m-1 border h-10 w-10 text-center form-control rounded" type="text" :id="`item-${i}`" maxlength="1" :autofocus="i === 1" />
@@ -116,6 +120,9 @@
         computed: {
             verificationLinkSent() {
                 return this.status === 'verification-code-sent';
+            },
+            verificationLinkExpired() {
+                return this.status === 'verification-code-expired';
             },
             prefix() {
                 return this.is_seller ? 'seller.' : '';

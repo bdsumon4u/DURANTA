@@ -50,7 +50,7 @@ class VerifyPhone extends Notification implements ShouldQueue
         cache()->put(
             $notifiable->getTable() . ':otp:' . $notifiable->getKey(),
             $code = sprintf('%06d', random_int(0, 999999)),
-            Config::get('auth.verification.expire', 60)
+            Config::get('auth.verification.expire', 5 * 60)
         );
 
         $link = $this->verificationUrl($notifiable, $code);

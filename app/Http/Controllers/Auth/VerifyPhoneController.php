@@ -17,6 +17,7 @@ class VerifyPhoneController extends Controller
      * @param $id
      * @param $code
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function __invoke(VerifyPhoneRequest $request, $id, $code)
     {
@@ -24,6 +25,10 @@ class VerifyPhoneController extends Controller
             return $request->wantsJson()
                 ? new JsonResponse('', 204)
                 : redirect()->intended(config('fortify.home').'?verified=1');
+        }
+
+        if (! hash_equals((string) $code, (string) cache($request->user()->getTable() . ':otp:' . $id))) {
+            return back()->with('status', 'verification-code-expired');
         }
 
         if ($request->user()->markPhoneAsVerified()) {
