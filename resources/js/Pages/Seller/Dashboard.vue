@@ -17,21 +17,7 @@
     import SellershipManager from '@/Components/SellershipManager'
 
     export default {
-        props: {
-            application: {
-                type: Object,
-                default: {
-                    store_name: '',
-                    store_email: '',
-                    store_phone: '',
-                    store_address: '',
-                    nid_front: '',
-                    nid_back: '',
-                    license: '',
-                    signboard: '',
-                }
-            }
-        },
+        props: ['application'],
         components: {
             SellerLayout,
             SellershipManager,

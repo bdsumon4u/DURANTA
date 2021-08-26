@@ -17,9 +17,24 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        if (!($application = $request->user()->sellership) || $application->status !== 'approved') {
-            $application = new SellershipResource($application->load('media'));
+        $application = $request->user()->sellership()->firstOrNew([
+            'store_phone' => $request->user()->phone,
+        ], [
+            'store_name' => '',
+            'store_email' => '',
+            'store_address' => '',
+            'nid_front' => '',
+            'nid_back' => '',
+            'license' => '',
+            'signboard' => '',
+        ]);
+
+        if ($application->status !== 'approved') {
+            $application->load('media');
         }
-        return Inertia::render('Seller/Dashboard', compact('application'));
+
+        return Inertia::render('Seller/Dashboard', [
+            'application' => new SellershipResource($application),
+        ]);
     }
 }
