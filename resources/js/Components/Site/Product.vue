@@ -3,16 +3,16 @@
         <!-- product image -->
         <div class="relative">
             <img :src="product.first_media" class="w-full">
-            <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"></div>
+            <inertia-link :href="route('products.show', product.slug)" class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"></inertia-link>
         </div>
         <!-- product image end -->
         <!-- product content -->
         <div class="flex-1 pt-4 pb-3 px-4">
-            <a :href="route('products.show', product.slug)">
+            <inertia-link :href="route('products.show', product.slug)">
                 <h4 class="font-medium text-sm font-roboto line-clamp-2 mb-2 text-gray-800 hover:text-primary transition">
                     {{ product.name }}
                 </h4>
-            </a>
+            </inertia-link>
             <div class="flex items-baseline mb-1 space-x-2">
                 <p class="text-xl text-primary font-roboto font-semibold">{{ moneyFormat(product.price - product.discount) }}</p>
                 <p class="text-sm text-gray-400 font-roboto line-through">{{ moneyFormat(product.price) }}</p>
