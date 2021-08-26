@@ -24,7 +24,7 @@ class ProductController extends Controller
         } else {
             $query = Product::with('firstMedia')->approved()->latest('id');
         }
-        $products = $query->paginate(12);
+        $products = $query->paginate(12)->withQueryString()->onEachSide(0);
         return Inertia::render('Products/Index', [
             'products' => ProductResource::collection($products),
         ]);

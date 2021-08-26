@@ -36,20 +36,16 @@
                 </tbody>
             </table>
         </div>
-        <div v-if="categories.links.length" class="mt-2">
-            <div class="flex flex-wrap justify-center -mb-1">
-                <template v-for="(link, k) in categories.links" :key="k">
-                    <div v-if="link.url === null" class="mr-1 mb-1 px-4 py-3 text-sm leading-4 text-gray-400 border rounded" v-html="link.label" />
-                    <inertia-link v-else class="mr-1 mb-1 px-4 py-3 text-sm leading-4 border rounded hover:bg-black hover:text-white focus:border-indigo-500 focus:text-indigo-500" :class="{ 'bg-blue-700 text-white': link.active }" :href="link.url" v-html="link.label" />
-                </template>
-            </div>
-        </div>
+        <pagination :links="categories.links" />
     </div>
 </template>
 
 <script>
+import Pagination from "@/Components/Pagination";
+
 export default {
     name: "BrandTable",
+    components: {Pagination},
     props: ['categories'],
     methods: {
         image(category) {

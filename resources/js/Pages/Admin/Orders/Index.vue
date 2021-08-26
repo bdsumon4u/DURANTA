@@ -56,6 +56,7 @@
                             </tbody>
                         </table>
                     </div>
+                    <pagination :links="orders.meta.links" />
                 </div>
             </div>
         </div>
@@ -64,10 +65,13 @@
 
 <script>
 import AdminLayout from "@/Layouts/AdminLayout";
+import Pagination from "@/Components/Pagination";
+
 export default {
     name: "Index",
     props: ['orders'],
     components: {
+        Pagination,
         AdminLayout,
     },
 }

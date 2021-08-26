@@ -59,6 +59,7 @@
                                 </tbody>
                             </table>
                         </div>
+                        <pagination :links="sellers.links" />
                     </div>
                 </div>
             </div>
@@ -68,10 +69,12 @@
 
 <script>
 import AdminLayout from "@/Layouts/AdminLayout";
+import Pagination from "../../../Components/Pagination";
 
 export default {
     name: "Index",
     components: {
+        Pagination,
         AdminLayout,
     },
     props: ['sellers', 'status'],

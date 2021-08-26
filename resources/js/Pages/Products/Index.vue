@@ -10,10 +10,20 @@
             <div class="col-span-4">
                 <!-- sorting -->
                 <div class="mb-4 flex items-center">
-                    <button @click="showFilter =! showFilter"
-                    class="bg-primary border border-primary text-white px-10 py-3 font-medium rounded uppercase hover:bg-transparent hover:text-primary transition text-sm mr-3 focus:outline-none">
-                    Filter
-                    </button>
+                    <jet-dropdown align="left">
+                        <template #trigger>
+                            <button class="bg-primary border border-primary text-white px-10 py-3 font-medium rounded uppercase hover:bg-transparent hover:text-primary transition text-sm mr-3 focus:outline-none">
+                                Filter
+                            </button>
+                        </template>
+                        <template #content>
+                            <ul class="p-2">
+                                <inertia-link :href="current" :data="{sort: 'latest'}" class="block px-3 py-2 cursor-pointer hover:bg-gray-100 hover:text-primary">Latest</inertia-link>
+                                <inertia-link :href="current" :data="{sort: 'price'}" class="block px-3 py-2 cursor-pointer hover:bg-gray-100 hover:text-primary">Price: Low to High</inertia-link>
+                                <inertia-link :href="current" :data="{sort: '-price'}" class="block px-3 py-2 cursor-pointer hover:bg-gray-100 hover:text-primary">Price: High to Low</inertia-link>
+                            </ul>
+                        </template>
+                    </jet-dropdown>
                 </div>
                 <!-- sorting end -->
                 <!-- product wrapper -->
@@ -24,6 +34,7 @@
                     </template>
                     <!-- single product end -->
                 </div>
+                <pagination :links="products.meta.links" />
                 <!-- product wrapper end -->
             </div>
             <!-- products end -->
@@ -36,6 +47,8 @@
 import AppLayout from "@/Layouts/AppLayout";
 import Product from "@/Components/Site/Product";
 import Breadcrumb from "@/Components/Site/Breadcrumb";
+import JetDropdown from "@/Jetstream/Dropdown";
+import Pagination from "@/Components/Pagination";
 
 export default {
     name: "Products",
@@ -43,7 +56,14 @@ export default {
     components: {
         AppLayout,
         Breadcrumb,
+        JetDropdown,
         Product,
+        Pagination,
+    },
+    computed: {
+        current() {
+            return window.location.href;
+        }
     },
     data() {
         return {
