@@ -25,7 +25,7 @@ if (!function_exists('cdn')) {
             return asset($path, $secure);
         }
 
-        $host = parse_url('http://localhost/storage/68/512.png', PHP_URL_HOST);
-        return 'https://cdn.statically.io/' .$host. Str::after($path, $host);
+        $host = parse_url(config('app.url'), PHP_URL_HOST);
+        return 'https://cdn.statically.io/img/' .$host. Str::after($path, $host);
     }
 }
