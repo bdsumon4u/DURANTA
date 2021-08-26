@@ -19,7 +19,7 @@ class SlideResource extends JsonResource
 
         return [
             'id' => $resource->id,
-            'image' => $resource->getFullUrl(),
+            'image' => cdn($resource->getFullUrl()),
             'link' => $resource->getCustomProperty('link'),
         ];
     }
