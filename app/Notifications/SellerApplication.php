@@ -47,7 +47,7 @@ class SellerApplication extends Notification implements ShouldQueue
         if ($notifiable instanceof Admin) {
             return [
                 'message' => 'You\'ve a new sellership application.',
-                'link' => route('seller.sellership.edit', $this->sellership),
+                'link' => route('admin.sellerships.edit', $this->sellership),
             ];
         }
         return [
