@@ -42,12 +42,12 @@
                         </div>
 
                         <!-- Print Template -->
-                        <div id="js-print-template" ref="printTemplate" class="nhidden print:block">
+                        <div id="js-print-template" ref="printTemplate" class="nhidden print:block mb-5">
                             <div class="mb-4 flex justify-between">
                                 <div>
                                     <h2 class="text-3xl font-bold mb-2 tracking-wider uppercase flex items-center">
-                                        Invoice
-                                        <inertia-link href="" class="bg-blue-500 hover:bg-blue-600 text-xs text-gray-100 hover:text-white rounded-md px-2 py-1">Partially Paid</inertia-link>
+                                        <span>Invoice</span>
+                                        <span class="px-2 py-1 ml-2 bg-primary rounded-sm text-sm font-bold text-white">{{ order.data.due > 0 ? (order.data.paid ? 'Partially Paid' : 'Unpaid') : 'PAID' }}</span>
                                     </h2>
 
                                     <div class="flex items-center">
@@ -185,6 +185,8 @@
                             </div>
                         </div>
                         <!-- /Print Template -->
+
+                        <payment-history :payments="order.data.payments" :paid="order.data.paid" :due="order.data.due" />
                     </div>
                 </div>
                 <div class="w-96 print:hidden">
@@ -218,6 +220,7 @@
 <script>
 import AdminLayout from "@/Layouts/AdminLayout";
 import Multiselect from '@vueform/multiselect'
+import PaymentHistory from "@/Components/PaymentHistory";
 import ValidationErrors from "@/Jetstream/ValidationErrors";
 
 export default {
@@ -226,6 +229,7 @@ export default {
     components: {
         AdminLayout,
         Multiselect,
+        PaymentHistory,
         ValidationErrors,
     },
     computed: {

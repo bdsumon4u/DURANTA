@@ -27,6 +27,22 @@ class OrderResource extends JsonResource
             })->toArray();
         }
 
+        if ($resource->relationLoaded('payments')) {
+            $paid = 0;
+            $data['payments'] = $resource->payments->map(function ($payment) use (&$paid) {
+                if ($payment->status == 'PAID') {
+                    $paid += $payment->amount;
+                }
+                return array_merge($payment->toArray(), [
+                    'tran_date' => $payment->tran_date->format('d-M-Y'),
+                ]);
+            })->toArray();
+            $data['paid'] = $paid;
+        }
+
+        $data['payable'] = $data['total'] + $data['shipping'];
+        $data['due'] = $data['payable'] - data_get($data, 'paid', 0);
+
         return array_merge($data, [
             'created_at' => $resource->created_at->format('d M, Y'),
         ]);

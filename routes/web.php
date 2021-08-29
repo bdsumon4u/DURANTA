@@ -20,6 +20,11 @@ Route::get('/products/{slug}', [\App\Http\Controllers\ProductController::class, 
 
 notificationRoutes(['middleware' => ['web', 'auth:sanctum']]);
 
+Route::post('/payment/{order}/success', [\App\Http\Controllers\PaymentController::class, 'success'])->name('payment.success');
+Route::post('/payment/{order}/fail', [\App\Http\Controllers\PaymentController::class, 'fail'])->name('payment.fail');
+Route::post('/payment/{order}/cancel', [\App\Http\Controllers\PaymentController::class, 'cancel'])->name('payment.cancel');
+Route::post('/payment/{order}/ipn', [\App\Http\Controllers\PaymentController::class, 'ipn'])->name('payment.ipn');
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/phone/verify', [\App\Http\Controllers\Auth\PhoneVerificationPromptController::class, '__invoke'])
         ->name('verification.notice');
@@ -36,5 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::resource('/orders', \App\Http\Controllers\OrderController::class);
         Route::match(['get', 'post'],'/addresses/{type}', \App\Http\Controllers\AddressController::class)
             ->where('type', 'home|office|billing')->name('address');
+
+        Route::post('/orders/{order}/payments', [\App\Http\Controllers\OrderPaymentController::class, 'store'])->name('orders.payments.store');
     });
 });

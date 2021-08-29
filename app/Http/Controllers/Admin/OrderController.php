@@ -73,7 +73,7 @@ class OrderController extends Controller
      */
     public function edit(Order $order)
     {
-        $order->load('products.seller.sellership', 'address');
+        $order->load('products.seller.sellership', 'address', 'payments');
         return Inertia::render('Admin/Orders/Edit', [
             'order' => new OrderResource($order),
             'invoiceDate' => today()->format('d-M-Y'),

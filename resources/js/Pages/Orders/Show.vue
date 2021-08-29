@@ -13,6 +13,7 @@
                         <div class="flex justify-between">
                             <h4 class="text-xl font-bold">
                                 <span class="border-b-2">Order #{{ order.data.id }}</span>
+                                <span class="px-2 py-1 ml-2 bg-primary rounded-sm text-sm font-bold text-white">{{ order.data.due > 0 ? (order.data.paid ? 'Partially Paid' : 'Unpaid') : 'PAID' }}</span>
                             </h4>
                             <inertia-link class="bg-gray-200 text-sm hover:bg-gray-100 px-2 py-1 rounded-sm" :href="route('orders.index')">Back To List</inertia-link>
                         </div>
@@ -67,10 +68,33 @@
                                             </tr>
                                             <tr>
                                                 <th scope="col" colspan="3" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Payable</th>
-                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.total + order.data.shipping) }}</th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.payable) }}</th>
                                             </tr>
                                             </tfoot>
                                         </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap my-5">
+                                <div class="w-72 px-3">
+                                    <div class="p-3 rounded-md border shadow-sm">
+                                        <form @submit.prevent="pay">
+                                            <validation-errors />
+                                            <div class="mb-2">
+                                                <label class="block mb-2 text-sm font-bold text-gray-700" for="pay-now">I want to pay now</label>
+                                                <input v-model="form.amount" :disabled="order.data.due <= 0" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="pay-now" type="text">
+                                            </div>
+                                            <p class="block mb-2 text-sm font-semibold text-gray-700">I will pay later: <span class="font-bold text-primary">{{ moneyFormat(payLater) }}</span></p>
+                                            <button type="submit" class="px-2 py-1 bg-primary rounded-sm text-sm font-bold text-white" :disabled="order.data.due <= 0">Make Payment</button>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                            <payment-history :payments="order.data.payments" :paid="order.data.paid" :due="order.data.due" />
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -85,14 +109,37 @@
 </template>
 
 <script>
+import {moneyFormat} from '@/functions';
 import AppLayout from "@/Layouts/AppLayout";
+import PaymentHistory from "@/Components/PaymentHistory";
 import Sidebar from "../Sidebar";
+import ValidationErrors from "@/Jetstream/ValidationErrors";
+
 export default {
     name: "Show",
     props: ['order'],
     components: {
         AppLayout,
+        PaymentHistory,
         Sidebar,
+        ValidationErrors,
+    },
+    computed: {
+        payLater() {
+            return this.order.data.due - this.form.amount;
+        }
+    },
+    methods: {
+        pay() {
+            this.form.post(route('orders.payments.store', {order: this.order.data.id}))
+        }
+    },
+    data() {
+        return {
+            form: this.$inertia.form({
+                amount: this.order.data.due,
+            })
+        }
     }
 }
 </script>

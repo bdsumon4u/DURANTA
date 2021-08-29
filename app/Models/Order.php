@@ -29,6 +29,11 @@ class Order extends Model
             ->withPivot('first_media', 'slug', 'discount', 'price', 'quantity');
     }
 
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
+
     // Not A Relationship.
     public function sellers()
     {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cb7f41395377d21a0e1fbb9820b432b6",
+    "content-hash": "c0f375286ec3845fe82a11ae22ba14d8",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1515,6 +1515,55 @@
                 "source": "https://github.com/guzzle/psr7/tree/2.0.0"
             },
             "time": "2021-06-30T20:03:07+00:00"
+        },
+        {
+            "name": "hotash/sslcommerz",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "packages/sslcommerz",
+                "reference": "b58ed113a645ebe19079da3165ec629bf3e00793"
+            },
+            "require": {
+                "guzzlehttp/guzzle": ">=6.3",
+                "laravel/framework": ">=5.3.0",
+                "php": ">=5.6.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Uzzal\\SslCommerz\\SslCommerzServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Uzzal\\SslCommerz\\": "src/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mahabubul Hasan",
+                    "email": "codehasan@gmail.com"
+                }
+            ],
+            "description": "Laravel library for SSLCommerz payment gateway",
+            "keywords": [
+                "gateway",
+                "laravel",
+                "payment",
+                "sslcommerz"
+            ],
+            "transport-options": {
+                "relative": true
+            }
         },
         {
             "name": "http-interop/http-factory-guzzle",
@@ -10251,7 +10300,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "hotash/sslcommerz": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
