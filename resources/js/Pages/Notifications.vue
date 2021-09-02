@@ -20,13 +20,8 @@
                         </a>
                     </li>
                 </ul>
-                <div v-if="notifications.meta.links.length" class="my-2">
-                    <div class="flex flex-wrap justify-center -mb-1">
-                        <template v-for="(link, k) in notifications.meta.links" :key="k">
-                            <div v-if="link.url === null" class="mr-1 mb-1 px-2 py-1 text-sm leading-4 text-gray-400 border rounded" v-html="link.label" />
-                            <inertia-link v-else class="mr-1 mb-1 px-2 py-1 text-sm leading-4 border rounded hover:bg-black hover:text-white focus:border-indigo-500 focus:text-indigo-500" :class="{ 'bg-blue-700 text-white': link.active }" :href="link.url" v-html="link.label" />
-                        </template>
-                    </div>
+                <div class="mb-2">
+                    <pagination :links="notifications.meta.links" />
                 </div>
             </div>
         </div>
@@ -37,12 +32,14 @@
 import AdminLayout from "@/Layouts/AdminLayout";
 import SellerLayout from "@/Layouts/SellerLayout";
 import AppLayout from "@/Layouts/AppLayout";
+import Pagination from "@/Components/Pagination";
 
 
 export default {
     name: "Notifications",
     props: ['notifications'],
     components: {
+        Pagination,
         AdminLayout,
         SellerLayout,
         AppLayout,

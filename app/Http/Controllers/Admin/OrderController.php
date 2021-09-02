@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
+use function Clue\StreamFilter\fun;
 
 class OrderController extends Controller
 {
@@ -27,6 +28,11 @@ class OrderController extends Controller
             ->withCount('products')
             ->when(\request('status'), function ($query) {
                 $query->where('status', \request('status'));
+            })
+            ->when(\request('seller'), function ($query) {
+                $query->whereHas('products', function ($query) {
+                    $query->where('seller_id', \request('seller'));
+                });
             })
             ->latest('id')
             ->paginate(10);

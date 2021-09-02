@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SellerResource;
+use App\Http\Resources\TransactionResource;
 use App\Models\Seller;
+use App\Services\EarningService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -62,7 +64,22 @@ class SellerController extends Controller
      */
     public function show(Seller $seller)
     {
-        //
+        $period = \request('period');
+        $earning = new EarningService($seller->load('wallet'));
+        $between = $earning->carbonBetween($period);
+        $transactions = $seller->transactions()
+            ->when($period, function ($query) use ($between) {
+                $query->whereBetween('created_at', $between);
+            })
+            ->latest('id')
+            ->paginate(10)
+            ->withQueryString();
+        return Inertia::render('Admin/Sellers/Show', [
+            'transactions' => TransactionResource::collection($transactions),
+            'seller' => new SellerResource($seller),
+            'periods' => $earning->periods,
+            'active' => $period,
+        ]);
     }
 
     /**
