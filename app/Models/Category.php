@@ -26,6 +26,11 @@ class Category extends Model implements HasMedia
         return $this->getFirstMediaUrl();
     }
 
+    public function getFallbackMediaUrl()
+    {
+        return 'https://via.placeholder.com/512';
+    }
+
     public function products()
     {
         return $this->belongsToMany(Product::class);

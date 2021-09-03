@@ -25,4 +25,9 @@ class Brand extends Model implements HasMedia
     {
         return $this->getFirstMediaUrl();
     }
+
+    public function getFallbackMediaUrl()
+    {
+        return 'https://via.placeholder.com/512';
+    }
 }

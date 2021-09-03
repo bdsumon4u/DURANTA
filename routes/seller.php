@@ -36,6 +36,7 @@ Route::group(['prefix' => 'seller', 'as' => 'seller.'], function ($router) {
                 Route::resource('products', \App\Http\Controllers\Seller\ProductController::class);
                 Route::resource('orders', \App\Http\Controllers\Seller\OrderController::class);
                 Route::get('wallet', \App\Http\Controllers\Seller\WalletController::class)->name('wallet');
+                Route::match(['get', 'post'], '/settings/{tab?}', \App\Http\Controllers\Seller\SettingController::class)->name('settings');
             });
         });
     });

@@ -12,6 +12,7 @@
         "bumbummen99/shoppingcart": "^4.0",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
+        "glorand/laravel-model-settings": "^4.2",
         "guzzlehttp/guzzle": "^7.0.1",
         "hotash/sslcommerz": "dev-master",
         "http-interop/http-factory-guzzle": "^1.2",
