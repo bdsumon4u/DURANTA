@@ -29,5 +29,8 @@ Route::prefix('admin')->group(function ($router) {
         Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);
         Route::resource('sellers', \App\Http\Controllers\Admin\SellerController::class);
         Route::resource('sellerships', \App\Http\Controllers\Admin\SellershipController::class);
+        Route::get('payouts',\App\Http\Controllers\Admin\PayoutController::class)->name('payouts');
+        Route::match(['get', 'post'], 'payouts/paid',[\App\Http\Controllers\Admin\PayoutController::class, 'paid'])->name('payouts.paid');
+        Route::get('payouts/history',[\App\Http\Controllers\Admin\PayoutController::class, 'history'])->name('payouts.history');
     });
 });

@@ -1640,6 +1640,9 @@ select {
 .max-w-3xl {
 	max-width: 48rem;
 }
+.max-w-5xl {
+	max-width: 64rem;
+}
 .flex-1 {
 	flex: 1 1 0%;
 }
@@ -2106,13 +2109,13 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(239, 246, 255, var(--tw-bg-opacity));
 }
-.bg-gray-900 {
-	--tw-bg-opacity: 1;
-	background-color: rgba(17, 24, 39, var(--tw-bg-opacity));
-}
 .bg-black {
 	--tw-bg-opacity: 1;
 	background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
+}
+.bg-gray-900 {
+	--tw-bg-opacity: 1;
+	background-color: rgba(17, 24, 39, var(--tw-bg-opacity));
 }
 .bg-blue-800 {
 	--tw-bg-opacity: 1;
