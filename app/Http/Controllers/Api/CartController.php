@@ -15,6 +15,7 @@ class CartController extends Controller
             'first_media' => $product->getFirstMediaUrl(),
             'slug' => $product->slug,
             'discount' => $product->getBuyableDiscount(),
+            'commission' => $product->getBuyableCommission(),
         ]);
         return response()->json(['success' => 'Product Is Added To Cart.']);
     }

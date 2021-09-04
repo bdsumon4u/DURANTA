@@ -44,6 +44,7 @@ class HandleInertiaRequests extends Middleware
             'is_seller' => $request->isSeller(),
         ]);
 
+        $data = $this->balance($data);
         return $this->slides($data);
     }
 
@@ -57,6 +58,22 @@ class HandleInertiaRequests extends Middleware
         if (\request()->routeIs('home')) {
             return array_merge($data, [
                 'slides' => SlideResource::collection(Library::firstOrCreate(['type' => 'slides'])->getMedia())
+            ]);
+        }
+        return $data;
+    }
+
+    /**
+     * Merge balance if it's seller dashboard.
+     *
+     * @param array $data
+     * @return array
+     */
+    private function balance(array $data)
+    {
+        if (\request()->routeIs('seller.dashboard')) {
+            return array_merge($data, [
+                'balance' => \request()->user()->balance,
             ]);
         }
         return $data;

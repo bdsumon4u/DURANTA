@@ -67,7 +67,7 @@
                 <!-- login with social end -->
 
                 <p class="mt-4 text-gray-600 text-center">
-                    Don't have an account? <inertia-link :href="route('seller.register')" class="text-primary">Register Now</inertia-link>
+                    Aren't you a seller? <inertia-link :href="route('seller.register')" class="text-primary">Become a Seller</inertia-link>
                 </p>
             </div>
         </div>

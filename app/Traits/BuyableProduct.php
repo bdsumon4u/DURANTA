@@ -19,6 +19,13 @@ trait BuyableProduct
             : $this->discount_amount;
     }
 
+    public function getBuyableCommission($options = null)
+    {
+        return $this->commission_type === 'percent'
+            ? round($this->price * $this->commission_amount / 100)
+            : $this->commission_amount;
+    }
+
     public function getBuyablePrice($options = null) {
         return $this->price;
     }

@@ -33,7 +33,7 @@ class NotificationController extends Controller
         $notification = $request->user()->notifications()->findOrFail($notification);
         $link = data_get($notification->data, 'link', back()->getTargetUrl());
         $notification->markAsRead();
-        return redirect($link);
+        return response('', 409)->header('X-Inertia-Location', $link);
     }
 
     public function markAsRead(Request $request)

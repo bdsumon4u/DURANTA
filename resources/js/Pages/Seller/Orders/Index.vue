@@ -20,13 +20,13 @@
                                         Products
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Payment
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Status
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Total
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Fee
                                     </th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                         Date
@@ -62,9 +62,11 @@
                                                         </div>
                                                         <div class="flex items-center mx-3">
                                                             <ul class="font-bold">
-                                                                <li>Price: {{ product.price }}</li>
-                                                                <li>Discount: {{ product.pivot.discount }}</li>
-                                                                <li>Selling: {{ product.pivot.price - product.pivot.discount }}</li>
+                                                                <li>ID: #{{ product.id }}</li>
+                                                                <li>Price: {{ moneyFormat(product.price) }}</li>
+                                                                <li>Discount: {{ moneyFormat(product.pivot.discount) }}</li>
+                                                                <li>Selling: {{ moneyFormat(product.pivot.price - product.pivot.discount) }}</li>
+                                                                <li>Fee: {{ moneyFormat(product.pivot.commission ?? product.commission) }}</li>
                                                                 <li>Stock: {{ (product.stock_track ? product.stock_count : '') + ' In Stock' }}</li>
                                                             </ul>
                                                         </div>
@@ -78,17 +80,15 @@
                                         </ul>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                      <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full uppercase bg-red-100 text-red-800">
-                                        {{ order.status }}
-                                      </span>
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
                                       <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full uppercase bg-green-100 text-green-800">
                                         {{ order.status }}
                                       </span>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                                        Tk.{{ order.total }}
+                                        {{ moneyFormat(order.total) }}
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        {{ moneyFormat(order.commission) }}
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">{{ order.created_at }}</td>
                                 </tr>

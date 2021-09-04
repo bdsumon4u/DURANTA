@@ -20,11 +20,19 @@ class OrderResource extends JsonResource
         Arr::pull($data, 'address_id');
 
         if ($resource->relationLoaded('products')) {
-            $data['products'] = $resource->products->map(function ($product) {
-                return array_merge($product->toArray(), [
-                    'seller' => $product->seller->sellership->store_name,
-                ]);
-            })->toArray();
+            $total = 0;
+            $commission = 0;
+            $data['products'] = ProductResource::collection($resource->products)
+                ->map(function ($product) use (&$total, &$commission) {
+                    $data = $product->toArray(request());
+                    $total += ($product->getBuyablePrice() - $product->getBuyableDiscount()) * $data['pivot']['quantity'];
+                    $commission += data_get($data['pivot'], 'commission', $data['commission']) * $data['pivot']['quantity'];
+                    return array_merge($data, [
+                        'seller' => $product->seller->sellership->store_name,
+                    ]);
+                })->toArray($request);
+            $data['total'] = $total;
+            $data['commission'] = $commission;
         }
 
         if ($resource->relationLoaded('payments')) {

@@ -35,6 +35,7 @@ Route::group(['prefix' => 'seller', 'as' => 'seller.'], function ($router) {
             Route::middleware('approved')->group(function () {
                 Route::resource('products', \App\Http\Controllers\Seller\ProductController::class);
                 Route::resource('orders', \App\Http\Controllers\Seller\OrderController::class);
+                Route::get('wallet', \App\Http\Controllers\Seller\WalletController::class)->name('wallet');
             });
         });
     });

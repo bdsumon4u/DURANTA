@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Order;
 use App\Notifications\OrderStatusChanged;
+use App\Notifications\Seller\SellerWalletUpdated;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class OrderController extends Controller
@@ -87,12 +90,39 @@ class OrderController extends Controller
      * @param OrderRequest $request
      * @param \App\Models\Order $order
      * @return \Illuminate\Http\Response
+     * @throws ValidationException
      */
     public function update(OrderRequest $request, Order $order)
     {
+        $order->load('products.seller', 'payments');
+        $resource = (new OrderResource($order));
+        $rArr = $resource->toArray($request);
+        $original = $order->getOriginal();
         $data = $request->validated();
+
+        if ($data['status'] === 'COMPLETED' && $rArr['due'] > 0) {
+            throw ValidationException::withMessages([
+                'not_paid' => 'There is a due of amount ' . $rArr['due'] . '.',
+            ]);
+        }
+
+        $changes = [];
         $order->update($data);
+        foreach ($order->getChanges() as $key => $value) {
+            $changes[$key] = [
+                'original' => $original[$key],
+                'present' => $value,
+            ];
+        }
+
         if ($order->wasChanged('status')) {
+            if ($changes['status']['original'] === 'COMPLETED' || $changes['status']['present'] === 'COMPLETED') {
+                // Increase/Decrease Seller's Balance
+                $this->updateSellerWallet($order, $changes['status']);
+            }
+            ##############################################
+            # What if some of the products are returned! #
+            ##############################################
             $order->user->notify(new OrderStatusChanged($order));
             Notification::send($order->sellers()->get(), new OrderStatusChanged($order));
         }
@@ -108,5 +138,34 @@ class OrderController extends Controller
     public function destroy(Order $order)
     {
         //
+    }
+
+    private function updateSellerWallet(Order $order, $changes)
+    {
+        ProductResource::collection($order->products)->each(function ($product) use (&$order, &$changes) {
+            $arr = $product->toArray(\request());
+            $price = data_get($arr['pivot'], 'price', $arr['price']);
+            $discount = data_get($arr['discount'], 'discount', $arr['discount']);
+            $commission = data_get($arr['commission'], 'commission', $arr['commission']);
+            $amount = ($price - $discount - $commission) * $arr['pivot']['quantity'];
+            $message = ' amount ' . $amount . ' for product #' . $arr['id'] . 'x' . $arr['pivot']['quantity'] . ' on changing order #' . $order->id . ' status from "' . $changes['original'] . '" to "' . $changes['present'] . '".';
+            $balance = $product->seller->balance;
+            if ($order->status === 'COMPLETED') {
+                // Increase
+                $message = 'Credited' . $message;
+                $product->seller->deposit($amount, [
+                    'message' => $message,
+                    'balance' => $balance + $amount,
+                ]);
+            } else {
+                // Decrease
+                $message = 'Debited' . $message;
+                $product->seller->forceWithdraw($amount, [
+                    'message' => $message,
+                    'balance' => $balance - $amount,
+                ]);
+            }
+            $product->seller->notify(new SellerWalletUpdated($order, $message));
+        });
     }
 }
