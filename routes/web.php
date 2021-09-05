@@ -19,6 +19,8 @@ Route::get('/products', \App\Http\Controllers\ProductController::class)->name('p
 Route::get('/products/{slug}', [\App\Http\Controllers\ProductController::class, 'show'])->name('products.show');
 Route::get('/brands', \App\Http\Controllers\BrandController::class)->name('brands');
 Route::get('/brands/{brand:slug}', [\App\Http\Controllers\BrandController::class, 'show'])->name('brands.show');
+Route::get('/sellers', \App\Http\Controllers\SellerController::class)->name('sellers');
+Route::get('/sellers/{slug}', [\App\Http\Controllers\SellerController::class, 'show'])->name('sellers.show');
 
 notificationRoutes(['middleware' => ['web', 'auth:sanctum']]);
 

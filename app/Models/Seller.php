@@ -9,9 +9,12 @@ use Glorand\Model\Settings\Traits\HasSettingsTable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
+use Laravel\Scout\Searchable;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -25,6 +28,7 @@ class Seller extends Authenticatable implements \App\Contracts\Auth\MustVerifyPh
     use InteractsWithMedia;
     use MustVerifyPhone;
     use Notifiable;
+    use Searchable;
     use TwoFactorAuthenticatable;
 
     /**
@@ -82,6 +86,16 @@ class Seller extends Authenticatable implements \App\Contracts\Auth\MustVerifyPh
         return 'https://via.placeholder.com/512';
     }
 
+    public function getSlugAttribute()
+    {
+        return Str::slug($this->sellership->store_name) . '--i' . $this->getKey();
+    }
+
+    public static function slugOrFail(string $slug)
+    {
+        return static::findOrFail(Str::afterLast($slug, '--i'));
+    }
+
     public function sellership()
     {
         return $this->hasOne(Sellership::class);
@@ -98,5 +112,21 @@ class Seller extends Authenticatable implements \App\Contracts\Auth\MustVerifyPh
         return Order::query()->whereHas('products', function ($query) {
             $query->where('seller_id', $this->getKey());
         });
+    }
+
+    /**
+     * Get the indexable data array for the model.
+     *
+     * @return array
+     */
+    public function toSearchableArray()
+    {
+        $data = Arr::only($this->toArray(), [
+            'id', 'name',
+        ]);
+
+        return array_merge($data, [
+            'store_name' => $this->sellership->store_name,
+        ]);
     }
 }

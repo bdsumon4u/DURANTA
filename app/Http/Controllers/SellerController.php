@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\SellerResource;
+use App\Models\Product;
 use App\Models\Seller;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SellerController extends Controller
 {
@@ -12,74 +16,46 @@ class SellerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function __invoke()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
+        if ($search = \request('query')) {
+            $query = Seller::search($search)->query(function ($query) {
+                $query->with('sellership');
+            });
+        } else {
+            $query = Seller::with('sellership')->latest('id');
+        }
+        $sellers = $query->paginate(24)->withQueryString()->onEachSide(0);
+        return Inertia::render('Sellers/Index', [
+            'sellers' => SellerResource::collection($sellers),
+            'query' => $search,
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Seller  $seller
+     * @param string $slug
      * @return \Illuminate\Http\Response
      */
-    public function show(Seller $seller)
+    public function show(string $slug)
     {
-        //
-    }
+        $seller = Seller::slugOrFail($slug);
+        if ($search = \request('query')) {
+            $products = Product::search($search)
+                ->where('seller_id', $seller->getKey())
+                ->query(function ($query) {
+                    $query->with('firstMedia');
+                })
+                ->paginate(24);
+        } else {
+            $products = $seller->products()->approved()->with('firstMedia')->paginate(24);
+        }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Seller  $seller
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Seller $seller)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Seller  $seller
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Seller $seller)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Seller  $seller
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Seller $seller)
-    {
-        //
+        return Inertia::render('Sellers/Show', [
+            'seller' => new SellerResource($seller->load('sellership')),
+            'products' => ProductResource::collection($products),
+            'search' => $search,
+        ]);
     }
 }

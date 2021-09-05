@@ -26,7 +26,7 @@ class BrandController extends Controller
         $brands = $query->paginate(24)->withQueryString()->onEachSide(0);
         return Inertia::render('Brands/Index', [
             'brands' => BrandResource::collection($brands),
-            'search' => $search,
+            'query' => $search,
         ]);
     }
 

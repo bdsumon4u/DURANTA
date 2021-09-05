@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BrandResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\SellerResource;
 use App\Models\Brand;
 use App\Models\Product;
 use App\Models\Seller;
@@ -20,13 +22,13 @@ class HomeController extends Controller
     public function __invoke(Request $request)
     {
         $brands = Brand::with('media')->take(15)->get();
-        $stores = Seller::with('modelSettings')->whereHas('sellership', function ($query) {
+        $stores = Seller::with('sellership', 'modelSettings')->whereHas('sellership', function ($query) {
             $query->where('status', 'APPROVED');
         })->take(15)->get();
         $latest = Product::approved()->with('firstMedia')->latest('id')->take(12)->get();
         return Inertia::render('Home', [
-            'brands' => $brands,
-            'stores' => $stores,
+            'brands' => BrandResource::collection($brands),
+            'stores' => SellerResource::collection($stores),
             'latest' => ProductResource::collection($latest),
         ]);
     }
