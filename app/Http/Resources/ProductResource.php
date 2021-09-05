@@ -21,6 +21,7 @@ class ProductResource extends JsonResource
 
         if ($resource->relationLoaded('brand')) {
             $data['brand_name'] = optional($resource->brand)->name;
+            $data['brand_slug'] = optional($resource->brand)->slug;
         }
 
         if ($resource->relationLoaded('categories')) {

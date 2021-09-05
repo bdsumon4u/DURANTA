@@ -53,7 +53,7 @@
                     </p>
                     <p v-if="product.data.brand" class="space-x-2">
                         <span class="text-gray-800 font-semibold">Brand: </span>
-                        <inertia-link class="text-gray-100 text-sm bg-primary px-2 py-1 rounded-md whitespace-nowrap" href="">{{ product.data.brand_name }}</inertia-link>
+                        <inertia-link class="text-gray-100 text-sm bg-primary px-2 py-1 rounded-md whitespace-nowrap" :href="route('brands.show', product.data.brand_slug)">{{ product.data.brand_name }}</inertia-link>
                     </p>
                     <p class="space-x-1">
                         <span class="text-gray-800 font-semibold">Categories: </span>

@@ -1299,6 +1299,10 @@ select {
 	margin-left: 0.5rem;
 	margin-right: 0.5rem;
 }
+.my-8 {
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
 .my-3 {
 	margin-top: 0.75rem;
 	margin-bottom: 0.75rem;
@@ -1983,6 +1987,9 @@ select {
 .border-l-2 {
 	border-left-width: 2px;
 }
+.border-solid {
+	border-style: solid;
+}
 .border-dashed {
 	border-style: dashed;
 }
@@ -2016,6 +2023,10 @@ select {
 .border-blue-400 {
 	--tw-border-opacity: 1;
 	border-color: rgba(96, 165, 250, var(--tw-border-opacity));
+}
+.border-black {
+	--tw-border-opacity: 1;
+	border-color: rgba(0, 0, 0, var(--tw-border-opacity));
 }
 .border-blue-800 {
 	--tw-border-opacity: 1;
@@ -2902,6 +2913,10 @@ select {
 	--tw-border-opacity: 1;
 	border-color: rgba(253, 61, 87, var(--tw-border-opacity));
 }
+.focus\:border-black:focus {
+	--tw-border-opacity: 1;
+	border-color: rgba(0, 0, 0, var(--tw-border-opacity));
+}
 .focus\:border-blue-500:focus {
 	--tw-border-opacity: 1;
 	border-color: rgba(59, 130, 246, var(--tw-border-opacity));
@@ -3424,6 +3439,10 @@ select {
 
 	.md\:grid-cols-4 {
 		grid-template-columns: repeat(4, minmax(0, 1fr));
+	}
+
+	.md\:flex-row {
+		flex-direction: row;
 	}
 
 	.md\:flex-nowrap {

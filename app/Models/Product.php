@@ -94,7 +94,6 @@ class Product extends Model implements HasMedia, Buyable
      */
     public function shouldBeSearchable()
     {
-        return true;
         return $this->status === 'ACTIVE';
     }
 
@@ -106,7 +105,7 @@ class Product extends Model implements HasMedia, Buyable
     public function toSearchableArray()
     {
         return Arr::only($this->toArray(), [
-            'id', 'seller_id', 'sku', 'name', 'slug', 'description',
+            'id', 'seller_id', 'brand_id', 'sku', 'name', 'slug', 'description',
         ]);
     }
 }
