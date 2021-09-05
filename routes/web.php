@@ -21,6 +21,8 @@ Route::get('/brands', \App\Http\Controllers\BrandController::class)->name('brand
 Route::get('/brands/{brand:slug}', [\App\Http\Controllers\BrandController::class, 'show'])->name('brands.show');
 Route::get('/sellers', \App\Http\Controllers\SellerController::class)->name('sellers');
 Route::get('/sellers/{slug}', [\App\Http\Controllers\SellerController::class, 'show'])->name('sellers.show');
+Route::get('/categories', \App\Http\Controllers\CategoryController::class)->name('categories');
+Route::get('/categories/{category:slug}', [\App\Http\Controllers\CategoryController::class, 'show'])->name('categories.show');
 
 notificationRoutes(['middleware' => ['web', 'auth:sanctum']]);
 

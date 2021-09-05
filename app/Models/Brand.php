@@ -16,7 +16,7 @@ class Brand extends Model implements HasMedia
     use InteractsWithMedia;
     use Searchable;
 
-    protected $fillable = ['name', 'slug'];
+    protected $fillable = ['name'];
     protected $with = ['media'];
     protected $appends = ['image'];
 

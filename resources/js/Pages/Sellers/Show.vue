@@ -46,7 +46,7 @@ import Pagination from "@/Components/Pagination";
 
 export default {
     name: "Show",
-    props: ['search', 'products', 'seller'],
+    props: ['query', 'products', 'seller'],
     components: {
         Pagination,
         Product,
@@ -60,7 +60,7 @@ export default {
     data() {
         return {
             form: this.$inertia.form({
-                query: this.search,
+                query: this.query,
             }),
         }
     }
