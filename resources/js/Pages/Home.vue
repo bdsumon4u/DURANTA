@@ -34,7 +34,7 @@
                     </inertia-link>
                 </div>
                 <!-- single brand end -->
-                <div v-if="brands.length === 15" class="group p-4 flex flex-col justify-around rounded bg-white shadow overflow-hidden">
+                <div v-if="brands.data.length === 15" class="group p-4 flex flex-col justify-around rounded bg-white shadow overflow-hidden">
                     <p class="mb-4 font-bold text-gray-700 text-sm text-center">
                         <span class="block">View all Brands Available in</span>
                         <span class="block">{{ $page.props.app_name }}</span>
@@ -70,7 +70,7 @@
                     </inertia-link>
                 </div>
                 <!-- single store end -->
-                <div v-if="stores.length === 15" class="group p-4 flex flex-col justify-around rounded bg-white shadow overflow-hidden">
+                <div v-if="stores.data.length === 15" class="group p-4 flex flex-col justify-around rounded bg-white shadow overflow-hidden">
                     <p class="mb-4 font-bold text-gray-700 text-sm text-center">
                         <span class="block">View all Stores Available in</span>
                         <span class="block">{{ $page.props.app_name }}</span>
