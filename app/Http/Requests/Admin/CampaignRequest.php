@@ -33,7 +33,7 @@ class CampaignRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        return $this->has('product_id') ? [] : [
             'name' => 'required',
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',

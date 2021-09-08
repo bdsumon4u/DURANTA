@@ -63,6 +63,97 @@
                 </div>
                 <div class="flex-1">
                     <img :src="campaign.data.image" alt="Campaign Image">
+                    <div class="mb-3 flex flex-wrap text-xs bg-gray-300 text-white font-bold">
+                        <inertia-link class="rounded-sm m-1 p-2" :class="[active ? 'bg-gray-500' : 'bg-primary']"
+                                      :href="route('admin.campaigns.edit', {campaign: campaign.data.id, status: ''})"
+                                      preserve-scroll>ALL
+                        </inertia-link>
+                        <inertia-link class="rounded-sm m-1 p-2"
+                                      :class="[route().current('admin.campaigns.edit', {campaign: campaign.data.id, status: 'PENDING'}) ? 'bg-primary' : 'bg-gray-500']"
+                                      :href="route('admin.campaigns.edit', {campaign: campaign.data.id, status: 'PENDING'})"
+                                      preserve-scroll>PENDING
+                        </inertia-link>
+                        <inertia-link class="rounded-sm m-1 p-2"
+                                      :class="[route().current('admin.campaigns.edit', {campaign: campaign.data.id, status: 'APPROVED'}) ? 'bg-primary' : 'bg-gray-500']"
+                                      :href="route('admin.campaigns.edit', {campaign: campaign.data.id, status: 'APPROVED'})"
+                                      preserve-scroll>APPROVED
+                        </inertia-link>
+                        <inertia-link class="rounded-sm m-1 p-2"
+                                      :class="[route().current('admin.campaigns.edit', {campaign: campaign.data.id, status: 'REJECTED'}) ? 'bg-primary' : 'bg-gray-500']"
+                                      :href="route('admin.campaigns.edit', {campaign: campaign.data.id, status: 'REJECTED'})"
+                                      preserve-scroll>REJECTED
+                        </inertia-link>
+                    </div>
+                    <div class="shadow sm:rounded-md flex flex-col overflow-hidden">
+                        <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                            <div class="align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                                <div class="overflow-hidden bproduct bproduct-gray-200">
+                                    <table class="min-w-full divide-y divide-gray-200">
+                                        <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Product
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Status
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Discount
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Selling
+                                            </th>
+                                            <th scope="col"
+                                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                Action
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody class="bg-white text-sm divide-y divide-gray-200">
+                                        <tr v-for="product in products.data" :key="product.id">
+                                            <td class="px-6 py-4">
+                                                <div class="text-sm text-gray-800 mb-3">
+                                                    <a :href="route('products.show', product.slug)" target="_blank" class="hover:underline font-bold">{{ product.name }}</a>
+                                                </div>
+                                                <div class="flex items-center mx-3">
+                                                    <ul class="font-bold text-sm">
+                                                        <li>ID: #{{ product.id }}</li>
+                                                        <li>Price: {{ moneyFormat(product.price) }}</li>
+                                                        <li>Discount: {{ moneyFormat(product.discount) }}</li>
+                                                        <li>Selling: {{ moneyFormat(product.price - product.discount) }}</li>
+                                                        <li>Fee: {{ moneyFormat(product.commission) }}</li>
+                                                        <li>Stock: {{ (product.stock_track ? product.stock_count : '') + ' In Stock' }}</li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                              <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full uppercase bg-green-100 text-green-800">
+                                                {{ product.pivot.status }}
+                                              </span>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ moneyFormat(product.pivot.discount) }}
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                                {{ moneyFormat(product.pivot.selling) }}
+                                            </td>
+                                            <td class="px-3 py-3 whitespace-nowrap text-sm text-center font-medium w-28 border-l">
+                                                <div class="flex flex-col space-y-2">
+                                                    <button class="px-2 py-2 border rounded-md bg-blue-600 text-gray-100 hover:bg-blue-700 hover:text-white" type="button" @click.prevent="approve(product.id)">Approve</button>
+                                                    <button class="px-2 py-2 border rounded-md bg-red-600 text-gray-100 hover:bg-red-700 hover:text-white" type="button" @click.prevent="destroy(product.id)">Reject</button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -75,7 +166,7 @@ import ValidationErrors from "@/Jetstream/ValidationErrors";
 
 export default {
     name: "Edit Campaign",
-    props: ['campaign'],
+    props: ['campaign', 'products', 'active'],
     components: {
         ValidationErrors,
         AdminLayout,
@@ -103,6 +194,12 @@ export default {
             }, {
                 onSuccess: () => this.form.reset(),
             });
+        },
+        approve(product_id) {
+            this.$inertia.form({product_id}).patch(route('admin.campaigns.update', this.campaign.data));
+        },
+        destroy(product_id) {
+            this.$inertia.form({product_id}).delete(route('admin.campaigns.destroy', this.campaign.data));
         }
     },
     data() {

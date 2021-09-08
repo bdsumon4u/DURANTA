@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\CampaignRequest;
 use App\Http\Resources\CampaignResource;
+use App\Http\Resources\ProductResource;
 use App\Models\Campaign;
 use App\Models\Seller;
 use App\Notifications\Seller\CampaignCreated;
@@ -72,8 +73,15 @@ class CampaignController extends Controller
      */
     public function edit(Campaign $campaign)
     {
+        $query = $campaign->products();
+        if ($status = \request('status')) {
+            $query->wherePivot('status', $status);
+        }
+        $products = $query->paginate(5);
         return Inertia::render('Admin/Campaigns/Edit', [
+            'products' => ProductResource::collection($products),
             'campaign' => new CampaignResource($campaign),
+            'active' => $status,
         ]);
     }
 
@@ -86,6 +94,13 @@ class CampaignController extends Controller
      */
     public function update(CampaignRequest $request, Campaign $campaign)
     {
+        if ($id = $request->get('product_id')) {
+            $id = $campaign->products()->findOrFail($id)->getKey();
+            $campaign->products()->updateExistingPivot($id, [
+                'status' => 'APPROVED',
+            ]);
+            return back()->banner('Product is Approved.');
+        }
         $campaign->update($request->validated());
         return back()->banner('The Campaign is Updated.');
     }
@@ -98,6 +113,13 @@ class CampaignController extends Controller
      */
     public function destroy(Campaign $campaign)
     {
+        if ($id = \request('product_id')) {
+            $id = $campaign->products()->findOrFail($id)->getKey();
+            $campaign->products()->updateExistingPivot($id, [
+                'status' => 'REJECTED',
+            ]);
+            return back()->banner('Product is Rejected.');
+        }
         $campaign->delete();
         return back()->banner('The Campaign is Deleted.');
     }

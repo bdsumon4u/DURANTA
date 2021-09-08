@@ -124,6 +124,7 @@ class CampaignController extends Controller
                 'discount_type' => $request->discount_type,
                 'selling' => $product->price - $discount,
                 'discount' => $discount,
+                'status' => 'PENDING',
             ]
         ]);
 
