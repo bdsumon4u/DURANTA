@@ -33,6 +33,7 @@ Route::group(['prefix' => 'seller', 'as' => 'seller.'], function ($router) {
             Route::get(RouteServiceProvider::HOME, \App\Http\Controllers\Seller\DashboardController::class)->name('dashboard');
             Route::post('sellership', \App\Http\Controllers\Seller\SellershipController::class)->name('sellership');
             Route::middleware('approved')->group(function () {
+                Route::resource('campaigns', \App\Http\Controllers\Seller\CampaignController::class);
                 Route::resource('products', \App\Http\Controllers\Seller\ProductController::class);
                 Route::resource('orders', \App\Http\Controllers\Seller\OrderController::class);
                 Route::get('wallet', \App\Http\Controllers\Seller\WalletController::class)->name('wallet');

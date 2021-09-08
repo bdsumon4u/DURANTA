@@ -17,6 +17,11 @@ class Campaign extends Model implements HasMedia
 
     protected $with = ['media'];
     protected $appends = ['image'];
+    protected $casts = [
+        'starts_at' => 'datetime',
+        'ends_at' => 'datetime',
+        'deadline' => 'datetime',
+    ];
 
     public function registerMediaCollections(): void
     {
@@ -36,5 +41,11 @@ class Campaign extends Model implements HasMedia
     public function setSlugAttribute()
     {
         $this->attributes['slug'] = Str::slug($this->name);
+    }
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class)
+            ->withPivot(['discount', 'selling', 'status']);
     }
 }

@@ -44,7 +44,7 @@ class CampaignCreated extends Notification
     public function toArray($notifiable)
     {
         return [
-            'A new campaign is created. You can join there.',
+            'message' => 'A new campaign is created. You can join there.',
             'link' => '',
         ];
     }

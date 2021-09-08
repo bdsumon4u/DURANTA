@@ -13,6 +13,9 @@
                                 Product
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                SKU
+                            </th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Price
                             </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -37,12 +40,13 @@
                             <td class="px-3 py-2 border-r w-20 md:w-28 h-20 md:h-28">
                                 <img class="h-full w-full object-fill rounded-sm" :src="product.first_media" alt="Product Image" />
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <a :href="route('products.show', product.slug)" target="_blank" class="text-lg font-bold text-gray-800 mb-1">{{ product.name }}</a>
+                            <td class="px-6 py-4">
+                                <a :href="route('products.show', product.slug)" target="_blank" class="text-lg font-bold text-gray-800 hover:underline mb-1">{{ product.name }}</a>
                                 <div class="text-sm text-gray-600">
                                     {{ (product.stock_track ? product.stock_count : '') + ' In Stock' }}
                                 </div>
                             </td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ product.sku }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ moneyFormat(product.price) }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ product.discount_type === 'percent' ? product.discount_amount + '%' : moneyFormat(product.discount) }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ moneyFormat(product.price - product.discount) }}</td>
