@@ -17,6 +17,43 @@
         </div>
         <!-- slider end -->
 
+        <!-- campaign -->
+        <div v-if="campaign.data.id && counting" class="container pb-16">
+            <div :class="{'md:flex justify-between': campaign.data.starts_in}">
+                <h2 class="text-xl md:text-2xl font-medium font-roboto text-gray-800 uppercase mb-2">{{ campaign.data.name }}</h2>
+                <div class="flex items-center justify-between text-xs md:text-sm mb-4">
+                    <vue-countdown tag="div" class="flex" :time="time" :transform="transformSlotProps" @end="onCountdownEnd" v-slot="{ days, hours, minutes, seconds }">
+                        <div class="bg-black px-3 py-1 mr-2 rounded-sm text-white">{{ campaign.data.starts_in ? 'Starts' : 'Ends' }} in</div>
+                        <template v-if="days">
+                            <div class="bg-primary px-2 py-1 rounded-sm text-white">{{ days }}</div>
+                            <div class="py-1 mx-1 rounded-sm text-primary">:</div>
+                        </template>
+                        <div class="bg-primary px-2 py-1 rounded-sm text-white">{{ hours }}</div>
+                        <div class="py-1 mx-1 rounded-sm text-primary">:</div>
+                        <div class="bg-primary px-2 py-1 rounded-sm text-white">{{ minutes }}</div>
+                        <div class="py-1 mx-1 rounded-sm text-primary">:</div>
+                        <div class="bg-primary px-2 py-1 rounded-sm text-white">{{ seconds }}</div>
+                    </vue-countdown>
+                    <div v-if="!campaign.data.starts_in">
+                        <inertia-link :href="route('campaigns.show', campaign.data.slug)" class="bg-black px-3 py-1 ml-2 rounded-sm text-white font-bold">View All</inertia-link>
+                    </div>
+                </div>
+            </div>
+            <div v-if="campaign.data.starts_in">
+                <img class="w-full" :src="campaign.data.image" alt="Campaign Image">
+            </div>
+            <!-- product wrapper -->
+            <div v-else class="grid lg:grid-cols-6 sm:grid-cols-3 grid-cols-2 lg:gap-6 md:gap-4 gap-2">
+                <!-- single product -->
+                <template v-for="product in campaign.data.products">
+                    <product :campaign="campaign.data" :product="product" />
+                </template>
+                <!-- single product end -->
+            </div>
+            <!-- product wrapper end -->
+        </div>
+        <!-- campaign end -->
+
         <!-- shop by brand -->
         <div class="container pb-16">
             <h2 class="text-xl md:text-2xl font-medium font-roboto text-gray-800 uppercase mb-6">Shop By Brand</h2>
@@ -134,15 +171,43 @@ import CategoryMenu from "@/Components/Site/CategoryMenu";
 import Slider from "@/Components/Site/Slider";
 import Product from "@/Components/Site/Product";
 import AppLayout from "../Layouts/AppLayout";
+import VueCountdown from '@chenfengyuan/vue-countdown';
 
 export default {
     name: "Home",
-    props: ['brands', 'stores', 'latest'],
+    props: ['brands', 'stores', 'campaign', 'latest'],
     components: {
         AppLayout,
         Product,
         Slider,
         CategoryMenu,
+        VueCountdown,
+    },
+    computed: {
+        time() {
+            return !!this.campaign.data.starts_in
+                ? this.campaign.data.starts_in
+                : this.campaign.data.ends_in;
+        }
+    },
+    methods: {
+        transformSlotProps(props) {
+            const formattedProps = {};
+
+            Object.entries(props).forEach(([key, value]) => {
+                formattedProps[key] = value < 10 ? `0${value}` : String(value);
+            });
+
+            return formattedProps;
+        },
+        onCountdownEnd() {
+            this.counting = !!this.campaign.data.ends_in;
+        }
+    },
+    data() {
+        return {
+            counting: !!this.campaign.data.ends_in,
+        }
     }
 }
 </script>

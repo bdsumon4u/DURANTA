@@ -10,6 +10,7 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@chenfengyuan/vue-countdown": "^2.0.0-rc",
         "@ckeditor/ckeditor5-build-classic": "^29.0.0",
         "@ckeditor/ckeditor5-vue": "^2.0.1",
         "@inertiajs/inertia": "^0.9.1",

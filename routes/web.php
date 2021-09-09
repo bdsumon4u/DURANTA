@@ -23,6 +23,8 @@ Route::get('/sellers', \App\Http\Controllers\SellerController::class)->name('sel
 Route::get('/sellers/{slug}', [\App\Http\Controllers\SellerController::class, 'show'])->name('sellers.show');
 Route::get('/categories', \App\Http\Controllers\CategoryController::class)->name('categories');
 Route::get('/categories/{category:slug}', [\App\Http\Controllers\CategoryController::class, 'show'])->name('categories.show');
+Route::get('/campaigns', \App\Http\Controllers\CampaignController::class)->name('campaigns');
+Route::get('/campaigns/{campaign:slug}', [\App\Http\Controllers\CampaignController::class, 'show'])->name('campaigns.show');
 
 notificationRoutes(['middleware' => ['web', 'auth:sanctum']]);
 

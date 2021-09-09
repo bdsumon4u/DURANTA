@@ -180,6 +180,7 @@
                             </div>
                         </div>
                     </div>
+                    <pagination :links="products.meta.links" />
                 </div>
             </div>
         </div>
@@ -189,11 +190,13 @@
 <script>
 import SellerLayout from "@/Layouts/SellerLayout";
 import JetInputError from "@/Jetstream/InputError";
+import Pagination from "@/Components/Pagination";
 
 export default {
     name: "Edit",
     props: ['product', 'products', 'campaign', 'active'],
     components: {
+        Pagination,
         JetInputError,
         SellerLayout,
     },

@@ -50,6 +50,9 @@ class CampaignController extends Controller
     public function store(CampaignRequest $request)
     {
         $campaign = Campaign::create($request->validated());
+        if ($image = $request->file('image')) {
+            $campaign->addMedia($image)->toMediaCollection();
+        }
         Notification::send(Seller::all(), new CampaignCreated($campaign));
         return back()->banner('New Campaign Created.');
     }
@@ -102,6 +105,9 @@ class CampaignController extends Controller
             return back()->banner('Product is Approved.');
         }
         $campaign->update($request->validated());
+        if ($image = $request->file('image')) {
+            $campaign->addMedia($image)->toMediaCollection();
+        }
         return back()->banner('The Campaign is Updated.');
     }
 

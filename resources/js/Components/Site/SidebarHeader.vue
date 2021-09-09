@@ -89,9 +89,10 @@
 
                     <!-- nav menu -->
                     <div class="flex items-center justify-between flex-grow pl-12">
-                        <div class="flex items-center space-x-6 text-base capitalize">
+                        <div class="flex items-center space-x-4 text-base capitalize">
                             <inertia-link :href="route('home')" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('home')}">Home</inertia-link>
                             <inertia-link :href="route('products')" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('products')}">Products</inertia-link>
+                            <inertia-link :href="route('campaigns')" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('campaigns')}">Campaigns</inertia-link>
                             <a href="#" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('about-us')}">About us</a>
                             <a href="#" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('contact-us')}">Contact us</a>
                         </div>

@@ -67,7 +67,7 @@
                     </p>
                 </div>
                 <div class="mt-4 flex items-baseline gap-3">
-                    <span class="text-primary font-semibold text-xl">{{ moneyFormat(product.data.price - product.data.discount)}}</span>
+                    <span class="text-primary font-semibold text-xl">{{ moneyFormat(campaign.data.id ? product.data.pivot.selling : (product.data.price - product.data.discount))}}</span>
                     <span class="text-gray-500 text-base line-through">{{ moneyFormat(product.data.price) }}</span>
                 </div>
                 <!-- size -->
@@ -212,7 +212,7 @@ import { VueperSlides, VueperSlide } from 'vueperslides'
 
 export default {
     name: "Show",
-    props: ['product'],
+    props: ['campaign', 'product'],
     components: {
         AppLayout,
         Breadcrumb,

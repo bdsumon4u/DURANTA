@@ -13,7 +13,7 @@ class Campaign extends Model implements HasMedia
     use HasFactory;
     use InteractsWithMedia;
 
-    protected $fillable = ['name', 'starts_at', 'ends_at', 'deadline'];
+    protected $fillable = ['name', 'slug', 'starts_at', 'ends_at', 'deadline'];
 
     protected $with = ['media'];
     protected $appends = ['image'];
@@ -36,11 +36,6 @@ class Campaign extends Model implements HasMedia
     public function getFallbackMediaUrl()
     {
         return 'https://via.placeholder.com/1300x350';
-    }
-
-    public function setSlugAttribute()
-    {
-        $this->attributes['slug'] = Str::slug($this->name);
     }
 
     public function products()

@@ -154,6 +154,7 @@
                             </div>
                         </div>
                     </div>
+                    <pagination :links="products.meta.links" />
                 </div>
             </div>
         </div>
@@ -163,11 +164,13 @@
 <script>
 import AdminLayout from '@/Layouts/AdminLayout'
 import ValidationErrors from "@/Jetstream/ValidationErrors";
+import Pagination from "@/Components/Pagination";
 
 export default {
     name: "Edit Campaign",
     props: ['campaign', 'products', 'active'],
     components: {
+        Pagination,
         ValidationErrors,
         AdminLayout,
     },
@@ -191,8 +194,6 @@ export default {
             this.$inertia.post(route('admin.campaigns.update', this.campaign.data), {
                 _method: 'PATCH',
                 ...this.form,
-            }, {
-                onSuccess: () => this.form.reset(),
             });
         },
         approve(product_id) {

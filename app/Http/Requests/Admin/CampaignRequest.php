@@ -4,6 +4,7 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class CampaignRequest extends FormRequest
 {
@@ -20,6 +21,7 @@ class CampaignRequest extends FormRequest
     protected function prepareForValidation()
     {
         $this->merge([
+            'slug' => $this->get('slug', Str::slug($this->name)),
             'starts_at' => Carbon::parse($this->starts_at),
             'ends_at' => Carbon::parse($this->ends_at)->endOfDay(),
             'deadline' => Carbon::parse($this->deadline)->endOfDay(),
@@ -35,10 +37,11 @@ class CampaignRequest extends FormRequest
     {
         return $this->has('product_id') ? [] : [
             'name' => 'required',
+            'slug' => 'required',
             'starts_at' => 'required|date',
             'ends_at' => 'required|date',
             'deadline' => 'required|date',
-            'image' => 'nullable|image',
+            'image' => 'nullable',
         ];
     }
 }
