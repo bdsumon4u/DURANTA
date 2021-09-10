@@ -8,6 +8,21 @@
         <div class="container pt-4 pb-6 grid lg:grid-cols-2 gap-6">
             <!-- product image -->
             <div>
+                <div v-if="counting" class="my-4 md:flex justify-between items-center">
+                    <h2 class="text-xl md:text-2xl font-medium font-roboto text-gray-800 uppercase">{{ campaign.data.name }}</h2>
+                    <vue-countdown tag="div" class="flex" :time="campaign.data.ends_in" :transform="transformSlotProps" @end="onCountdownEnd" v-slot="{ days, hours, minutes, seconds }">
+                        <div class="bg-black px-3 py-1 mr-2 rounded-sm text-white">Ends in</div>
+                        <template v-if="days">
+                            <div class="bg-primary px-2 py-1 rounded-sm text-white">{{ days }}</div>
+                            <div class="py-1 mx-1 rounded-sm text-primary">:</div>
+                        </template>
+                        <div class="bg-primary px-2 py-1 rounded-sm text-white">{{ hours }}</div>
+                        <div class="py-1 mx-1 rounded-sm text-primary">:</div>
+                        <div class="bg-primary px-2 py-1 rounded-sm text-white">{{ minutes }}</div>
+                        <div class="py-1 mx-1 rounded-sm text-primary">:</div>
+                        <div class="bg-primary px-2 py-1 rounded-sm text-white">{{ seconds }}</div>
+                    </vue-countdown>
+                </div>
                 <div>
                     <vueper-slides
                         ref="productImageLarge"
@@ -58,7 +73,7 @@
                     <p class="space-x-1">
                         <span class="text-gray-800 font-semibold">Categories: </span>
                         <span class="flex flex-wrap gap-1">
-                            <inertia-link v-for="category in product.data.categories" class="text-gray-100 text-sm bg-primary px-2 py-1 rounded-md whitespace-nowrap" href="">{{ category.name }}</inertia-link>
+                            <inertia-link v-for="category in product.data.categories" class="text-gray-100 text-sm bg-primary px-2 py-1 rounded-md whitespace-nowrap" :href="route('categories.show', category)">{{ category.name }}</inertia-link>
                         </span>
                     </p>
                     <p class="space-x-2">
@@ -157,7 +172,7 @@
                 <!-- color end -->
                 <!-- add to cart button -->
                 <div class="flex gap-3 border-b border-gray-200 pb-5 mt-6">
-                    <a href="#" @click.prevent="addToCart(product.data, quantity)" class="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase hover:bg-transparent hover:text-primary transition text-sm flex items-center">
+                    <a href="#" @click.prevent="addToCart(product.data, quantity, campaign?.data?.slug)" class="bg-primary border border-primary text-white px-8 py-2 font-medium rounded uppercase hover:bg-transparent hover:text-primary transition text-sm flex items-center">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                             <path fill="none" d="M0 0h24v24H0z"/>
                             <path fill="currentColor" d="M4 6.414L.757 3.172l1.415-1.415L5.414 5h15.242a1 1 0 0 1 .958 1.287l-2.4 8a1 1 0 0 1-.958.713H6v2h11v2H5a1 1 0 0 1-1-1V6.414zM6 7v6h11.512l1.8-6H6zm-.5 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm12 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
@@ -209,6 +224,7 @@ import AppLayout from "@/Layouts/AppLayout";
 import Product from "@/Components/Site/Product";
 import Breadcrumb from "@/Components/Site/Breadcrumb";
 import { VueperSlides, VueperSlide } from 'vueperslides'
+import VueCountdown from "@chenfengyuan/vue-countdown";
 
 export default {
     name: "Show",
@@ -219,6 +235,7 @@ export default {
         Product,
         VueperSlides,
         VueperSlide,
+        VueCountdown,
     },
     methods: {
         increment() {
@@ -235,10 +252,23 @@ export default {
                 this.quantity--;
             }
         },
+        transformSlotProps(props) {
+            const formattedProps = {};
+
+            Object.entries(props).forEach(([key, value]) => {
+                formattedProps[key] = value < 10 ? `0${value}` : String(value);
+            });
+
+            return formattedProps;
+        },
+        onCountdownEnd() {
+            this.$inertia.visit(route('home'));
+        }
     },
     data() {
         return {
             quantity: 1,
+            counting: !!this.campaign.data.ends_in,
         }
     }
 }

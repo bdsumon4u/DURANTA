@@ -4,17 +4,28 @@ namespace App\Http\Controllers\Api;
 
 use App\Facades\Cart;
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class CartController extends Controller
 {
     public function add(Request $request, Product $product)
     {
-        Cart::add($product, $request->get('quantity', 1), [
+        $campaign = Campaign::validSlug($request->get('campaign'))->firstOrNew();
+        $product = $campaign->product($product);
+
+        if (!$product instanceof Product) {
+            return $product;
+        }
+
+        Cart::add($product->getKey(), $product->name, $request->get('quantity', 1), $product->getBuyablePrice(), $product->getBuyableWeight(), [
+            'product_id' => $product->getKey(),
             'first_media' => $product->getFirstMediaUrl(),
+            'discount' => $campaign->exists ? $product->pivot->discount : $product->getBuyableDiscount(),
             'slug' => $product->slug,
-            'discount' => $product->getBuyableDiscount(),
+            'campaign' => $campaign->slug,
             'commission' => $product->getBuyableCommission(),
         ]);
         return response()->json(['success' => 'Product Is Added To Cart.']);

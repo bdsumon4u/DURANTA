@@ -43,4 +43,26 @@ class Campaign extends Model implements HasMedia
         return $this->belongsToMany(Product::class)
             ->withPivot(['discount', 'selling', 'status']);
     }
+
+    public static function validSlug($slug)
+    {
+        return static::whereSlug($slug)->whereDate('starts_at', '>=', now())->whereDate('ends_at', '<', now());
+    }
+
+    public function product($product)
+    {
+        $id = $product instanceof Product ? $product->getKey() : $product;
+
+        if ($this->exists) {
+            if ($this->starts_at->isFuture()) {
+                return back()->dangerBanner('Campaign is Not Started.');
+            }
+            if ($this->ends_at->isPast()) {
+                return back()->dangerBanner('Campaign is Over.');
+            }
+            return $this->products()->findOrFail($id);
+        }
+
+        return $product instanceof Product ? $product : Product::findOrFail($id);
+    }
 }

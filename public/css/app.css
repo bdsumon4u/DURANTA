@@ -1290,13 +1290,13 @@ select {
 	margin-top: 1rem;
 	margin-bottom: 1rem;
 }
-.my-5 {
-	margin-top: 1.25rem;
-	margin-bottom: 1.25rem;
-}
 .mx-1 {
 	margin-left: 0.25rem;
 	margin-right: 0.25rem;
+}
+.my-5 {
+	margin-top: 1.25rem;
+	margin-bottom: 1.25rem;
 }
 .mx-2 {
 	margin-left: 0.5rem;
@@ -1860,15 +1860,15 @@ select {
 	margin-right: calc(1.25rem * var(--tw-space-x-reverse));
 	margin-left: calc(1.25rem * calc(1 - var(--tw-space-x-reverse)));
 }
-.space-y-3 > :not([hidden]) ~ :not([hidden]) {
-	--tw-space-y-reverse: 0;
-	margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
-	margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
-}
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
 	--tw-space-x-reverse: 0;
 	margin-right: calc(1rem * var(--tw-space-x-reverse));
 	margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+.space-y-3 > :not([hidden]) ~ :not([hidden]) {
+	--tw-space-y-reverse: 0;
+	margin-top: calc(0.75rem * calc(1 - var(--tw-space-y-reverse)));
+	margin-bottom: calc(0.75rem * var(--tw-space-y-reverse));
 }
 .divide-y > :not([hidden]) ~ :not([hidden]) {
 	--tw-divide-y-reverse: 0;
@@ -3540,14 +3540,14 @@ select {
 		line-height: 2rem;
 	}
 
-	.md\:text-3xl {
-		font-size: 1.875rem;
-		line-height: 2.25rem;
-	}
-
 	.md\:text-sm {
 		font-size: 0.875rem;
 		line-height: 1.25rem;
+	}
+
+	.md\:text-3xl {
+		font-size: 1.875rem;
+		line-height: 2.25rem;
 	}
 }
 @media (min-width: 992px) {
@@ -3605,12 +3605,12 @@ select {
 		max-width: 32rem;
 	}
 
-	.lg\:grid-cols-8 {
-		grid-template-columns: repeat(8, minmax(0, 1fr));
-	}
-
 	.lg\:grid-cols-6 {
 		grid-template-columns: repeat(6, minmax(0, 1fr));
+	}
+
+	.lg\:grid-cols-8 {
+		grid-template-columns: repeat(8, minmax(0, 1fr));
 	}
 
 	.lg\:grid-cols-4 {

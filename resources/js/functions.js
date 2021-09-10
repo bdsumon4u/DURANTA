@@ -13,9 +13,10 @@ export function moneyFormat(amount) {
     });
 }
 
-export function addToCart(product, quantity) {
+export function addToCart(product, quantity, campaign) {
     axios.post(route('api.cart.add', product.id), {
         quantity: quantity,
+        campaign: campaign,
     })
         .then(({data}) => {
             this.emitter.emit('cart-updated', data.success)

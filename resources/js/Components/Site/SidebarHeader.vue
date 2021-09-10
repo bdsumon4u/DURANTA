@@ -259,15 +259,15 @@
                 <li v-for="product in cart.content" class="flex items-center md:justify-between gap-4 p-4 border-gray-200 flex-wrap md:flex-nowrap">
                     <!-- cart image -->
                     <div class="w-12 flex-shrink-0">
-                        <img :src="product.options.first_media"  class="w-full">
+                        <img :src="product.options.first_media" class="w-full h-full">
                     </div>
                     <!-- cart image end -->
                     <div class="flex flex-col flex-1">
                         <!-- cart content -->
                         <div>
-                            <inertia-link :href="route('products.show', product.options.slug)" class="text-gray-800 mb-2 text-sm font-roboto font-medium">{{ product.name }}</inertia-link>
+                            <inertia-link :href="route('products.show', {slug: product.options.slug, ...(product.options.campaign ? {campaign: product.options.campaign} : {})})" class="text-gray-800 mb-2 text-sm font-roboto font-medium">{{ product.name }}</inertia-link>
                             <div class="mt-2 flex justify-between items-center">
-                                <p class="text-primary font-semibold">{{ moneyFormat(product.price) }}</p>
+                                <p class="text-primary font-semibold">{{ moneyFormat(product.price - product.options.discount) }} <small class="text-gray-400 line-through">{{ moneyFormat(product.price) }}</small></p>
                                 <!-- quantity -->
                                 <div class="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
                                     <button class="h-6 w-6 text-xl flex items-center justify-center cursor-pointer select-none" @click.prevent="updateCart(product, 'decrement')">-</button>

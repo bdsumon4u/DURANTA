@@ -1,6 +1,7 @@
 <template>
     <!-- topbar -->
     <div class="hidden md:block bg-gray-100 border-b">
+        <jet-banner />
         <div class="container flex justify-between px-8 py-2 text-sm">
             <div class="flex">
                 <div class="flex items-center mr-6">

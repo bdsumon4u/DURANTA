@@ -1,5 +1,5 @@
 <template>
-    <div class="group flex flex-col rounded bg-white shadow overflow-hidden">
+    <div class="group flex flex-col justify-between rounded bg-white shadow overflow-hidden">
         <inertia-link :href="route('products.show', {slug: product.slug, ...(campaign ? {campaign: campaign.slug} : {})})">
             <!-- product image -->
             <div class="relative">
@@ -21,7 +21,7 @@
         </inertia-link>
         <!-- product button -->
         <a href="#"
-           @click.prevent="addToCart(product)"
+           @click.prevent="addToCart(product, 1, campaign?.slug)"
            class="flex items-center justify-center py-1 mx-1 mb-1 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                 <path fill="none" d="M0 0h24v24H0z"/>

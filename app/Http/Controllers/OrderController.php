@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Facades\Cart;
 use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
+use App\Models\Campaign;
 use App\Models\Order;
+use App\Models\Product;
 use App\Notifications\OrderReceived;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -48,18 +50,29 @@ class OrderController extends Controller
     {
         DB::beginTransaction();
         $products = Cart::content()->mapWithKeys(function ($item) {
+            $campaign = Campaign::validSlug($item->options->campaign)->firstOrNew();
+            $product = $campaign->product($item->options->product_id);
+
+            if (!$product instanceof Product) {
+                $product = Product::findOrFail($item->options->product_id);
+            }
+
+            Cart::update($item->rowId, ['options'  => array_merge($item->options->toArray(), [
+                'discount' => $campaign->exists ? $product->pivot->discount : $product->getBuyableDiscount(),
+                'campaign' => $campaign->slug,
+            ])]); // Will update the size option with new value
+
             $count = $item->qty;
-            $model = $item->model;
-            if ($model->stock_track) {
-                ($item->qty > $model->stock_count) && (
-                $count = $model->stock_count
+            if ($product->stock_track) {
+                ($item->qty > $product->stock_count) && (
+                $count = $product->stock_count
                 );
-                $model->decrement('stock_count', $count);
+                $product->decrement('stock_count', $count);
             }
 
             return [$item->id => array_merge($item->options->toArray(), [
                 'quantity' => $count,
-                'price' => $model->getBuyablePrice(),
+                'price' => $product->getBuyablePrice(),
             ])];
         })->toArray();
 

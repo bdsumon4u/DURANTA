@@ -23,11 +23,11 @@ class CampaignResource extends JsonResource
         }
 
         return array_merge($data, [
-            'starts_at' => $resource->starts_at->format('d-M-Y'),
-            'starts_in' => $resource->starts_at->isPast() ? 0 : $resource->starts_at->diffInMilliseconds(),
-            'ends_at' => $resource->ends_at->format('d-M-Y'),
-            'ends_in' => $resource->ends_at->isPast() ? 0 : $resource->ends_at->diffInMilliseconds(),
-            'deadline' => $resource->deadline->format('d-M-Y'),
+            'starts_at' => optional($resource->starts_at)->format('d-M-Y'),
+            'starts_in' => optional($resource->starts_at)->isPast() ? 0 : optional($resource->starts_at)->diffInMilliseconds(),
+            'ends_at' => optional($resource->ends_at)->format('d-M-Y'),
+            'ends_in' => optional($resource->ends_at)->isPast() ? 0 : optional($resource->ends_at)->diffInMilliseconds(),
+            'deadline' => optional($resource->deadline)->format('d-M-Y'),
         ]);
     }
 }
