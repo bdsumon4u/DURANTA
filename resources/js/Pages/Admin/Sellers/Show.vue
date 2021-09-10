@@ -55,8 +55,8 @@
                             </th>
                             <td class="border px-4 py-2 text-sm"></td>
                             <td rowspan="4" class="h-40 w-40 border">
-                                <img class="h-40 w-40 rounded-sm border object-cover" :src="seller.data.profile_photo_url" :alt="seller.data.name" />
-                                <div class="block text-xs text-center font-bold uppercase">Shop Logo</div>
+                                <img class="h-40 w-40 rounded-sm border object-cover" :src="seller.data.store_logo" :alt="seller.data.store_name" />
+                                <div class="block text-xs text-center font-bold uppercase">Store Logo</div>
                             </td>
                         </tr>
                         <tr>
