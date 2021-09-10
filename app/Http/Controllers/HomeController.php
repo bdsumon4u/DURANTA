@@ -29,7 +29,10 @@ class HomeController extends Controller
         })->take(15)->get();
         $campaign = Campaign::with(['products' => function ($query) {
             $query->wherePivot('status', 'APPROVED')->with('firstMedia')->take(6);
-        }])->oldest('starts_at')->whereDate('ends_at', '>', now())->firstOrNew();
+        }])->oldest('starts_at')
+            ->whereDate('starts_at', '>=', now())
+            ->whereDate('ends_at', '>', now())
+            ->firstOrNew();
         $latest = Product::approved()->with('firstMedia')->latest('id')->take(12)->get();
         return Inertia::render('Home', [
             'brands' => BrandResource::collection($brands),
