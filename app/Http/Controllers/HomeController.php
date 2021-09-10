@@ -30,7 +30,7 @@ class HomeController extends Controller
         $campaign = Campaign::with(['products' => function ($query) {
             $query->wherePivot('status', 'APPROVED')->with('firstMedia')->take(6);
         }])->oldest('starts_at')
-            ->whereDate('starts_at', '>=', now())
+            ->whereDate('starts_at', '<=', now())
             ->whereDate('ends_at', '>', now())
             ->firstOrNew();
         $latest = Product::approved()->with('firstMedia')->latest('id')->take(12)->get();

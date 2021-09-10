@@ -32,6 +32,8 @@ Route::prefix('admin')->group(function ($router) {
         Route::resource('sellerships', \App\Http\Controllers\Admin\SellershipController::class);
         Route::get('payouts',\App\Http\Controllers\Admin\PayoutController::class)->name('payouts');
         Route::match(['get', 'post'], 'payouts/paid',[\App\Http\Controllers\Admin\PayoutController::class, 'paid'])->name('payouts.paid');
+        Route::match(['get', 'post'], 'menus/{navMenu:slug?}', \App\Http\Controllers\Admin\NavMenuController::class)->name('menus');
+        Route::delete('menus/items/{navItem}', [\App\Http\Controllers\Admin\NavMenuController::class, 'destroy'])->name('menus.destroy');
         Route::get('payouts/history',[\App\Http\Controllers\Admin\PayoutController::class, 'history'])->name('payouts.history');
     });
 });

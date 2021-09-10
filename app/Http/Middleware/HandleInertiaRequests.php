@@ -4,7 +4,9 @@ namespace App\Http\Middleware;
 
 use App\Http\Resources\SlideResource;
 use App\Models\Library;
+use App\Models\NavMenu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
 
 class HandleInertiaRequests extends Middleware
@@ -44,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             'is_seller' => $request->isSeller(),
         ]);
 
+        $data = $this->menus($data);
         $data = $this->balance($data);
         return $this->slides($data);
     }
@@ -77,5 +80,35 @@ class HandleInertiaRequests extends Middleware
             ]);
         }
         return $data;
+    }
+
+    /**
+     * Merge balance if it's public route.
+     *
+     * @param array $data
+     * @return array
+     */
+    private function menus(array $data)
+    {
+        if (\request()->isAdmin() || \request()->isSeller()) {
+            return $data;
+        }
+
+        return array_merge($data, [
+            'menus' => [
+                'main_menu' => Cache::tags('menus')->rememberForever('menus:main-menu', function () {
+                    return NavMenu::where('slug', 'main-menu')
+                        ->with(['navItems' => function ($query) {
+                            $query->oldest('weight');
+                        }])->firstOrNew();
+                }),
+                'categories' => Cache::tags('menus')->rememberForever('menus:categories', function () {
+                    return NavMenu::where('slug', 'categories')
+                        ->with(['navItems' => function ($query) {
+                            $query->oldest('weight');
+                        }])->firstOrNew();
+                }),
+            ]
+        ]);
     }
 }

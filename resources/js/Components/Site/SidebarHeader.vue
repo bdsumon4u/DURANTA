@@ -90,11 +90,11 @@
                     <!-- nav menu -->
                     <div class="flex items-center justify-between flex-grow pl-12">
                         <div class="flex items-center space-x-4 text-base capitalize">
-                            <inertia-link :href="route('home')" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('home')}">Home</inertia-link>
-                            <inertia-link :href="route('products')" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('products')}">Products</inertia-link>
-                            <inertia-link :href="route('campaigns')" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('campaigns')}">Campaigns</inertia-link>
-                            <a href="#" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('about-us')}">About us</a>
-                            <a href="#" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': route().current('contact-us')}">Contact us</a>
+                            <template v-for="navItem in $page.props.menus.main_menu.nav_items">
+                                <inertia-link :href="navItem.link" class="text-gray-200 hover:text-white transition px-2 py-1 font-roboto text-sm font-medium hover:underline" :class="{'bg-primary rounded-sm': isCurrent(navItem)}">
+                                    {{ navItem.label }}
+                                </inertia-link>
+                            </template>
                         </div>
                         <inertia-link :href="route('seller.dashboard')" class="ml-auto justify-self-end text-gray-200 hover:text-gray-400 transition font-roboto text-sm font-medium">
                             Seller Center
@@ -216,24 +216,11 @@
                 </div>
             </h3>
             <div class="">
-                <a href="" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
-                    Bedroom
-                </a>
-                <a href="" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
-                    Furniture
-                </a>
-                <a href="#" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
-                    Mattress
-                </a>
-                <a href="#" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
-                    Office
-                </a>
-                <a href="#" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
-                    Outdoor
-                </a>
-                <a href="#" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
-                    Sofa
-                </a>
+                <template v-for="navItem in $page.props.menus.categories.nav_items">
+                    <inertia-link :href="navItem.link" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
+                        {{ navItem.label }}
+                    </inertia-link>
+                </template>
             </div>
             <!-- categories end -->
         </div>
@@ -344,6 +331,13 @@ export default {
         },
     },
     methods: {
+        isCurrent(navItem) {
+            let url = navItem.link;
+            if (url && !url.startsWith('/')) {
+                url = '/' + url;
+            }
+            return this.$inertia.page.url === url;
+        },
         doSearch() {
             this.$inertia.visit(route('products', {search: this.search}));
         },
