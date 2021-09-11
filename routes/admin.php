@@ -28,6 +28,7 @@ Route::prefix('admin')->group(function ($router) {
         Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
         Route::resource('campaigns', \App\Http\Controllers\Admin\CampaignController::class);
         Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class);
+        Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
         Route::resource('sellers', \App\Http\Controllers\Admin\SellerController::class);
         Route::resource('sellerships', \App\Http\Controllers\Admin\SellershipController::class);
         Route::get('payouts',\App\Http\Controllers\Admin\PayoutController::class)->name('payouts');
