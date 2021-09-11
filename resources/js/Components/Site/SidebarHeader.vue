@@ -5,8 +5,11 @@
         <header class="shadow bg-white">
             <div class="container flex items-center justify-between">
                 <!-- logo -->
-                <inertia-link :href="route('home')" class="flex w-28 h-9 justify-center items-center text-primary border-2 border-primary font-semibold font-roboto-condensed text-2xl">
-                    DURANTA
+                <inertia-link :href="route('home')" class="block w-28 md:w-40 h-9 md:h-10">
+                    <img v-if="$page.props.settings.general.logo" :src="$page.props.settings.general.logo" class="w-full object-fill h-full" alt="Logo">
+                    <div v-else class="w-full flex h-full justify-center items-center text-primary border-2 border-primary font-semibold font-roboto-condensed text-2xl">
+                        {{ $page.props.settings.general.site_name }}
+                    </div>
                 </inertia-link>
                 <!-- logo end -->
 
@@ -183,18 +186,11 @@
                 </div>
             </h3>
             <div class="">
-                <a href="#" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
-                    Home
-                </a>
-                <a href="#" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
-                    Shop
-                </a>
-                <a href="#" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
-                    About Us
-                </a>
-                <a href="#" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
-                    Contact Us
-                </a>
+                <template v-for="navItem in $page.props.menus.main_menu.nav_items">
+                    <inertia-link :href="navItem.link" class="mx-2 my-1 block px-4 py-2 font-medium transition rounded-sm hover:bg-gray-100" :class="{'bg-primary text-white': isCurrent(navItem)}">
+                        {{ navItem.label }}
+                    </inertia-link>
+                </template>
             </div>
             <!-- navlinks end -->
         </div>
@@ -217,7 +213,7 @@
             </h3>
             <div class="">
                 <template v-for="navItem in $page.props.menus.categories.nav_items">
-                    <inertia-link :href="navItem.link" class="block px-4 py-2 font-medium transition hover:bg-gray-100">
+                    <inertia-link :href="navItem.link" class="mx-2 my-1 block px-4 py-2 font-medium transition rounded-sm hover:bg-gray-100" :class="{'bg-primary text-white': isCurrent(navItem)}">
                         {{ navItem.label }}
                     </inertia-link>
                 </template>
@@ -332,11 +328,7 @@ export default {
     },
     methods: {
         isCurrent(navItem) {
-            let url = navItem.link;
-            if (url && !url.startsWith('/')) {
-                url = '/' + url;
-            }
-            return this.$inertia.page.url === url;
+            return window.location.href === navItem.link;
         },
         doSearch() {
             this.$inertia.visit(route('products', {search: this.search}));

@@ -15,4 +15,9 @@ class NavItem extends Model
     {
         return $this->belongsTo(NavMenu::class, 'parent_id');
     }
+
+    public function getLinkAttribute($link)
+    {
+        return url($link);
+    }
 }

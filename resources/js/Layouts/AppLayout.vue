@@ -41,8 +41,11 @@
             <div class="xl:grid xl:grid-cols-3 xl:gap-8">
                 <!-- footer text -->
                 <div class="space-y-8 xl:col-span-1">
-                    <inertia-link :href="route('home')" class="flex w-28 h-9 justify-center items-center text-primary border-2 border-primary font-semibold font-roboto-condensed text-2xl">
-                        DURANTA
+                    <inertia-link :href="route('home')" class="block w-28 md:w-40 h-9 md:h-10">
+                        <img v-if="$page.props.settings.general.logo" :src="$page.props.settings.general.logo" class="w-full object-fill h-full" alt="Logo">
+                        <div v-else class="w-full flex h-full justify-center items-center text-primary border-2 border-primary font-semibold font-roboto-condensed text-2xl">
+                            {{ $page.props.settings.general.site_name }}
+                        </div>
                     </inertia-link>
                     <p class="text-gray-500 text-base">
                         {{ $page.props.settings.general.tagline }}
@@ -110,9 +113,9 @@
     <!-- copyright -->
     <div class="bg-gray-800 py-4 mb-[3rem] lg:mb-0">
         <div class="container flex flex-wrap items-center justify-between">
-            <p class="w-full md:w-1/2 text-white text-center mb-2 md:mb-0">© DURANTA - All Rights Reserved</p>
+            <p class="w-full md:w-1/2 text-white text-center mb-2 md:mb-0">© {{ $page.props.settings.general.site_name }} - All Rights Reserved</p>
             <div class="w-full md:w-1/2 flex justify-center">
-                <img src="/images/methods.png" class="h-5">
+                <img src="/images/methods.png" class="h-5" alt="Payment Gateway">
             </div>
         </div>
     </div>

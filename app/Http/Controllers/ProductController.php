@@ -20,12 +20,27 @@ class ProductController extends Controller
      */
     public function __invoke(Request $request)
     {
+        $sort = function ($query) {
+            if (\request('sort') === 'price') {
+                $query->orderBy('price');
+            } else if (\request('sort') === '-price') {
+                $query->orderByDesc('price');
+            } else {
+                $query->latest('id');
+            }
+        };
+
         if ($search = $request->get('search')) {
-            $query = Product::search($search)->query(function ($query) {
-                $query->with('firstMedia');
+            $query = Product::search($search)->query(function ($query) use ($sort)  {
+                $query->with('firstMedia')->when(\request('sort'), $sort);
             });
         } else {
-            $query = Product::with('firstMedia')->approved()->latest('id');
+            $query = Product::with('firstMedia')->approved();
+            if ($request->has('sort')) {
+                $query->when(true, $sort);
+            } else {
+                $query->latest();
+            }
         }
         $products = $query->paginate(12)->withQueryString()->onEachSide(0);
         return Inertia::render('Products/Index', [
