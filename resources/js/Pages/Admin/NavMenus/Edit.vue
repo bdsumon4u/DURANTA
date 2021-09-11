@@ -102,6 +102,10 @@ export default {
         submit() {
             this.form.post(route('admin.menus', this.navMenu), {
                 onFinish: () => {
+                    this.form.id = 0;
+                    this.form.editing = false;
+                    this.form.label = null;
+                    this.form.link = null;
                     this.form.nav_items = this.menuItems();
                 }
             });

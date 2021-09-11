@@ -7,6 +7,7 @@ use App\Models\NavItem;
 use App\Models\NavMenu;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
 class NavMenuController extends Controller
@@ -25,6 +26,10 @@ class NavMenuController extends Controller
         NavMenu::firstOrCreate([
             'name' => 'Categories',
             'slug' => 'categories',
+        ]);
+        NavMenu::firstOrCreate([
+            'name' => 'Quick Links',
+            'slug' => 'quick-links',
         ]);
 
         if (!$navMenu->exists) {
@@ -51,18 +56,23 @@ class NavMenuController extends Controller
             });
         Cache::tags('menus')->forget('menus:' . $navMenu->slug);
 
+        $validator = Validator::make($request->all(), [
+            'label' => 'required', 'link' => 'required',
+        ]);
+
         $updated = false;
         if ($request->get('editing')) {
             $updated = $navMenu->navItems()->findOrFail($request->get('id'))->update($request->only('label', 'link'));
-        } else if (!$reordered) {
-            $navMenu->navItems()->create($request->validate([
-                'label' => 'required', 'link' => 'required',
-            ]));
+        } else if ($validator->fails() && !$reordered) {
+            return bacK()->withErrors($validator)->withInput();
+        } else {
+            $navMenu->navItems()->create($validator->validated());
             return back()->banner('Nav Item Added.');
         }
         if ($reordered) {
             $this->banner('Nav Items Reordered.');
-        } else if ($updated) {
+        }
+        if ($updated) {
             $this->banner('Nav Item Updated.');
         }
         return back();

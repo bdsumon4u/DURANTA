@@ -5,6 +5,8 @@ namespace App\Http\Middleware;
 use App\Http\Resources\SlideResource;
 use App\Models\Library;
 use App\Models\NavMenu;
+use App\Settings\GeneralSettings;
+use App\Settings\SocialSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Middleware;
@@ -46,6 +48,7 @@ class HandleInertiaRequests extends Middleware
             'is_seller' => $request->isSeller(),
         ]);
 
+        $data = $this->settings($data);
         $data = $this->menus($data);
         $data = $this->balance($data);
         return $this->slides($data);
@@ -83,7 +86,7 @@ class HandleInertiaRequests extends Middleware
     }
 
     /**
-     * Merge balance if it's public route.
+     * Merge menus if it's public route.
      *
      * @param array $data
      * @return array
@@ -108,6 +111,32 @@ class HandleInertiaRequests extends Middleware
                             $query->oldest('weight');
                         }])->firstOrNew();
                 }),
+                'quick_links' => Cache::tags('menus')->rememberForever('menus:quick-links', function () {
+                    return NavMenu::where('slug', 'quick-links')
+                        ->with(['navItems' => function ($query) {
+                            $query->oldest('weight');
+                        }])->firstOrNew();
+                }),
+            ]
+        ]);
+    }
+
+    /**
+     * Merge settings if it's public route.
+     *
+     * @param array $data
+     * @return array
+     */
+    private function settings(array $data)
+    {
+        if (\request()->isAdmin() || \request()->isSeller()) {
+            return $data;
+        }
+
+        return array_merge($data, [
+            'settings' => [
+                'general' => resolve(GeneralSettings::class)->toArray(),
+                'social' => resolve(SocialSettings::class)->toArray(),
             ]
         ]);
     }

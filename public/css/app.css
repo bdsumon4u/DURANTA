@@ -2377,9 +2377,6 @@ select {
 .pb-7 {
 	padding-bottom: 1.75rem;
 }
-.pr-5 {
-	padding-right: 1.25rem;
-}
 .pt-7 {
 	padding-top: 1.75rem;
 }
@@ -2388,6 +2385,9 @@ select {
 }
 .pr-1 {
 	padding-right: 0.25rem;
+}
+.pr-5 {
+	padding-right: 1.25rem;
 }
 .text-left {
 	text-align: left;
@@ -2412,9 +2412,6 @@ select {
 }
 .font-roboto {
 	font-family: Roboto, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-}
-.font-oswald {
-	font-family: Oswald, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .text-sm {
 	font-size: 0.875rem;
@@ -2971,13 +2968,13 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
 }
-.focus\:bg-white:focus {
-	--tw-bg-opacity: 1;
-	background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-}
 .focus\:bg-gray-200:focus {
 	--tw-bg-opacity: 1;
 	background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+}
+.focus\:bg-white:focus {
+	--tw-bg-opacity: 1;
+	background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
 }
 .focus\:text-gray-700:focus {
 	--tw-text-opacity: 1;
@@ -3398,14 +3395,6 @@ select {
 		margin-left: 0.5rem;
 	}
 
-	.md\:mb-4 {
-		margin-bottom: 1rem;
-	}
-
-	.md\:mt-5 {
-		margin-top: 1.25rem;
-	}
-
 	.md\:block {
 		display: block;
 	}
@@ -3505,10 +3494,6 @@ select {
 
 	.md\:gap-4 {
 		gap: 1rem;
-	}
-
-	.md\:gap-8 {
-		gap: 2rem;
 	}
 
 	.md\:gap-3 {
