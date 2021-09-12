@@ -11,7 +11,7 @@
                 </div>
                 <div class="flex items-center justify-center">
                     <div class="flex rounded">
-                        <input type="text" v-model="form.query" @keyup.enter="search" class="px-4 py-2 border border-black focus:border-black rounded-l-md" placeholder="Search...">
+                        <input type="text" v-model="form.query" @keyup.enter="search" class="px-4 py-2 border border-black focus:border-black rounded-l-md w-40 md:w-auto" placeholder="Search...">
                         <button @click.prevent="search" class="flex items-center justify-center px-8 bg-gray-700 hover:bg-black border-2 border-black rounded-r-md">
                             <svg class="w-6 h-6 text-white" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                 <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />

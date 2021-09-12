@@ -7,11 +7,11 @@ return [
         'name' => env('APP_NAME', 'Duranta'),
         'short_name' => env('APP_NAME', 'Duranta'),
         'start_url' => '/',
-        'background_color' => '#ffffff',
+        'background_color' => '#FD3D57',
         'theme_color' => '#000000',
         'display' => 'standalone',
         'orientation'=> 'any',
-        'status_bar'=> 'black',
+        'status_bar'=> '#000000',
         'icons' => [
             '72x72' => [
                 'path' => '/images/icons/icon-72x72.png',

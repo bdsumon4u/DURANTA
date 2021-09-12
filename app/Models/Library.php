@@ -29,24 +29,14 @@ class Library extends Model implements HasMedia
             ->height(100)
             ->sharpen(10)
             ->performOnCollections('logo');
-        $this->addMediaConversion('16x16')
-            ->width(16)
-            ->height(16)
-            ->sharpen(10)
-            ->performOnCollections('favicon');
-        $this->addMediaConversion('32x32')
+        $this->addMediaConversion('72x72')
             ->width(32)
             ->height(32)
             ->sharpen(10)
             ->performOnCollections('favicon');
-        $this->addMediaConversion('48x48')
+        $this->addMediaConversion('96x96')
             ->width(48)
             ->height(48)
-            ->sharpen(10)
-            ->performOnCollections('favicon');
-        $this->addMediaConversion('64x64')
-            ->width(64)
-            ->height(64)
             ->sharpen(10)
             ->performOnCollections('favicon');
         $this->addMediaConversion('128x128')
@@ -54,9 +44,24 @@ class Library extends Model implements HasMedia
             ->height(128)
             ->sharpen(10)
             ->performOnCollections('favicon');
-        $this->addMediaConversion('256x256')
+        $this->addMediaConversion('144x144')
             ->width(256)
             ->height(256)
+            ->sharpen(10)
+            ->performOnCollections('favicon');
+        $this->addMediaConversion('152x152')
+            ->width(256)
+            ->height(256)
+            ->sharpen(10)
+            ->performOnCollections('favicon');
+        $this->addMediaConversion('192x192')
+            ->width(64)
+            ->height(64)
+            ->sharpen(10)
+            ->performOnCollections('favicon');
+        $this->addMediaConversion('384x384')
+            ->width(64)
+            ->height(64)
             ->sharpen(10)
             ->performOnCollections('favicon');
         $this->addMediaConversion('512x512')
