@@ -186,7 +186,27 @@
                         </div>
                         <!-- /Print Template -->
 
-                        <payment-history :payments="order.data.payments" :paid="order.data.paid" :due="order.data.due" />
+                        <div class="flex flex-wrap">
+                            <div class="w-72 md:mr-2">
+                                <div class="p-3 rounded-md border shadow-sm">
+                                    <form @submit.prevent="submit">
+                                        <validation-errors />
+                                        <div class="mb-2">
+                                            <label class="block mb-2 text-sm font-bold text-gray-700" for="pay-now">Cash On Delivery</label>
+                                            <input v-model="form.cash_on_delivery" :disabled="order.data.due <= 0" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="pay-now" type="text">
+                                        </div>
+                                        <button type="submit" class="px-2 py-1 bg-primary rounded-sm text-sm font-bold text-white" :disabled="order.data.due <= 0">Paid COD</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <div class="flex-1 w-full">
+                                <div class="overflow-x-auto">
+                                    <div class="align-middle inline-block min-w-full">
+                                        <payment-history :payments="order.data.payments" :paid="order.data.paid" :due="order.data.due" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="w-96 print:hidden">
@@ -262,6 +282,7 @@ export default {
                 ...this.order.data,
                 invoiceDate: this.invoiceDate,
                 dueDate: this.dueDate,
+                cash_on_delivery: 0,
             }),
             showTooltip: false,
             statuses: [

@@ -104,6 +104,19 @@ class OrderController extends Controller
         $order->load('products.seller', 'payments');
         $resource = (new OrderResource($order));
         $rArr = $resource->toArray($request);
+        if ($amount = $request->get('cash_on_delivery')) {
+            if ($amount != $rArr['due']) {
+                return back()->dangerBanner('Due amount does not match cod amount.');
+            }
+            $order->payments()->create([
+                'tran_id' => '#' . $order->getKey() . '-COD',
+                'amount' => $amount,
+                'status' => 'PAID',
+                'gateway_url' => '',
+            ]);
+            return back()->banner('Paid: Cash On Delivery');
+        }
+
         $original = $order->getOriginal();
         $data = $request->validated();
 
