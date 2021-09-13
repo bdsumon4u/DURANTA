@@ -1,5 +1,5 @@
 <template>
-    <div class="px-1 py-6">
+    <div class="py-6 flex flex-col overflow-hidden">
         <div class="shadow overflow-x-auto border-b border-gray-200 sm:rounded-lg">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">

@@ -39,6 +39,7 @@ class OrderController extends Controller
 
         return Inertia::render('Admin/Orders/Index', [
             'orders' => OrderResource::collection($orders),
+            'active' => \request('status'),
         ]);
     }
 

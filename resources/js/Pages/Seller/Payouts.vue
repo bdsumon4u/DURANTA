@@ -7,7 +7,7 @@
         </template>
 
         <div class="flex flex-col items-center overflow-hidden">
-            <div class="-my-2 max-w-5xl w-full overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="max-w-5xl w-full overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full">
                     <div class="shadow-md overflow-hidden border border-gray-200 sm:rounded-md">
                         <table class="min-w-full divide-y divide-gray-200">
@@ -49,9 +49,9 @@
                             </tbody>
                         </table>
                     </div>
-                    <pagination :links="payouts.meta.links" />
                 </div>
             </div>
+            <pagination :links="payouts.meta.links" />
         </div>
     </seller-layout>
 </template>

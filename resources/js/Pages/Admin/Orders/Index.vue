@@ -6,8 +6,12 @@
             </h2>
         </template>
         <div class="flex flex-col overflow-hidden">
-            <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                    <div class="flex mb-1 text-xs text-white font-bold">
+                        <inertia-link class="rounded-sm m-1 p-2" :class="[active ? 'bg-gray-500' : 'bg-primary']" :href="route('admin.orders.index', {status: ''})" preserve-scroll>ALL</inertia-link>
+                        <inertia-link v-for="status in ['PENDING', 'PROCESSING', 'PICKED', 'SHIPPING', 'DELIVERED', 'COMPLETED', 'RETURNED', 'REFUNDED']" class="rounded-sm m-1 p-2" :class="[active === status ? 'bg-primary' : 'bg-gray-500']" :href="route('admin.orders.index', {status})" preserve-scroll>{{ status }}</inertia-link>
+                    </div>
                     <div class="shadow-md overflow-hidden border border-gray-200 sm:rounded-md">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
@@ -56,9 +60,9 @@
                             </tbody>
                         </table>
                     </div>
-                    <pagination :links="orders.meta.links" />
                 </div>
             </div>
+            <pagination :links="orders.meta.links" />
         </div>
     </admin-layout>
 </template>
@@ -69,7 +73,7 @@ import Pagination from "@/Components/Pagination";
 
 export default {
     name: "Index",
-    props: ['orders'],
+    props: ['orders', 'active'],
     components: {
         Pagination,
         AdminLayout,

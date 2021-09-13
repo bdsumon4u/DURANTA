@@ -39,20 +39,20 @@
                         <DemoGallery :when="!form.media.length" />
                         <!--End GalleryPicker-->
                     </div>
-                    <div class="bg-white p-5 mb-5">
+                    <div class="bg-white px-2 py-3 mb-5">
                         <template v-if="form.id">
                             <!--PATCH Request-->
                             <jet-validation-errors />
                             <!--No Inertia Form-->
                         </template>
-                        <div class="px-3 pt-4 pb-5 bg-white rounded">
+                        <div class="bg-white rounded">
                             <div class="mb-4 md:flex md:justify-between">
-                                <div class="mb-4 w-2/3 md:mr-2 md:mb-0">
+                                <div class="mb-4 md:w-2/3 md:mr-2 md:mb-0">
                                     <label class="block mb-2 text-sm font-bold text-gray-700" for="name">Name</label>
                                     <input v-model="form.name" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="name" type="text" placeholder="Product Name">
                                     <jet-input-error :message="form.errors.name" class="mt-2" />
                                 </div>
-                                <div class="md:ml-2 w-1/3">
+                                <div class="md:ml-2 md:w-1/3">
                                     <label class="block mb-2 text-sm font-bold text-gray-700" for="sku">SKU</label>
                                     <input v-model="form.sku" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="sku" type="text" placeholder="Product SKU">
                                     <jet-input-error :message="form.errors.sku" class="mt-2" />
@@ -66,8 +66,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-96 space-y-4">
-                    <div class="sm:max-w-lg w-full px-6 py-8 bg-white rounded-md z-10">
+                <div class="md:w-96 space-y-4">
+                    <div class="sm:max-w-lg w-full px-2 py-3 bg-white rounded-md z-10">
                         <div class="w-full mb-4">
                             <label class="block mb-2 text-sm font-bold text-gray-700" for="brand">Brand</label>
                             <Multiselect id="brand" v-model="form.brand" mode="single" :options="brands" valueProp="id" label="name" trackBy="name" placeholder="Select Brand" />
@@ -79,7 +79,7 @@
                             <jet-input-error :message="form.errors.categories" class="mt-2" />
                         </div>
                     </div>
-                    <div class="sm:max-w-lg w-full px-6 py-8 bg-white rounded-md z-10">
+                    <div class="sm:max-w-lg w-full px-2 py-3 bg-white rounded-md z-10">
                         <div class="flex flex-col spacy-y-2">
                             <div class="w-full mb-4">
                                 <label class="block mb-2 text-sm font-bold text-gray-700" for="price">Price</label>
@@ -89,7 +89,7 @@
                             <div class="w-full">
                                 <label class="block mb-2 text-sm font-bold text-gray-700" for="discount">Discount</label>
                                 <div class="flex">
-                                    <input v-model="form.discount_amount" class="w-3/5 px-3 py-2 text-sm leading-tight text-gray-700 border rounded rounded-r-none mr-1 shadow appearance-none focus:outline-none focus:shadow-outline" id="discount" type="text" placeholder="Product Discount">
+                                    <input v-model="form.discount_amount" class="w-3/5 px-3 py-2 text-sm leading-tight text-gray-700 border rounded rounded-r-none shadow appearance-none focus:outline-none focus:shadow-outline" id="discount" type="text" placeholder="Product Discount">
                                     <div class="w-2/5 flex border bg-white rounded rounded-l-none">
                                         <div class="w-1/2 radio-uc inline-flex rounded-lg">
                                             <input
@@ -103,7 +103,7 @@
                                             />
                                             <label
                                                 for="fixed-discount"
-                                                class="w-full text-center self-center text-black text-xs py-1 px-2 mx-1 rounded-lg cursor-pointer hover:opacity-75">
+                                                class="w-full text-center self-center text-black text-xs py-1 px-1 mx-1 rounded-lg cursor-pointer hover:opacity-75">
                                                 Fixed
                                             </label>
                                         </div>
@@ -118,7 +118,7 @@
                                             />
                                             <label
                                                 for="percent-discount"
-                                                class="w-full text-center self-center text-black text-xs py-1 px-2 mx-1 rounded-lg cursor-pointer hover:opacity-75">
+                                                class="w-full text-center self-center text-black text-xs py-1 px-1 mx-1 rounded-lg cursor-pointer hover:opacity-75">
                                                 Percent
                                             </label>
                                         </div>
@@ -128,7 +128,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="sm:max-w-lg w-full px-6 py-8 bg-white rounded-md z-10">
+                    <div class="sm:max-w-lg w-full px-2 py-3 bg-white rounded-md z-10">
                         <div class="flex flex-col spacy-y-2">
                             <div class="w-full mb-4">
                                 <label class="block mb-2 text-sm font-bold text-gray-700" for="pickup-point">Pickup Point</label>
@@ -148,7 +148,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="admin" class="sm:max-w-lg w-full px-6 py-8 bg-white rounded-md z-10">
+                    <div v-if="admin" class="sm:max-w-lg w-full px-2 py-3 bg-white rounded-md z-10">
                         <div class="flex flex-col spacy-y-2">
                             <div class="w-full mb-4">
                                 <label class="block mb-2 text-sm font-bold text-gray-700" for="commission">Commission</label>

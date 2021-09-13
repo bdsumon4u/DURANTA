@@ -49,7 +49,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="flex-1">
+                <div class="flex-1 w-full">
                     <category-table :categories="categories" />
                 </div>
             </div>

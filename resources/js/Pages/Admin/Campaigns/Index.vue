@@ -61,7 +61,7 @@
                         </form>
                     </div>
                 </div>
-                <div class="flex-1">
+                <div class="flex-1 w-full">
                     <campaign-table :campaigns="campaigns" />
                 </div>
             </div>

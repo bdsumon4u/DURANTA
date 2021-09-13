@@ -98,16 +98,19 @@
                     </div>
                 </div>
             </div>
+            <pagination :links="orders.meta.links" />
         </div>
     </seller-layout>
 </template>
 
 <script>
 import SellerLayout from "@/Layouts/SellerLayout";
+import Pagination from "@/Components/Pagination";
 export default {
     name: "Index",
     props: ['orders'],
     components: {
+        Pagination,
         SellerLayout,
     },
     methods: {

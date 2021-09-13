@@ -87,7 +87,7 @@
                     <div class="shadow sm:rounded-md flex flex-col overflow-hidden">
                         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
                             <div class="align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                <div class="overflow-hidden bproduct bproduct-gray-200">
+                                <div class="overflow-hidden border border-gray-200">
                                     <table class="min-w-full divide-y divide-gray-200">
                                         <thead class="bg-gray-50">
                                         <tr>
