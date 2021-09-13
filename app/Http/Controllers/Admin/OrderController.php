@@ -24,22 +24,25 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::with('user', 'address')
-            ->withCount('products')
-            ->when(\request('status'), function ($query) {
-                $query->where('status', \request('status'));
-            })
-            ->when(\request('seller'), function ($query) {
-                $query->whereHas('products', function ($query) {
-                    $query->where('seller_id', \request('seller'));
-                });
-            })
-            ->latest('id')
-            ->paginate(10);
+        $orders = Order::search(\request('query'))->query(function ($query) {
+            $query->with('user', 'address')
+                ->withCount('products')
+                ->when(\request('status'), function ($query) {
+                    $query->where('status', \request('status'));
+                })
+                ->when(\request('seller'), function ($query) {
+                    $query->whereHas('products', function ($query) {
+                        $query->where('seller_id', \request('seller'));
+                    });
+                })
+                ->latest('id');
+        })->paginate(10)->withQueryString();
 
         return Inertia::render('Admin/Orders/Index', [
             'orders' => OrderResource::collection($orders),
             'active' => \request('status'),
+            'seller' => \request('seller'),
+            'query' => \request('query'),
         ]);
     }
 
