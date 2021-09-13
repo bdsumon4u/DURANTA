@@ -88,16 +88,6 @@ class Product extends Model implements HasMedia, Buyable
     }
 
     /**
-     * Determine if the model should be searchable.
-     *
-     * @return bool
-     */
-    public function shouldBeSearchable()
-    {
-        return $this->status === 'ACTIVE';
-    }
-
-    /**
      * Get the indexable data array for the model.
      *
      * @return array

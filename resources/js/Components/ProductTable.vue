@@ -58,8 +58,10 @@
                             </td>
                             <td class="px-3 py-3 whitespace-nowrap text-sm text-center font-medium w-28 border-l">
                                 <div class="flex flex-col space-y-2">
-                                    <inertia-link class="px-4 py-2 border rounded-md bg-blue-600 text-gray-100 hover:bg-blue-700 hover:text-white" :href="route('admin.products.edit', product.id)">Edit</inertia-link>
-                                    <button class="px-4 py-2 border rounded-md bg-red-600 text-gray-100 hover:bg-red-700 hover:text-white" type="button" @click.prevent="destroy(product)">Delete</button>
+                                    <inertia-link class="px-4 py-2 border rounded-md bg-blue-600 text-gray-100 hover:bg-blue-700 hover:text-white" :href="route(routePrefix + '.products.edit', product.id)">Edit</inertia-link>
+                                    <button class="px-4 py-2 border rounded-md bg-red-600 text-gray-100 hover:bg-red-700 hover:text-white" type="button" @click.prevent="destroy(product)">
+                                        {{ is_admin ? 'Reject' : 'Disable' }}
+                                    </button>
                                 </div>
                             </td>
                         </tr>

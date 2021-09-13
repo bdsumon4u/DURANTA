@@ -21,16 +21,19 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = \request()->user()
-            ->products()
-            ->with('firstMedia')
-            ->when(\request('status'), function ($query) {
-                $query->where('status', \request('status'));
-            })
-            ->paginate(10);
+        $products = Product::search(request('query'))->query(function ($query) {
+            $query->where('seller_id', request()->user()->getKey())
+                ->with('firstMedia')
+                ->when(\request('status'), function ($query) {
+                    $query->where('status', \request('status'));
+                })
+                ->latest('id');
+        })->paginate(10)->withQueryString();
 
         return Inertia::render('Seller/Products/Index', [
             'products' => ProductResource::collection($products),
+            'active' => request('status'),
+            'query' => request('query'),
         ]);
     }
 
@@ -116,7 +119,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->update([
+            'status' => 'DISABLED',
+        ]);
+        return back()->banner('Product is DISABLED.');
     }
 
     /**

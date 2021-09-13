@@ -21,16 +21,18 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('firstMedia')
-            ->when(\request('status'), function ($query) {
-                $query->where('status', \request('status'));
-            })
-            ->latest('id')
-            ->paginate(10)
-            ->withQueryString();
+        $products = Product::search(\request('query'))->query(function ($query) {
+            $query->with('firstMedia')
+                ->when(\request('status'), function ($query) {
+                    $query->where('status', \request('status'));
+                })
+                ->latest('id');
+        })->paginate(10)->withQueryString();
 
         return Inertia::render('Admin/Products/Index', [
             'products' => ProductResource::collection($products),
+            'active' => \request('status'),
+            'query' => \request('query'),
         ]);
     }
 
@@ -106,7 +108,10 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->update([
+            'status' => 'REJECTED',
+        ]);
+        return back()->banner('Product is REJECTED.');
     }
 
     /**
