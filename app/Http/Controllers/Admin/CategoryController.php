@@ -104,6 +104,9 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
+        if ($category->products()->count()) {
+            return back()->dangerBanner('Category Has Product.');
+        }
         $category->delete();
         return $this->banner('The Category Is Deleted.');
     }

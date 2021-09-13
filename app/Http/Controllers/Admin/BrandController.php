@@ -104,6 +104,9 @@ class BrandController extends Controller
      */
     public function destroy(Brand $brand)
     {
+        if ($brand->products()->count()) {
+            return back()->dangerBanner('Brand Has Product.');
+        }
         $brand->delete();
         return $this->banner('The Brand Is Deleted.');
     }
