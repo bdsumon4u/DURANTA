@@ -8,8 +8,8 @@
 
         <form @submit.prevent="submit">
             <div>
-                <jet-label for="email" value="Email" />
-                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus />
+                <jet-label for="phone" value="Phone" />
+                <jet-input id="phone" type="text" class="mt-1 block w-full" v-model="form.phone" required autofocus />
             </div>
 
             <div class="mt-4">
@@ -50,7 +50,7 @@
         },
 
         props: {
-            email: String,
+            phone: String,
             token: String,
         },
 
@@ -58,7 +58,7 @@
             return {
                 form: this.$inertia.form({
                     token: this.token,
-                    email: this.email,
+                    phone: this.phone,
                     password: '',
                     password_confirmation: '',
                 })

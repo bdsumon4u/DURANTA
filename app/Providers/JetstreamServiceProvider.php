@@ -99,13 +99,14 @@ class JetstreamServiceProvider extends ServiceProvider
 
         Fortify::requestPasswordResetLinkView(function () use ($typeDir) {
             return Inertia::render($typeDir . 'Auth/ForgotPassword', [
-                'status' => session('session'),
+                'status' => session('status'),
+                'is_seller' => \request()->isSeller(),
             ]);
         });
 
         Fortify::resetPasswordView(function () use ($typeDir) {
             return Inertia::render($typeDir . 'Auth/ResetPassword', [
-                'email' => request('email'),
+                'phone' => request('phone'),
                 'token' => request('token'),
             ]);
         });

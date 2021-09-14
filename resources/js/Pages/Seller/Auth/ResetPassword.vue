@@ -8,8 +8,8 @@
 
         <form @submit.prevent="submit">
             <div>
-                <jet-label for="email" value="Email" />
-                <jet-input id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autofocus />
+                <jet-label for="phone" value="Phone" />
+                <jet-input id="phone" type="text" class="mt-1 block w-full" v-model="form.phone" required autofocus />
             </div>
 
             <div class="mt-4">
@@ -32,49 +32,49 @@
 </template>
 
 <script>
-    import JetAuthenticationCard from '@/Jetstream/AuthenticationCard'
-    import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo'
-    import JetButton from '@/Jetstream/Button'
-    import JetInput from '@/Jetstream/Input'
-    import JetLabel from '@/Jetstream/Label'
-    import JetValidationErrors from '@/Jetstream/ValidationErrors'
+import JetAuthenticationCard from '@/Jetstream/AuthenticationCard'
+import JetAuthenticationCardLogo from '@/Jetstream/AuthenticationCardLogo'
+import JetButton from '@/Jetstream/Button'
+import JetInput from '@/Jetstream/Input'
+import JetLabel from '@/Jetstream/Label'
+import JetValidationErrors from '@/Jetstream/ValidationErrors'
 
-    export default {
-        components: {
-            JetAuthenticationCard,
-            JetAuthenticationCardLogo,
-            JetButton,
-            JetInput,
-            JetLabel,
-            JetValidationErrors
-        },
+export default {
+    components: {
+        JetAuthenticationCard,
+        JetAuthenticationCardLogo,
+        JetButton,
+        JetInput,
+        JetLabel,
+        JetValidationErrors
+    },
 
-        props: {
-            email: String,
-            token: String,
-        },
+    props: {
+        phone: String,
+        token: String,
+    },
 
-        data() {
-            return {
-                form: this.$inertia.form({
-                    token: this.token,
-                    email: this.email,
-                    password: '',
-                    password_confirmation: '',
-                })
-            }
-        },
-
-        methods: {
-            submit() {
-                this.form.post(this.route('seller.password.update'), {
-                    onFinish: () => this.form.reset('password', 'password_confirmation'),
-                })
-            }
-        },
-
-        created() {
-            this.makeTitle('Seller | Reset Password')
+    data() {
+        return {
+            form: this.$inertia.form({
+                token: this.token,
+                phone: this.phone,
+                password: '',
+                password_confirmation: '',
+            })
         }
+    },
+
+    methods: {
+        submit() {
+            this.form.post(this.route('seller.password.update'), {
+                onFinish: () => this.form.reset('password', 'password_confirmation'),
+            })
+        }
+    },
+
+    created() {
+        this.makeTitle('Seller | Reset Password')
     }
+}
 </script>

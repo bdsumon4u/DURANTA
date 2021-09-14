@@ -54,11 +54,11 @@ return function ($args) {
                     ->name('password.reset');
             }
 
-            Route::post('/forgot-password', [PasswordResetLinkController::class, 'store'])
+            Route::post('/forgot-password', [\App\Http\Controllers\Auth\PasswordResetLinkController::class, 'store'])
                 ->middleware(['guest:'.$guard])
                 ->name('password.email');
 
-            Route::post('/reset-password', [NewPasswordController::class, 'store'])
+            Route::post('/reset-password', [\App\Http\Controllers\Auth\NewPasswordController::class, 'store'])
                 ->middleware(['guest:'.$guard])
                 ->name('password.update');
         }

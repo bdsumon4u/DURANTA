@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CanResetPassword;
 use App\Traits\MustVerifyPhone;
 use Bavix\Wallet\Interfaces\Wallet;
 use Bavix\Wallet\Traits\HasWallet;
@@ -20,6 +21,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class Seller extends Authenticatable implements \App\Contracts\Auth\MustVerifyPhone, Wallet, HasMedia
 {
+    use CanResetPassword;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;

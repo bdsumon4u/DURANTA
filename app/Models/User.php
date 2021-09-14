@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CanResetPassword;
 use App\Traits\MustVerifyPhone;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -13,6 +14,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements \App\Contracts\Auth\MustVerifyPhone
 {
+    use CanResetPassword;
     use HasApiTokens;
     use HasFactory;
     use HasProfilePhoto;
