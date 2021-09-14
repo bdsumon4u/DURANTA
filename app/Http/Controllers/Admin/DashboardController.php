@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
+use App\Models\Product;
+use App\Models\Seller;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,6 +20,13 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return Inertia::render('Admin/Dashboard');
+        return Inertia::render('Admin/Dashboard', [
+            'statistics' => [
+                'sellers' => Seller::count(),
+                'products' => Product::count(),
+                'orders' => Order::count(),
+                'customers' => User::count(),
+            ],
+        ]);
     }
 }

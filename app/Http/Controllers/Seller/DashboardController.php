@@ -35,6 +35,10 @@ class DashboardController extends Controller
 
         return Inertia::render('Seller/Dashboard', [
             'application' => new SellershipResource($application),
+            'statistics' => [
+                'products' => $request->user()->products()->count(),
+                'orders' => $request->user()->orders()->count(),
+            ]
         ]);
     }
 }
