@@ -17,9 +17,9 @@ class CreateCampaignsTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('slug')->nullable()->unique();
-            $table->timestamp('starts_at');
-            $table->timestamp('ends_at');
-            $table->timestamp('deadline');
+            $table->timestamp('starts_at')->useCurrent();
+            $table->timestamp('ends_at')->useCurrent();
+            $table->timestamp('deadline')->useCurrent();
             $table->timestamps();
         });
     }
