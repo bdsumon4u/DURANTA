@@ -21,5 +21,8 @@ export default {
         ProductEditor,
         SellerLayout,
     },
+    created() {
+        this.makeTitle('Seller Product Editor')
+    }
 }
 </script>

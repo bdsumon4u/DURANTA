@@ -92,6 +92,10 @@
             submit() {
                 this.form.post(this.route('admin.two-factor.login'))
             }
+        },
+
+        created() {
+            this.makeTitle('Admin | Two Factor')
         }
     }
 </script>

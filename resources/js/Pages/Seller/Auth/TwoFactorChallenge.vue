@@ -92,6 +92,10 @@
             submit() {
                 this.form.post(this.route('seller.two-factor.login'))
             }
+        },
+
+        created() {
+            this.makeTitle('Seller | Two Factor')
         }
     }
 </script>

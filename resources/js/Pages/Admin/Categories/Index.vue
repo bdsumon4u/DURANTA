@@ -110,5 +110,8 @@ export default {
             src: this.category ? this.category.image : '',
         };
     },
+    created() {
+        this.makeTitle('Admin Categories')
+    }
 }
 </script>

@@ -57,6 +57,10 @@
                     onFinish: () => this.form.reset(),
                 })
             }
+        },
+
+        created() {
+            this.makeTitle(this.$page.props.settings.general.site_name + ' | Confirm Password')
         }
     }
 </script>

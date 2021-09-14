@@ -35,5 +35,8 @@ export default {
         AdminLayout,
         SellershipManager,
     },
+    created() {
+        this.makeTitle('Sellership')
+    }
 }
 </script>

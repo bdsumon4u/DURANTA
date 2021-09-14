@@ -25,5 +25,8 @@
             AdminLayout,
             Welcome,
         },
+        created() {
+            this.makeTitle('Admin Dashboard')
+        }
     }
 </script>

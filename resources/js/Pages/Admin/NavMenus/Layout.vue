@@ -34,5 +34,9 @@ export default {
         AdminLayout,
         JetValidationErrors,
     },
+
+    created() {
+        this.makeTitle('NavMenu | ' + this.active)
+    }
 }
 </script>

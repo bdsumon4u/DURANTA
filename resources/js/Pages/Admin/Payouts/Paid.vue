@@ -112,5 +112,8 @@ export default {
             }),
         };
     },
+    created() {
+        this.makeTitle('Admin Payout')
+    }
 }
 </script>

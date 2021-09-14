@@ -220,6 +220,9 @@ export default {
                 discount_type: 'fixed',
             }),
         }
+    },
+    created() {
+        this.makeTitle('Seller Campaign Editor')
     }
 }
 </script>

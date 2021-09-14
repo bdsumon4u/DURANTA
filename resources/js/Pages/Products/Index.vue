@@ -70,5 +70,8 @@ export default {
             showFilter: false,
         };
     },
+    created() {
+        this.makeTitle(this.$page.props.settings.general.site_name + ' | Products')
+    }
 }
 </script>

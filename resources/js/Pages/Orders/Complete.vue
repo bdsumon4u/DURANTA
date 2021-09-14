@@ -27,6 +27,9 @@ export default {
     name: "Complete",
     components: {
         AppLayout,
+    },
+    created() {
+        this.makeTitle('Order Complete')
     }
 }
 </script>

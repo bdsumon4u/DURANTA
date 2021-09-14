@@ -90,6 +90,10 @@
                     onFinish: () => this.form.reset('password', 'password_confirmation'),
                 })
             }
+        },
+
+        created() {
+            this.makeTitle('Seller | Register')
         }
     }
 </script>

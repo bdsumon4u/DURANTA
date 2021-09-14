@@ -63,6 +63,10 @@
             submit() {
                 this.form.post(this.route('seller.password.email'))
             }
+        },
+
+        created() {
+            this.makeTitle('Seller | Forgot Password')
         }
     }
 </script>

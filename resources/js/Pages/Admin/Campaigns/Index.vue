@@ -125,5 +125,8 @@ export default {
             src: this.campaign?.data?.image ?? '',
         };
     },
+    created() {
+        this.makeTitle('Admin Campaings')
+    }
 }
 </script>

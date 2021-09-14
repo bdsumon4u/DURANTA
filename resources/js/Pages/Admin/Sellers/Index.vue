@@ -78,5 +78,8 @@ export default {
         AdminLayout,
     },
     props: ['sellers', 'status'],
+    created() {
+        this.makeTitle('Admin Sellers')
+    }
 }
 </script>

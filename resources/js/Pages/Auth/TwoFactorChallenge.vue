@@ -92,6 +92,10 @@
             submit() {
                 this.form.post(this.route('two-factor.login'))
             }
+        },
+
+        created() {
+            this.makeTitle(this.$page.props.settings.general.site_name + ' | Two Factor')
         }
     }
 </script>

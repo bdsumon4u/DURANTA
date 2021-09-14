@@ -36,5 +36,9 @@ export default {
         AdminLayout,
         JetValidationErrors,
     },
+
+    created() {
+        this.makeTitle('Settings | ' + this.ucfirst(this.active))
+    }
 }
 </script>

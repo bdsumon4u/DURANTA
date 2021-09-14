@@ -22,5 +22,8 @@
             SellerLayout,
             SellershipManager,
         },
+        created() {
+            this.makeTitle('Seller Dashboard')
+        }
     }
 </script>

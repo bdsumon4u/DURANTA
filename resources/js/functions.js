@@ -36,3 +36,7 @@ export function updateCart(product, type) {
         }
     }).catch(err => console.error(err));
 }
+
+export function makeTitle(title) {
+    document.querySelector('title').innerText = title;
+}

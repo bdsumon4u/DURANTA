@@ -59,5 +59,9 @@
             UpdatePasswordForm,
             UpdateProfileInformationForm,
         },
+
+        created() {
+            this.makeTitle('Admin Profile')
+        }
     }
 </script>

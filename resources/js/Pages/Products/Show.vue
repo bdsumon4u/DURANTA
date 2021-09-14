@@ -270,6 +270,9 @@ export default {
             quantity: 1,
             counting: !!this.campaign.data.ends_in,
         }
+    },
+    created() {
+        this.makeTitle(this.product.data.name)
     }
 }
 </script>

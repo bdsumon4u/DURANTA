@@ -71,6 +71,10 @@
                     onFinish: () => this.form.reset('password', 'password_confirmation'),
                 })
             }
+        },
+
+        created() {
+            this.makeTitle(this.$page.props.settings.general.site_name + ' | Reset Password')
         }
     }
 </script>

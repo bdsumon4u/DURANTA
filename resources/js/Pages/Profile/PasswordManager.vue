@@ -26,6 +26,9 @@ export default {
     components: {
         Sidebar,
         UpdatePasswordForm, AppLayout,
+    },
+    created() {
+        this.makeTitle(this.$page.props.settings.general.site_name + ' | Password')
     }
 }
 </script>

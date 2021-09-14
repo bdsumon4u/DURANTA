@@ -114,6 +114,10 @@ export default {
                     onFinish: () => this.form.reset('password'),
                 })
         }
+    },
+
+    created() {
+        this.makeTitle(this.$page.props.settings.general.site_name + ' | Login')
     }
 }
 </script>

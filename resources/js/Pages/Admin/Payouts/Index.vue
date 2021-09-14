@@ -79,5 +79,8 @@ export default {
         Pagination,
         AdminLayout,
     },
+    created() {
+        this.makeTitle('Admin Payouts')
+    }
 }
 </script>

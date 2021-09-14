@@ -56,6 +56,10 @@
             verificationLinkSent() {
                 return this.status === 'verification-link-sent';
             }
+        },
+
+        created() {
+            this.makeTitle('Seller | Verify Email')
         }
     }
 </script>

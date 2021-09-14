@@ -146,6 +146,9 @@ export default {
         'form.title': function (val) {
             this.form.slug = this.slugify(val);
         },
+    },
+    created() {
+        this.makeTitle('Admin Page Editor')
     }
 }
 </script>

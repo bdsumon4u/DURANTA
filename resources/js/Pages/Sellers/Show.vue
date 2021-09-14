@@ -63,6 +63,9 @@ export default {
                 query: this.query,
             }),
         }
+    },
+    created() {
+        this.makeTitle(this.seller.data.store_name)
     }
 }
 </script>

@@ -71,6 +71,10 @@
                     onFinish: () => this.form.reset('password', 'password_confirmation'),
                 })
             }
+        },
+
+        created() {
+            this.makeTitle('Admin | Reset Password')
         }
     }
 </script>

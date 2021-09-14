@@ -63,6 +63,10 @@
             submit() {
                 this.form.post(this.route('admin.password.email'))
             }
+        },
+
+        created() {
+            this.makeTitle('Admin | Forgot Password')
         }
     }
 </script>

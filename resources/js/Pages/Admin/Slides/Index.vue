@@ -52,6 +52,9 @@ export default {
         destroy(slide) {
             this.$inertia.delete(route('admin.slides.destroy', slide));
         }
+    },
+    created() {
+        this.makeTitle('Admin Slides')
     }
 }
 </script>

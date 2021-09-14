@@ -62,6 +62,9 @@ export default {
                 query: this.query,
             }),
         }
+    },
+    created() {
+        this.makeTitle(this.$page.props.settings.general.site_name + ' | Categories')
     }
 }
 </script>

@@ -100,6 +100,9 @@ export default {
         submit() {
             this.form.post(route('address', this.address.type));
         }
+    },
+    created() {
+        this.makeTitle(this.$page.props.settings.general.site_name + ' | Address Manager')
     }
 }
 </script>

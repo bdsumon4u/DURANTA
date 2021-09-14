@@ -141,5 +141,8 @@ export default {
         AdminLayout,
     },
     props: ['transactions', 'seller', 'periods', 'active'],
+    created() {
+        this.makeTitle('View Seller')
+    }
 }
 </script>

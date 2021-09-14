@@ -101,6 +101,9 @@ export default {
                 status: this.active,
             })
         }
+    },
+    created() {
+        this.makeTitle('Admin Orders')
     }
 }
 </script>

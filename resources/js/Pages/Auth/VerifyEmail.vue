@@ -56,6 +56,10 @@
             verificationLinkSent() {
                 return this.status === 'verification-link-sent';
             }
+        },
+
+        created() {
+            this.makeTitle(this.$page.props.settings.general.site_name + ' | Email Verify')
         }
     }
 </script>

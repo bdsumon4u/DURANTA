@@ -63,5 +63,8 @@ export default {
         Pagination,
         SellerLayout,
     },
+    created() {
+        this.makeTitle('Seller Wallet')
+    }
 }
 </script>

@@ -92,6 +92,9 @@ export default {
             data: this.notifications.data,
         }
     },
+    created() {
+        this.makeTitle('Notifications')
+    },
     mounted() {
         this.emitter.on('seen-all-notifications', this.read)
     }

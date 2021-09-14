@@ -27,6 +27,9 @@ export default {
         return {
             lang: !!this.page.content_en ? 'en' : 'bn',
         }
+    },
+    created() {
+        this.makeTitle(this.page.title)
     }
 }
 </script>

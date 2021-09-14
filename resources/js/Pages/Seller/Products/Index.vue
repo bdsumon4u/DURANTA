@@ -43,14 +43,17 @@ export default {
         search(extra) {
             this.form.transform(data => ({...data, ...extra})).get(route('seller.products.index'))
         }
-        },
-        data() {
-            return {
-                form: this.$inertia.form({
-                    query: this.query,
-                    status: this.active,
-                })
-            }
+    },
+    data() {
+        return {
+            form: this.$inertia.form({
+                query: this.query,
+                status: this.active,
+            })
         }
+    },
+    created() {
+        this.makeTitle('Seller Products')
+    }
 }
 </script>

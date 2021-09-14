@@ -110,5 +110,8 @@ export default {
             src: this.brand ? this.brand.image : '',
         };
     },
+    created() {
+        this.makeTitle('Admin Brands')
+    }
 }
 </script>

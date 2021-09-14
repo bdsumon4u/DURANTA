@@ -297,6 +297,9 @@ export default {
             ],
         }
     },
+    created() {
+        this.makeTitle('Admin Order Editor')
+    }
 }
 </script>
 

@@ -140,6 +140,9 @@ export default {
                 amount: this.order.data.due,
             })
         }
+    },
+    created() {
+        this.makeTitle(this.$page.props.settings.general.site_name + ' | Order')
     }
 }
 </script>

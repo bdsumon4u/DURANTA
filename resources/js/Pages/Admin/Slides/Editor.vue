@@ -70,6 +70,9 @@ export default {
         return {
             form: this.$inertia.form(this.slide.data)
         }
+    },
+    created() {
+        this.makeTitle('Admin Slide Editor')
     }
 }
 </script>

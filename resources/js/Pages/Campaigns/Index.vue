@@ -69,5 +69,8 @@ export default {
             this.$inertia.reload();
         }
     },
+    created() {
+        this.makeTitle(this.$page.props.settings.general.site_name + ' | Campaigns')
+    }
 }
 </script>

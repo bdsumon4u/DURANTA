@@ -131,6 +131,7 @@
 
         created() {
             this.countDown();
+            this.makeTitle('Phone Verify')
         }
     }
 </script>

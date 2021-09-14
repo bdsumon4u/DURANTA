@@ -87,6 +87,10 @@
                         onFinish: () => this.form.reset('password'),
                     })
             }
+        },
+
+        created() {
+            this.makeTitle('Admin | Login')
         }
     }
 </script>

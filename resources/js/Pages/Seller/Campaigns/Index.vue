@@ -60,5 +60,8 @@ export default {
         SellerLayout,
     },
     props: ['campaigns'],
+    created() {
+        this.makeTitle('Seller Campaigns')
+    }
 }
 </script>

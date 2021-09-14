@@ -108,6 +108,9 @@ export default {
             },
         };
     },
+    created() {
+        this.makeTitle('Admin Product Editor')
+    }
 }
 </script>
 

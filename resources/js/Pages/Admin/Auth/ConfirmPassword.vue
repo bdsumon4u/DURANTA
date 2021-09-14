@@ -57,6 +57,10 @@
                     onFinish: () => this.form.reset(),
                 })
             }
+        },
+
+        created() {
+            this.makeTitle('Admin | Confirm Password')
         }
     }
 </script>

@@ -54,7 +54,7 @@ class CategoryController extends Controller
 
         return Inertia::render('Categories/Show', [
             'products' => ProductResource::collection($products),
-            'brand' => new CategoryResource($category),
+            'category' => new CategoryResource($category),
             'search' => $search,
         ]);
     }

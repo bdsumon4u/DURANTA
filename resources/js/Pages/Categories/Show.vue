@@ -3,10 +3,10 @@
         <div class="container">
             <div class="flex flex-col justify-between flex-1 p-4 my-8 bg-white rounded-lg shadow-md md:flex-row">
                 <div class="flex items-center justify-center mb-4 md:mb-0">
-                    <img class="w-20 h-20 mr-2 border border-solid" :src="brand.data.image" />
+                    <img class="w-20 h-20 mr-2 border border-solid" :src="category.data.image" />
                     <div class="ml-4">
-                        <h1 class="text-xl md:text-3xl font-semibold">{{ brand.data.name }}</h1>
-                        <span class="text-gray-600">products found in {{ brand.data.name }}</span>
+                        <h1 class="text-xl md:text-3xl font-semibold">{{ category.data.name }}</h1>
+                        <span class="text-gray-600">products found in {{ category.data.name }}</span>
                     </div>
                 </div>
                 <div class="flex items-center justify-center">
@@ -46,7 +46,7 @@ import Pagination from "@/Components/Pagination";
 
 export default {
     name: "Show",
-    props: ['query', 'products', 'brand'],
+    props: ['query', 'products', 'category'],
     components: {
         Pagination,
         Product,
@@ -54,7 +54,7 @@ export default {
     },
     methods: {
         search() {
-            this.form.get(route('brands.show', this.brand.data.slug));
+            this.form.get(route('categories.show', this.category.data.slug));
         }
     },
     data() {
@@ -63,6 +63,9 @@ export default {
                 query: this.query,
             }),
         }
+    },
+    created() {
+        this.makeTitle(this.category.data.name)
     }
 }
 </script>

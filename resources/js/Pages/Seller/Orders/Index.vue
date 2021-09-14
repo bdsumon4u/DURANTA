@@ -146,6 +146,9 @@ export default {
                 status: this.active,
             })
         }
+    },
+    created() {
+        this.makeTitle('Seller Orders')
     }
 }
 </script>

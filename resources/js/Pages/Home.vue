@@ -208,6 +208,10 @@ export default {
         return {
             counting: !!this.campaign.data.ends_in,
         }
+    },
+    created() {
+        const general = this.$page.props.settings.general;
+        this.makeTitle(general.site_name + ' | ' + general.tagline)
     }
 }
 </script>

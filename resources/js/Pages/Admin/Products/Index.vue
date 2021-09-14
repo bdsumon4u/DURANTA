@@ -48,6 +48,9 @@ export default {
                 status: this.active,
             })
         }
+    },
+    created() {
+        this.makeTitle('Admin Products')
     }
 }
 </script>

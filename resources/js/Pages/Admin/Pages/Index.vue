@@ -57,6 +57,9 @@ export default {
         destroy(page) {
             this.$inertia.delete(route('admin.pages.destroy', page));
         }
+    },
+    created() {
+        this.makeTitle('Admin Pages')
     }
 }
 </script>

@@ -56,6 +56,10 @@
             verificationLinkSent() {
                 return this.status === 'verification-link-sent';
             }
+        },
+
+        created() {
+            this.makeTitle('Admin | Verify Email')
         }
     }
 </script>

@@ -78,5 +78,8 @@ export default {
             counting: !!this.campaign.data.ends_in,
         };
     },
+    created() {
+        this.makeTitle(this.campaign.data.name)
+    }
 }
 </script>
