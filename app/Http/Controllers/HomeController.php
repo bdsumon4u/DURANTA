@@ -6,11 +6,14 @@ use App\Http\Resources\BrandResource;
 use App\Http\Resources\CampaignResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\SellerResource;
+use App\Http\Resources\WidgetResource;
 use App\Models\Brand;
 use App\Models\Campaign;
 use App\Models\Product;
 use App\Models\Seller;
+use App\Models\Widget;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 
 class HomeController extends Controller
@@ -33,12 +36,14 @@ class HomeController extends Controller
             ->whereDate('starts_at', '<=', now())
             ->whereDate('ends_at', '>', now())
             ->firstOrNew();
-        $latest = Product::approved()->with('firstMedia')->latest('id')->take(12)->get();
+        $widgets = Cache::rememberForever('widgets', function () {
+            return Widget::oldest('weight')->get();
+        });
         return Inertia::render('Home', [
             'brands' => BrandResource::collection($brands),
             'stores' => SellerResource::collection($stores),
             'campaign' => new CampaignResource($campaign),
-            'latest' => ProductResource::collection($latest),
+            'widgets' => WidgetResource::collection($widgets),
         ]);
     }
 }

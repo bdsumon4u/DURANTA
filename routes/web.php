@@ -25,6 +25,7 @@ Route::get('/categories', \App\Http\Controllers\CategoryController::class)->name
 Route::get('/categories/{category:slug}', [\App\Http\Controllers\CategoryController::class, 'show'])->name('categories.show');
 Route::get('/campaigns', \App\Http\Controllers\CampaignController::class)->name('campaigns');
 Route::get('/campaigns/{campaign:slug}', [\App\Http\Controllers\CampaignController::class, 'show'])->name('campaigns.show');
+Route::get('/widgets/{slug}', \App\Http\Controllers\WidgetController::class)->name('widget');
 Route::get('/pages/{page:slug}', \App\Http\Controllers\PageController::class)->name('page');
 
 notificationRoutes(['middleware' => ['web', 'auth:sanctum']]);

@@ -35,7 +35,7 @@
                         <div class="bg-primary px-2 py-1 rounded-sm text-white">{{ seconds }}</div>
                     </vue-countdown>
                     <div v-if="!campaign.data.starts_in">
-                        <inertia-link :href="route('campaigns.show', campaign.data.slug)" class="bg-black px-3 py-1 ml-2 rounded-sm text-white font-bold">View All</inertia-link>
+                        <inertia-link :href="route('campaigns.show', campaign.data.slug)" class="bg-black px-3 py-1 ml-2 rounded-sm text-white text-center font-bold">View All</inertia-link>
                     </div>
                 </div>
             </div>
@@ -126,43 +126,34 @@
         </div>
         <!-- shop by store end -->
 
-        <!-- top new arrival -->
-        <div class="container pb-16">
-            <h2 class="text-xl md:text-2xl font-medium font-roboto text-gray-800 uppercase mb-6">Top New Arrival</h2>
-            <!-- product wrapper -->
-            <div class="grid lg:grid-cols-6 sm:grid-cols-3 grid-cols-2 lg:gap-6 md:gap-4 gap-2">
-                <!-- single product -->
-                <template v-for="product in latest.data">
-                    <product :product="product" />
-                </template>
-                <!-- single product end -->
-            </div>
-            <!-- product wrapper end -->
-        </div>
-        <!-- top new arrival end -->
+        <template v-for="widget in widgets.data">
+            <!-- products widget -->
+            <div v-if="widget.name === 'Products'" class="container pb-16">
+                <div class="flex items-center justify-between text-xs md:text-sm mb-6">
+                    <h2 class="text-xl md:text-2xl font-medium font-roboto text-gray-800 uppercase">{{ widget.title }}</h2>
+                    <inertia-link :href="route('widget', widget.slug)" class="bg-black px-3 py-1 ml-2 rounded-sm text-white text-center font-bold">View All</inertia-link>
+                </div>
 
-        <!-- ad section -->
-        <div class="container pb-16">
-            <a href="#">
-                <img src="/images/offer.jpg" class="w-full">
-            </a>
-        </div>
-        <!-- ad section end -->
-
-        <!-- recommended for you -->
-        <div class="container pb-16">
-            <h2 class="text-xl md:text-2xl font-medium font-roboto text-gray-800 uppercase mb-6">Recommended For You</h2>
-            <!-- product wrapper -->
-            <div class="grid lg:grid-cols-6 sm:grid-cols-3 grid-cols-2 lg:gap-6 md:gap-4 gap-2">
-                <!-- single product -->
-                <template v-for="product in latest.data">
-                    <product :product="product" />
-                </template>
-                <!-- single product end -->
+                <!-- product wrapper -->
+                <div class="grid lg:grid-cols-6 sm:grid-cols-3 grid-cols-2 lg:gap-6 md:gap-4 gap-2">
+                    <!-- single product -->
+                    <template v-for="product in widget.products">
+                        <product :product="product" />
+                    </template>
+                    <!-- single product end -->
+                </div>
+                <!-- product wrapper end -->
             </div>
-            <!-- product wrapper end -->
-        </div>
-        <!-- recommended for you end -->
+            <!-- products widget end -->
+
+            <!-- ad section -->
+            <div v-else-if="widget.name === 'Banner'" class="container pb-16">
+                <inertia-link :href="widget.link">
+                    <img :src="widget.image" class="w-full" :alt="widget.title">
+                </inertia-link>
+            </div>
+            <!-- ad section end -->
+        </template>
     </app-layout>
 </template>
 
@@ -175,7 +166,7 @@ import VueCountdown from '@chenfengyuan/vue-countdown';
 
 export default {
     name: "Home",
-    props: ['brands', 'stores', 'campaign', 'latest'],
+    props: ['brands', 'stores', 'campaign', 'widgets'],
     components: {
         AppLayout,
         Product,
