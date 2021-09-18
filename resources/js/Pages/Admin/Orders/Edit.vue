@@ -7,7 +7,7 @@
         </template>
         <div>
             <div class="flex justify-center flex-wrap lg:space-x-5">
-                <div class="flex-1 overflow-x-auto">
+                <div class="w-full flex-1">
                     <div class="bg-white py-6 px-4">
                         <div class="print:hidden flex justify-end items-center mb-4 pb-4 border-b">
                             <div class="flex-1 text-2xl uppercase font-bold">
@@ -41,6 +41,8 @@
                             </div>
                         </div>
 
+                        <validation-errors class="mb-4" />
+
                         <!-- Print Template -->
                         <div id="js-print-template" ref="printTemplate" class="nhidden print:block mb-5">
                             <div class="mb-4 flex justify-between">
@@ -58,18 +60,10 @@
 
                                     <div class="print:hidden">
                                         <div class="flex items-center">
-                                            <label class="w-32 text-gray-800 block font-bold text-sm uppercase tracking-wide">Invoice Date</label>
+                                            <label class="w-32 text-gray-800 block font-bold text-xs uppercase tracking-wide">Invoice Date</label>
                                             <span class="mr-4 inline-block hidden md:block">:</span>
                                             <div class="flex-1">
                                                 <input class="bg-gray-200 appearance-none border-0 border-gray-200 rounded w-36 py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 js-datepicker" type="text" placeholder="eg. 17 Feb, 2021" v-model="form.invoiceDate" autocomplete="off">
-                                            </div>
-                                        </div>
-
-                                        <div class="flex items-center">
-                                            <label class="w-32 text-gray-800 block font-bold text-sm uppercase tracking-wide">Due Date</label>
-                                            <span class="mr-4 inline-block hidden md:block">:</span>
-                                            <div class="flex-1">
-                                                <input class="bg-gray-200 appearance-none border-0 border-gray-200 rounded w-36 py-1 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-blue-500 js-datepicker-2" type="text" placeholder="eg. 17 Mar, 2021" v-model="form.dueDate" autocomplete="off">
                                             </div>
                                         </div>
                                     </div>
@@ -79,16 +73,10 @@
                                             <span class="mr-4 inline-block">:</span>
                                             <div v-text="form.invoiceDate"></div>
                                         </div>
-
-                                        <div class="flex items-center">
-                                            <label class="w-32 text-gray-800 block font-bold text-xs uppercase tracking-wide">Due Date</label>
-                                            <span class="mr-4 inline-block">:</span>
-                                            <div v-text="form.dueDate"></div>
-                                        </div>
                                     </div>
                                 </div>
                                 <div class="hidden print:block md:block pr-5">
-                                    <div class="w-32 h-32 mb-1 overflow-hidden">
+                                    <div class="w-48 h-24 mb-1 overflow-hidden flex justify-end">
                                         <inertia-link :href="route('home')" class="flex w-28 h-9 justify-center items-center text-primary border border-primary font-semibold font-roboto-condensed text-2xl">
                                             DURANTA
                                         </inertia-link>
@@ -152,11 +140,16 @@
                                             <tbody class="bg-white text-sm divide-y divide-gray-200">
                                             <tr v-for="product in order.data.products" :key="product.id">
                                                 <td class="px-3 py-2">
-                                                    <div>
-                                                        <inertia-link class="hover:underline" :href="route('products.show', product.slug)">{{ product.name }}</inertia-link>
-                                                        <strong>&nbsp;x{{ product.pivot.quantity }}</strong>
+                                                    <div class="flex items-center justify-between">
+                                                        <div>
+                                                            <div>
+                                                                <inertia-link class="whitespace-nowrap hover:underline" :href="route('products.show', product.slug)">{{ product.name }}</inertia-link>
+                                                                <strong>&nbsp;x{{ product.pivot.quantity }}</strong>
+                                                            </div>
+                                                            <p class="print:hidden whitespace-nowrap ml-5">By, <inertia-link class="text-primary hover:underline" :href="route('admin.sellers.show', product.seller_id)">{{ product.seller }}</inertia-link></p>
+                                                        </div>
+                                                        <div class="print:hidden bg-primary text-white text-xs font-bold flex items-center justify-center h-8 w-24 ml-3 px-2 py-1 rounded-sm">{{ product.pivot.status }}</div>
                                                     </div>
-                                                    <p class="print:hidden whitespace-nowrap ml-5">By, <inertia-link class="text-primary hover:underline" :href="route('admin.sellers.show', product.seller_id)">{{ product.seller }}</inertia-link></p>
                                                 </td>
                                                 <td class="px-3 py-2 whitespace-nowrap">{{ product.pivot.quantity }}x{{ moneyFormat(product.pivot.price) }}</td>
                                                 <td class="px-3 py-2 whitespace-nowrap">{{ product.pivot.quantity }}x{{ moneyFormat(product.pivot.discount) }}</td>
@@ -171,12 +164,20 @@
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.total) }}</th>
                                             </tr>
                                             <tr>
-                                                <th scope="col" colspan="3" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Shipping</th>
-                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.shipping) }}</th>
+                                                <th scope="col" colspan="3" class="px-3 py-1 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Shipping</th>
+                                                <th scope="col" class="px-3 py-1 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.shipping) }}</th>
                                             </tr>
                                             <tr>
-                                                <th scope="col" colspan="3" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Payable</th>
-                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.total + order.data.shipping) }}</th>
+                                                <th scope="col" colspan="3" class="px-3 py-1 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Payable</th>
+                                                <th scope="col" class="px-3 py-1 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.total + order.data.shipping) }}</th>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col" colspan="3" class="px-3 py-1 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Paid</th>
+                                                <th scope="col" class="px-3 py-1 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.paid) }}</th>
+                                            </tr>
+                                            <tr>
+                                                <th scope="col" colspan="3" class="px-3 py-1 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Due</th>
+                                                <th scope="col" class="px-3 py-1 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.due) }}</th>
                                             </tr>
                                             </tfoot>
                                         </table>
@@ -186,16 +187,29 @@
                         </div>
                         <!-- /Print Template -->
 
-                        <div class="flex flex-wrap">
-                            <div class="w-72 md:mr-2">
+                        <div class="print:hidden flex flex-wrap">
+                            <div class="w-full md:w-72 mb-2 md:mb-0 md:mr-2">
                                 <div class="p-3 rounded-md border shadow-sm">
-                                    <form @submit.prevent="submit">
-                                        <validation-errors />
+                                    <form @submit.prevent="pay">
                                         <div class="mb-2">
                                             <label class="block mb-2 text-sm font-bold text-gray-700" for="pay-now">Cash On Delivery</label>
                                             <input v-model="form.cash_on_delivery" :disabled="order.data.due <= 0" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="pay-now" type="text">
                                         </div>
                                         <button type="submit" class="px-2 py-1 bg-primary rounded-sm text-sm font-bold text-white" :disabled="order.data.due <= 0">Paid COD</button>
+                                    </form>
+                                </div>
+                                <div class="my-1"></div>
+                                <div class="p-3 rounded-md border shadow-sm">
+                                    <form @submit.prevent="refund">
+                                        <div class="mb-2">
+                                            <label class="block mb-2 text-sm font-bold text-gray-700" for="refund">Refund</label>
+                                            <input v-model="form.refund" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="refund" type="text">
+                                        </div>
+                                        <div class="mb-2">
+                                            <label class="block mb-2 text-sm font-bold text-gray-700" for="tran-id">Tran ID</label>
+                                            <input v-model="form.tran_id" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="tran-id" type="text">
+                                        </div>
+                                        <button type="submit" class="px-2 py-1 bg-primary rounded-sm text-sm font-bold text-white">Refunded</button>
                                     </form>
                                 </div>
                             </div>
@@ -209,26 +223,29 @@
                         </div>
                     </div>
                 </div>
-                <div class="w-96 print:hidden">
-                    <div class="sm:max-w-lg w-full px-8 py-8 bg-white rounded-xl z-10">
+                <div class="w-full lg:w-96 mt-2 lg:mt-0 print:hidden">
+                    <div class="mb-3 px-4 py-4 bg-white rounded-xl z-10">
                         <form @submit.prevent="submit">
-                            <div class="mb-4">
-                                <validation-errors />
-                            </div>
                             <div class="w-full mb-4">
-                                <label class="block mb-2 text-sm font-bold text-gray-700" for="status">Status</label>
-                                <Multiselect id="status" v-model="form.status" mode="single" :options="statuses" placeholder="Select Status" />
+                                <label class="block mb-2 text-sm font-bold text-gray-700" for="status">Order Status</label>
+                                <Multiselect id="status" v-model="form.status" mode="single" :options="['PENDING', 'PROCESSING', 'COMPLETED']" placeholder="Select Status" />
                             </div>
                             <div class="w-full mb-4">
                                 <label class="block mb-2 text-sm font-bold text-gray-700" for="shipping">Shipping</label>
                                 <input type="text" id="shipping" v-model="form.shipping" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" placeholder="Charge">
                             </div>
-                            <div>
-                                <button type="submit" class="w-full flex justify-center bg-blue-500 text-gray-100 p-4 rounded-md tracking-wide
-                                    font-semibold focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-md cursor-pointer transition ease-in duration-300">
-                                    Update
-                                </button>
+                        </form>
+                    </div>
+                    <div class="mb-3 px-4 py-4 bg-white rounded-xl z-10">
+                        <form @submit.prevent="submit">
+                            <div v-for="(product, i) in order.data.products" class="w-full mb-4">
+                                <label class="block mb-2 text-sm font-bold text-gray-700" :for="`status-${product.id}`">{{ product.name }} [Status]</label>
+                                <Multiselect :id="`status-${product.id}`" v-model="form.products[i].pivot.status" mode="single" :options="['PENDING', 'PICKED', 'SHIPPING', 'DELIVERED', 'RETURNED', 'REFUNDED']" placeholder="Select Status" />
                             </div>
+                            <button type="submit" class="w-full flex justify-center bg-blue-500 text-gray-100 px-4 py-2 rounded-md tracking-wide
+                                    font-semibold focus:outline-none focus:shadow-outline hover:bg-blue-600 shadow-md cursor-pointer transition ease-in duration-300">
+                                Update
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -274,6 +291,12 @@ export default {
 
         submit() {
             this.form.patch(route('admin.orders.update', this.form.id));
+        },
+        pay() {
+            this.form.transform(data => ({...data, paying: true})).patch(route('admin.orders.update', this.form.id));
+        },
+        refund() {
+            this.form.transform(data => ({...data, refunding: true})).patch(route('admin.orders.update', this.form.id));
         }
     },
     data() {
@@ -283,18 +306,10 @@ export default {
                 invoiceDate: this.invoiceDate,
                 dueDate: this.dueDate,
                 cash_on_delivery: 0,
+                refund: 0,
+                tran_id: '',
             }),
             showTooltip: false,
-            statuses: [
-                'PENDING',
-                'PROCESSING',
-                'PICKED',
-                'SHIPPING',
-                'DELIVERED',
-                'COMPLETED',
-                'RETURNED',
-                'REFUNDED',
-            ],
         }
     },
     created() {

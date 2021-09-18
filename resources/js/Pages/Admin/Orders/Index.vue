@@ -10,7 +10,7 @@
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
                     <div class="flex mb-1 text-xs text-white font-bold">
                         <inertia-link href="" @click.prevent="search({status: ''})" class="rounded-sm m-1 p-2" :class="[active ? 'bg-gray-500' : 'bg-primary']" preserve-scroll>ALL</inertia-link>
-                        <inertia-link href="" v-for="status in ['PENDING', 'PROCESSING', 'PICKED', 'SHIPPING', 'DELIVERED', 'COMPLETED', 'RETURNED', 'REFUNDED']" @click.prevent="search({status})" class="rounded-sm m-1 p-2" :class="[active === status ? 'bg-primary' : 'bg-gray-500']" preserve-scroll>{{ status }}</inertia-link>
+                        <inertia-link href="" v-for="status in ['PENDING', 'PROCESSING', 'COMPLETED']" @click.prevent="search({status})" class="rounded-sm m-1 p-2" :class="[active === status ? 'bg-primary' : 'bg-gray-500']" preserve-scroll>{{ status }}</inertia-link>
                         <div class="ml-auto flex items-center justify-center">
                             <div class="flex rounded">
                                 <input type="text" v-model="form.query" @keyup.enter="search" class="px-2 py-1 border border-black text-black focus:border-black rounded-l-md w-32 md:w-auto" placeholder="Search...">

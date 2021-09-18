@@ -32,6 +32,9 @@
                                                     Product
                                                 </th>
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold bg-gray-100 text-gray-500 uppercase tracking-wider">
+                                                    Status
+                                                </th>
+                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold bg-gray-100 text-gray-500 uppercase tracking-wider">
                                                     Price
                                                 </th>
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold bg-gray-100 text-gray-500 uppercase tracking-wider">
@@ -50,6 +53,7 @@
                                                         <strong>&nbsp;x{{ product.pivot.quantity }}</strong>
                                                     </div>
                                                 </td>
+                                                <td class="px-3 py-2 whitespace-nowrap">{{ product.pivot.status }}</td>
                                                 <td class="px-3 py-2 whitespace-nowrap">{{ product.pivot.quantity }}x{{ moneyFormat(product.pivot.price) }}</td>
                                                 <td class="px-3 py-2 whitespace-nowrap">{{ product.pivot.quantity }}x{{ moneyFormat(product.pivot.discount) }}</td>
                                                 <td class="px-3 py-2 whitespace-nowrap text-sm text-gray-500">{{ calculateTotal(product) }}</td>
@@ -57,17 +61,17 @@
                                             </tbody>
                                             <tfoot class="bg-gray-100">
                                             <tr class="border-b">
-                                                <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Total</th>
+                                                <th scope="col" colspan="2" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Total</th>
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.subtotal) }}</th>
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.discount) }}</th>
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.total) }}</th>
                                             </tr>
                                             <tr>
-                                                <th scope="col" colspan="3" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Shipping</th>
+                                                <th scope="col" colspan="4" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Shipping</th>
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.shipping) }}</th>
                                             </tr>
                                             <tr>
-                                                <th scope="col" colspan="3" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Payable</th>
+                                                <th scope="col" colspan="4" class="px-3 py-2 text-right text-xs font-bold text-gray-500 uppercase tracking-wider">Payable</th>
                                                 <th scope="col" class="px-3 py-2 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">{{ moneyFormat(order.data.payable) }}</th>
                                             </tr>
                                             </tfoot>

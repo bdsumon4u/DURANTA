@@ -50,7 +50,8 @@ class CreateOrdersTable extends Migration
             $table->integer('discount')->default(0);
             $table->integer('price');
             $table->integer('quantity');
-            $table->json('meta')->nullable();
+            $table->integer('commission')->default(0);
+            $table->string('status')->default('PENDING');
         });
     }
 

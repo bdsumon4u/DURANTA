@@ -7,6 +7,7 @@ use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProductResource;
 use App\Models\Order;
+use App\Notifications\OrderProductStatusChanged;
 use App\Notifications\OrderStatusChanged;
 use App\Notifications\Seller\SellerWalletUpdated;
 use Illuminate\Http\Request;
@@ -90,7 +91,6 @@ class OrderController extends Controller
         return Inertia::render('Admin/Orders/Edit', [
             'order' => new OrderResource($order),
             'invoiceDate' => today()->format('d-M-Y'),
-            'dueDate' => today()->addDay()->format('d-M-Y'),
         ]);
     }
 
@@ -104,52 +104,62 @@ class OrderController extends Controller
      */
     public function update(OrderRequest $request, Order $order)
     {
-        $order->load('products.seller', 'payments');
-        $resource = (new OrderResource($order));
-        $rArr = $resource->toArray($request);
-        if ($amount = $request->get('cash_on_delivery')) {
-            if ($amount != $rArr['due']) {
-                return back()->dangerBanner('Due amount does not match cod amount.');
-            }
+        if ($request->get('paying')) {
+            $data = $request->validate([
+                'cash_on_delivery' => 'required|integer|gt:0',
+            ]);
             $order->payments()->create([
-                'tran_id' => '#' . $order->getKey() . '-COD',
-                'amount' => $amount,
+                'tran_id' => '#' . $order->getKey() . '-COD-' . uniqid(),
+                'amount' => $data['cash_on_delivery'],
                 'status' => 'PAID',
                 'gateway_url' => '',
             ]);
-            return back()->banner('Paid: Cash On Delivery');
+            return back()->banner('Paid: Cash On Delivery.');
         }
-
-        $original = $order->getOriginal();
-        $data = $request->validated();
-
-        if ($data['status'] === 'COMPLETED' && $rArr['due'] > 0) {
-            throw ValidationException::withMessages([
-                'not_paid' => 'There is a due of amount ' . $rArr['due'] . '.',
+        if ($request->get('refunding')) {
+            $data = $request->validate([
+                'refund' => 'required|integer|gt:0',
+                'tran_id' => 'required|unique:payments',
             ]);
+            $order->payments()->create([
+                'tran_id' => $data['tran_id'],
+                'amount' => -$data['refund'],
+                'status' => 'REFUNDED',
+                'gateway_url' => '',
+            ]);
+            return back()->banner('Refunded: Record Stored.');
         }
 
-        $changes = [];
-        $order->update($data);
-        foreach ($order->getChanges() as $key => $value) {
-            $changes[$key] = [
-                'original' => $original[$key],
-                'present' => $value,
-            ];
+        $data = $request->validated();
+        $order->load('products.seller');
+        $present = collect($request->products)->mapWithKeys(function ($product) {
+            return [$product['id'] => $product['pivot']['status']];
+        })->toArray();
+
+        try {
+            $order->products->each(function ($product) use (&$order, &$present) {
+                $original = $product->pivot->status;
+                if ($original == $present[$product->id]) {
+                    return;
+                }
+                $order->products()->updateExistingPivot($product, [
+                    'status' => $present[$product->id],
+                ]);
+                if ($original === 'DELIVERED' || $present[$product->id] === 'DELIVERED') {
+                    $this->updateSellerWallet($order, [
+                        'original' => $original,
+                        'present' => $present[$product->id],
+                    ]);
+                }
+                $order->user->notify(new OrderProductStatusChanged($order, $product));
+                Notification::send($product->seller, new OrderProductStatusChanged($order, $product));
+            });
+            $order->update($data);
+        } catch (\Exception $exception) {
+            return back()->dangerBanner($exception->getMessage());
         }
 
-        if ($order->wasChanged('status')) {
-            if ($changes['status']['original'] === 'COMPLETED' || $changes['status']['present'] === 'COMPLETED') {
-                // Increase/Decrease Seller's Balance
-                $this->updateSellerWallet($order, $changes['status']);
-            }
-            ##############################################
-            # What if some of the products are returned! #
-            ##############################################
-            $order->user->notify(new OrderStatusChanged($order));
-            Notification::send($order->sellers()->get(), new OrderStatusChanged($order));
-        }
-        return redirect()->action([static::class, 'index'])->banner('Order Is Updated.');
+        return redirect()->back()->banner('Order Is Updated.');
     }
 
     /**
@@ -171,9 +181,9 @@ class OrderController extends Controller
             $discount = data_get($arr['discount'], 'discount', $arr['discount']);
             $commission = data_get($arr['commission'], 'commission', $arr['commission']);
             $amount = ($price - $discount - $commission) * $arr['pivot']['quantity'];
-            $message = ' amount ' . $amount . ' for product #' . $arr['id'] . 'x' . $arr['pivot']['quantity'] . ' on changing order #' . $order->id . ' status from "' . $changes['original'] . '" to "' . $changes['present'] . '".';
+            $message = ' amount ' . $amount . ' for product "' . $arr['name'] . '"x' . $arr['pivot']['quantity'] . ' on changing order #' . $order->id . ' status from "' . $changes['original'] . '" to "' . $changes['present'] . '".';
             $balance = $product->seller->balance;
-            if ($order->status === 'COMPLETED') {
+            if ($changes['present'] === 'DELIVERED') {
                 // Increase
                 $message = 'Credited' . $message;
                 $product->seller->deposit($amount, [

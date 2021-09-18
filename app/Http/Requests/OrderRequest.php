@@ -37,16 +37,19 @@ class OrderRequest extends FormRequest
         return [
             'status' => 'required',
             'shipping' => 'required|integer',
+            'products.*.id' => 'required',
+            'products.*.pivot.status' => 'required',
         ];
     }
 
     public function all($keys = null)
     {
-        return array_merge(parent::all($keys), [
+        $data = parent::all($keys);
+        return $this->isMethod('POST') ? array_merge($data, [
             'address_id' => $this->get('address'),
             'subtotal' => Cart::subtotal(),
             'discount' => Cart::discount(),
             'total' => Cart::total(),
-        ]);
+        ]) : $data;
     }
 }
