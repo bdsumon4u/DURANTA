@@ -81,6 +81,47 @@
                     </div>
                     <div class="sm:max-w-lg w-full px-2 py-3 bg-white rounded-md z-10">
                         <div class="flex flex-col spacy-y-2">
+                            <div class="w-full">
+                                <label class="block mb-2 text-sm font-bold text-gray-700" for="product-type">Product Type</label>
+                                <div class="flex border bg-white rounded rounded-l-none">
+                                    <div class="w-1/2 radio-uc inline-flex rounded-lg">
+                                        <input
+                                            v-model="form.product_type"
+                                            type="radio"
+                                            value="general"
+                                            id="general-product"
+                                            name="product_type"
+                                            checked="checked"
+                                            class="hidden"
+                                        />
+                                        <label
+                                            for="general-product"
+                                            class="w-full text-center self-center text-black text-xs py-1 px-1 mx-1 rounded-lg cursor-pointer hover:opacity-75">
+                                            General Product
+                                        </label>
+                                    </div>
+                                    <div class="w-1/2 radio-uc inline-flex rounded-lg">
+                                        <input
+                                            v-model="form.product_type"
+                                            type="radio"
+                                            value="card"
+                                            name="product_type"
+                                            id="gift-card"
+                                            class="hidden"
+                                        />
+                                        <label
+                                            for="gift-card"
+                                            class="w-full text-center self-center text-black text-xs py-1 px-1 mx-1 rounded-lg cursor-pointer hover:opacity-75">
+                                            Gift Card
+                                        </label>
+                                    </div>
+                                </div>
+                                <jet-input-error :message="form.errors.product_type" class="mt-2" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="sm:max-w-lg w-full px-2 py-3 bg-white rounded-md z-10">
+                        <div class="flex flex-col spacy-y-2">
                             <div class="w-full mb-4">
                                 <label class="block mb-2 text-sm font-bold text-gray-700" for="price">Price</label>
                                 <input v-model="form.price" class="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline" id="price" type="text" placeholder="Product Price">

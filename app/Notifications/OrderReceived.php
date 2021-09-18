@@ -33,7 +33,7 @@ class OrderReceived extends Notification implements ShouldQueue
      */
     public function via($notifiable)
     {
-        return ['database', SmsChannel::class];
+        return ['database'];
     }
 
     /**

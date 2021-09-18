@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
-use function Clue\StreamFilter\fun;
 
 class OrderController extends Controller
 {
@@ -25,7 +24,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::search(\request('query'))->query(function ($query) {
+        $callback = function ($query) {
             $query->with('user', 'address')
                 ->withCount('products')
                 ->when(\request('status'), function ($query) {
@@ -37,7 +36,14 @@ class OrderController extends Controller
                     });
                 })
                 ->latest('id');
-        })->paginate(10)->withQueryString();
+        };
+
+        if (\request('query')) {
+            $query = Order::search(\request('query'))->query($callback);
+        } else {
+            $query = Order::when(true, $callback);
+        }
+        $orders = $query->paginate(10)->withQueryString();
 
         return Inertia::render('Admin/Orders/Index', [
             'orders' => OrderResource::collection($orders),
@@ -176,29 +182,7 @@ class OrderController extends Controller
     private function updateSellerWallet(Order $order, $changes)
     {
         ProductResource::collection($order->products)->each(function ($product) use (&$order, &$changes) {
-            $arr = $product->toArray(\request());
-            $price = data_get($arr['pivot'], 'price', $arr['price']);
-            $discount = data_get($arr['discount'], 'discount', $arr['discount']);
-            $commission = data_get($arr['commission'], 'commission', $arr['commission']);
-            $amount = ($price - $discount - $commission) * $arr['pivot']['quantity'];
-            $message = ' amount ' . $amount . ' for product "' . $arr['name'] . '"x' . $arr['pivot']['quantity'] . ' on changing order #' . $order->id . ' status from "' . $changes['original'] . '" to "' . $changes['present'] . '".';
-            $balance = $product->seller->balance;
-            if ($changes['present'] === 'DELIVERED') {
-                // Increase
-                $message = 'Credited' . $message;
-                $product->seller->deposit($amount, [
-                    'message' => $message,
-                    'balance' => $balance + $amount,
-                ]);
-            } else {
-                // Decrease
-                $message = 'Debited' . $message;
-                $product->seller->forceWithdraw($amount, [
-                    'message' => $message,
-                    'balance' => $balance - $amount,
-                ]);
-            }
-            $product->seller->notify(new SellerWalletUpdated($order, $message));
+            update_seller_wallet($order, $product, $changes);
         });
     }
 }

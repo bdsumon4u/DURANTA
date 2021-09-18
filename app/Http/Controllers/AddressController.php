@@ -30,7 +30,7 @@ class AddressController extends Controller
         if ($request->isMethod('GET')) {
             return Inertia::render('Profile/AddressManager', compact('address'));
         }
-        $request->user()->addresses()->firstOrCreate(compact('type'), $request->validate([
+        $request->user()->addresses()->updateOrCreate(compact('type'), $request->validate([
             'name' => 'required',
             'phone' => 'required|numeric|digits:11',
             'division' => 'required',

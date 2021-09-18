@@ -27,6 +27,7 @@ class Product extends Model implements HasMedia, Buyable
         'name',
         'slug',
         'description',
+        'product_type',
         'price',
         'discount_amount',
         'discount_type',

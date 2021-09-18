@@ -15,6 +15,7 @@ class ProductRequest extends FormRequest
         'name' => 'required|max:255',
         'slug' => 'nullable|max:255',
         'description' => 'required',
+        'product_type' => 'required',
 
         'brand' => 'nullable|integer',
         'categories' => 'required|array',

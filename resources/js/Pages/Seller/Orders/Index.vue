@@ -87,6 +87,17 @@
                                                                 <li>Stock: {{ (product.stock_track ? product.stock_count : '') + ' In Stock' }}</li>
                                                             </ul>
                                                         </div>
+                                                        <div v-if="product.product_type === 'card'" class="flex flex-col justify-center align-center font-bold text-primary mx-3">
+                                                            <div class="border p-2">
+                                                                <div class="text-center">You've to deliver it yourself.</div>
+                                                                <div v-if="order.due > 0">We're waiting for payment.</div>
+                                                                <template v-else>
+                                                                    <div class="text-center">Contact "{{ order.contact_name }}".</div>
+                                                                    <div class="text-center">Phone: {{ order.contact_phone }}.</div>
+                                                                </template>
+                                                            </div>
+                                                            <a v-if="order.due <= 0" href="" @click.prevent="delivered(order.id, product.id)" class="bg-primary text-gray-100 hover:text-white text-center font-bold px-4 py-2 rounded-sm">I've Delivered</a>
+                                                        </div>
                                                         <div class="flex flex-col justify-around ml-auto">
                                                             <inertia-link class="bg-primary text-gray-100 hover:text-white text-center font-bold px-4 py-2 rounded-sm" :href="route('seller.products.edit', product)">Open As Seller</inertia-link>
                                                             <inertia-link class="bg-primary text-gray-100 hover:text-white text-center font-bold px-4 py-2 rounded-sm" :href="route('products.show', product.slug)">Open As User</inertia-link>
@@ -139,6 +150,9 @@ export default {
         },
         search(extra) {
             this.form.transform(data => ({...data, ...extra})).get(route('seller.orders.index'))
+        },
+        delivered(order_id, product_id) {
+            this.$inertia.form({product_id}).patch(route('seller.orders.update', order_id));
         }
     },
     data() {

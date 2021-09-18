@@ -40,7 +40,7 @@ class Widget extends Model implements HasMedia
         $data['brands'] = data_get($this->settings, 'brands') ?? '';
         $data['categories'] = data_get($this->settings, 'categories') ?? '';
         $data['ordering'] = data_get($this->settings, 'ordering', 'latest');
-        return Product::search($query)->query(function ($query) use (&$data) {
+        $callback = function ($query) use (&$data) {
             $query->approved()->with('firstMedia')
                 ->when($data['brands'], function ($query) use (&$data) {
                     $query->whereIn('brand_id', explode(',', $data['brands']));
@@ -53,6 +53,7 @@ class Widget extends Model implements HasMedia
                 })->when($data['ordering'] === 'latest', function ($query) {
                     $query->latest('id');
                 });
-        });
+        };
+        return $query ? Product::search($query)->query($callback) : Product::when(true, $callback);
     }
 }

@@ -2,11 +2,9 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Product;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
-use function Clue\StreamFilter\fun;
 
 class WidgetResource extends JsonResource
 {

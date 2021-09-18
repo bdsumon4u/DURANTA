@@ -16,14 +16,14 @@ class OrderProductStatusChanged extends Notification
     use Queueable;
 
     private Order $order;
-    private Product $product;
+    private $product;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(Order $order, Product $product)
+    public function __construct(Order $order, $product)
     {
         $this->order = $order;
         $this->product = $product;

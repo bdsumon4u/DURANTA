@@ -45,6 +45,7 @@ class CreateOrdersTable extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->string('campaign')->nullable();
             $table->string('first_media');
             $table->string('slug');
             $table->integer('discount')->default(0);

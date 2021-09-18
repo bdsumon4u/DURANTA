@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\ProductResource;
+use App\Models\Admin;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
+use App\Notifications\Admin\NewProductAdded;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
@@ -21,14 +24,22 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::search(request('query'))->query(function ($query) {
+        $callback = function ($query) {
             $query->where('seller_id', request()->user()->getKey())
                 ->with('firstMedia')
                 ->when(\request('status'), function ($query) {
                     $query->where('status', \request('status'));
                 })
                 ->latest('id');
-        })->paginate(10)->withQueryString();
+        };
+
+        if (request('query')) {
+            $query = Product::search(request('query'))->query($callback);
+        } else {
+            $query = Product::when(true, $callback);
+        }
+
+        $products = $query->paginate(10)->withQueryString();
 
         return Inertia::render('Seller/Products/Index', [
             'products' => ProductResource::collection($products),
@@ -64,6 +75,8 @@ class ProductController extends Controller
         $product = $request->user()->products()->create($data);
         $this->addMedia($product, $data['media']);
         $product->categories()->sync($data['categories']);
+
+        Notification::send(Admin::all(), new NewProductAdded($product));
 
         return redirect()->action([static::class, 'index'])->banner('New Product is Added.');
     }

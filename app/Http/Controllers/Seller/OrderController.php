@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Seller;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
+use App\Notifications\OrderProductStatusChanged;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
 use Inertia\Inertia;
 
 class OrderController extends Controller
@@ -17,18 +19,25 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = Order::search(\request('query'))->query(function ($query) {
+        $callback = function ($query) {
             $query->whereHas('products', function ($query) {
                 $query->where('seller_id', \request()->user()->id);
             })
                 ->with(['products' => function ($query) {
                     $query->where('seller_id', \request()->user()->id);
-                }])
+                }, 'payments'])
                 ->when(\request('status'), function ($query) {
                     $query->where('status', \request('status'));
                 })
                 ->latest('id');
-        })->paginate(10)->withQueryString();
+        };
+
+        if (\request('query')) {
+            $query = Order::search(\request('query'))->query($callback);
+        } else {
+            $query = Order::when(true, $callback);
+        }
+        $orders = $query->paginate(10)->withQueryString();
 
         return Inertia::render('Seller/Orders/Index', [
             'orders' => OrderResource::collection($orders),
@@ -89,7 +98,24 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $product = $order->products()->where([
+            'seller_id' => $request->user()->id,
+            'product_id' => $request->product_id,
+        ])
+            ->where('status', '!=', 'DELIVERED')
+            ->firstOrFail();
+
+        $original = $product->pivot->status;
+        $order->products()->updateExistingPivot($product, [
+            'status' => 'DELIVERED',
+        ]);
+
+        update_seller_wallet($order, $product, [
+            'original' => $original,
+            'present' => 'DELIVERED',
+        ]);
+        $order->user->notify(new OrderProductStatusChanged($order, $product));
+        Notification::send($product->seller, new OrderProductStatusChanged($order, $product));
     }
 
     /**

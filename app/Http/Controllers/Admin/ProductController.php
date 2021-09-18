@@ -21,13 +21,20 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::search(\request('query'))->query(function ($query) {
+        $callback = function ($query) {
             $query->with('firstMedia')
                 ->when(\request('status'), function ($query) {
                     $query->where('status', \request('status'));
                 })
                 ->latest('id');
-        })->paginate(10)->withQueryString();
+        };
+
+        if (\request('query')) {
+            $query = Product::search(\request('query'))->query($callback);
+        } else {
+            $query = Product::when(true, $callback);
+        }
+        $products = $query->paginate(10)->withQueryString();
 
         return Inertia::render('Admin/Products/Index', [
             'products' => ProductResource::collection($products),

@@ -6,6 +6,7 @@ export default {
         sku: '',
         name: '',
         description: '',
+        product_type: 'general',
 
         brand: null,
         categories: null,

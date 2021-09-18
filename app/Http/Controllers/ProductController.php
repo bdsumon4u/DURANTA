@@ -20,7 +20,7 @@ class ProductController extends Controller
      */
     public function __invoke(Request $request)
     {
-        $products = Product::search(\request('search'))->query(function ($query) {
+        $callback = function ($query) {
             $query->with('firstMedia')->when(\request('sort'), function ($query) {
                 if (\request('sort') === 'price') {
                     $query->orderBy('price');
@@ -30,7 +30,14 @@ class ProductController extends Controller
                     $query->latest('id');
                 }
             })->latest('id');
-        })->paginate(12)->withQueryString()->onEachSide(0);
+        };
+
+        if (\request('search')) {
+            $query = Product::search(\request('search'))->query($callback);
+        } else {
+            $query = Product::when(true, $callback);
+        }
+        $products = $query->paginate(12)->withQueryString()->onEachSide(0);
         return Inertia::render('Products/Index', [
             'products' => ProductResource::collection($products),
         ]);
