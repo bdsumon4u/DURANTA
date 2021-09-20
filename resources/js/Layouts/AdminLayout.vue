@@ -211,10 +211,6 @@ export default {
                             active: route().current('admin.campaigns.index') || route().current('admin.campaigns.edit'),
                             href: route('admin.campaigns.index'),
                         },
-                        {
-                            name: 'Gift Cards',
-                            href: '/gift-cards',
-                        },
                     ],
                 },
                 {

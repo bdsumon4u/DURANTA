@@ -41,7 +41,7 @@
                         </td>
                     </tr>
                     <tr v-if="campaigns.data.length === 0">
-                        <td colspan="3" class="text-center p-2">
+                        <td colspan="6" class="text-center p-2">
                             <strong class="text-sm text-red-500">No Data Found.</strong>
                         </td>
                     </tr>
