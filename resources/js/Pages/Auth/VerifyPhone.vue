@@ -29,11 +29,14 @@
                             <div class="flex justify-around items-center mt-5">
                                 <div>
                                     <div v-if="timer">Resend OTP in {{ timer }} sec.</div>
-                                    <a v-else @click.prevent="resend" class="flex items-center text-blue-700 hover:text-blue-900 cursor-pointer py-2 px-4 rounded-md border">
+                                    <a v-else @click.prevent="resend" class="flex items-center text-blue-700 text-sm hover:text-blue-900 cursor-pointer py-2 px-4 rounded-md border">
                                         <span class="font-bold">Resend OTP</span>
                                     </a>
                                 </div>
-                                <a v-if="form.phone === $page.props.user.phone" @click.prevent="verify" class="flex items-center justify-center cursor-pointer px-3 py-2 mx-1 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition">Submit</a>
+                                <div class="flex">
+                                    <a v-if="form.phone === $page.props.user.phone" @click.prevent="verify" class="flex items-center justify-center cursor-pointer px-3 py-2 mx-1 text-center text-white bg-primary border border-primary rounded hover:bg-transparent hover:text-primary transition">Submit</a>
+                                    <inertia-link :href="route(prefix + 'logout')" method="post" as="button" class="bg-gray-200 px-3 py-2 rounded border hover:bg-transparent text-sm text-gray-600 hover:text-gray-900">Log Out</inertia-link>
+                                </div>
                             </div>
                         </div>
                     </div>

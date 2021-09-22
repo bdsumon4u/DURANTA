@@ -128,7 +128,7 @@ class Seller extends Authenticatable implements \App\Contracts\Auth\MustVerifyPh
         ]);
 
         return array_merge($data, [
-            'store_name' => $this->sellership->store_name,
+            'store_name' => $this->sellership->store_name ?? $this->name,
         ]);
     }
 }

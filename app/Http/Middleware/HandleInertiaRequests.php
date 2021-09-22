@@ -94,7 +94,9 @@ class HandleInertiaRequests extends Middleware
     private function menus(array $data)
     {
         if (\request()->isAdmin() || \request()->isSeller()) {
-            return $data;
+            if (!\request()->is('*/phone/verify')) {
+                return $data;
+            }
         }
 
         return array_merge($data, [
@@ -130,7 +132,9 @@ class HandleInertiaRequests extends Middleware
     private function settings(array $data)
     {
         if (\request()->isAdmin() || \request()->isSeller()) {
-            return $data;
+            if (!\request()->is('*/phone/verify')) {
+                return $data;
+            }
         }
 
         return array_merge($data, [
