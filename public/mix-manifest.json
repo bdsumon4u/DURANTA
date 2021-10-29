@@ -1,4 +1,16 @@
 {
-    "/js/app.js": "/js/app.js",
-    "/css/app.css": "/css/app.css"
+    "/js/app-resources_js_P.js": "/js/app-resources_js_P.js",
+    "/js/manifest.js": "/js/manifest.js",
+    "/css/app.css": "/css/app.css",
+    "/js/vendor-node_modules_vueperslides_dist_vueperslides_common_js-b1b51b3d.js": "/js/vendor-node_modules_vueperslides_dist_vueperslides_common_js-b1b51b3d.js",
+    "/js/app-_.js": "/js/app-_.js",
+    "/js/app-resources_js_Pages_AP.js": "/js/app-resources_js_Pages_AP.js",
+    "/js/app-resources_js_Pages_A.js": "/js/app-resources_js_Pages_A.js",
+    "/js/app-resources_js_Pages_H.js": "/js/app-resources_js_Pages_H.js",
+    "/js/vendor-node_modules_a.js": "/js/vendor-node_modules_a.js",
+    "/js/vendor-node_modules_ckeditor_ckeditor5-build-classic_build_ckeditor_js-fb3d69b0.js": "/js/vendor-node_modules_ckeditor_ckeditor5-build-classic_build_ckeditor_js-fb3d69b0.js",
+    "/js/vendor-node_modules_lodash_lodash_js-2ef0e502.js": "/js/vendor-node_modules_lodash_lodash_js-2ef0e502.js",
+    "/js/vendor-node_modules_r.js": "/js/vendor-node_modules_r.js",
+    "/js/vendor-node_modules_vue_.js": "/js/vendor-node_modules_vue_.js",
+    "/js/vendor-node_modules_vue_runtime-core_dist_runtime-core_esm-bundler_js-5c40226b.js": "/js/vendor-node_modules_vue_runtime-core_dist_runtime-core_esm-bundler_js-5c40226b.js"
 }

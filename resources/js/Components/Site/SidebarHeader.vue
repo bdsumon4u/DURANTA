@@ -79,7 +79,7 @@
                                 <path fill="currentColor" d="M3 4h18v2H3V4zm0 7h18v2H3v-2zm0 7h18v2H3v-2z"/>
                             </svg>
                         </span>
-                        <span class="uppercase mx-2 text-white text-xl font-semibold font-roboto-condensed">Category Menu</span>
+                        <span class="mx-2 text-white font-semibold">Category Menu</span>
                         <span class="text-white">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                                 <path fill="none" d="M0 0h24v24H0z"/>
@@ -228,7 +228,7 @@
         <div class="absolute inset-0" @click.prevent="cart_open = false"></div>
         <div class="absolute right-0 top-0 w-full md:w-96 h-full z-50 bg-white shadow">
             <!-- cart -->
-            <h3 class="text-xl font-semibold bg-primary text-gray-100 font-roboto p-4 flex justify-center items-center">
+            <h3 class="text-xl bg-primary font-semibold text-gray-100 font-roboto-condensed px-4 py-2 flex justify-center items-center">
                 <div @click.prevent="cart_open = false" class="text-gray-100 border text-lg absolute left-3 cursor-pointer">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                         <path fill="none" d="M0 0h24v24H0z"/>
@@ -237,9 +237,12 @@
                 </div>
                 <div>My Cart</div>
             </h3>
-            <ul class="divide-y overflow-y-auto" style="height: calc(100% - 240px)">
+            <ul class="divide-y overflow-y-auto" :style="{'height: calc(100% - 240px)': cart.content.length}">
                 <!-- single wishlist -->
-                <li v-for="product in cart.content" class="flex items-center md:justify-between gap-4 p-4 border-gray-200 flex-wrap md:flex-nowrap">
+                <li v-if="cart.content.length === 0" class="flex items-center justify-center gap-4 p-2 pr-3 border-gray-200 flex-wrap flex-col h-full">
+                    <img src="/images/empty-sad-shopping-bag.gif" alt="Empty Cart!">
+                </li>
+                <li v-for="product in cart.content" class="flex items-center md:justify-between gap-4 p-2 pr-3 border-gray-200 flex-wrap md:flex-nowrap">
                     <!-- cart image -->
                     <div class="w-12 flex-shrink-0">
                         <img :src="product.options.first_media" class="w-full h-full">
@@ -270,7 +273,7 @@
                 </li>
                 <!-- single wishlist end -->
             </ul>
-            <div class="absolute left-0 bottom-0 right-0 px-4 pt-2 pb-4">
+            <div v-if="cart.content.length" class="absolute left-0 bottom-0 right-0 px-4 pt-2 pb-4">
                 <div class="flex font-semibold py-2">
                     <div class="flex-1">
                         Subtotal
@@ -364,9 +367,11 @@ export default {
         }
     },
     mounted() {
-        console.log(this.$page)
         this.loadCartContent();
-        this.emitter.on('cart-updated', this.loadCartContent)
+        this.emitter.on('cart-updated', () => {
+            this.loadCartContent();
+            this.cart_open = true;
+        })
     },
     beforeUnmount() {
         this.emitter.off('cart-updated', this.loadCartContent)

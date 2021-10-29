@@ -352,7 +352,7 @@ ul {
  */
 
 html {
-  font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 1 */
+  font-family: Open Sans, sans-serif, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"; /* 1 */
   line-height: 1.5; /* 2 */
 }
 
@@ -2390,6 +2390,9 @@ select {
 .pl-12 {
 	padding-left: 3rem;
 }
+.pr-3 {
+	padding-right: 0.75rem;
+}
 .pb-24 {
 	padding-bottom: 6rem;
 }
@@ -2424,7 +2427,7 @@ select {
 	vertical-align: middle;
 }
 .font-sans {
-	font-family: Nunito, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	font-family: Open Sans, sans-serif, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 .font-mono {
 	font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -2853,13 +2856,13 @@ select {
 	--tw-bg-opacity: 1;
 	background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
 }
-.hover\:bg-gray-300:hover {
-	--tw-bg-opacity: 1;
-	background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
-}
 .hover\:bg-gray-200:hover {
 	--tw-bg-opacity: 1;
 	background-color: rgba(229, 231, 235, var(--tw-bg-opacity));
+}
+.hover\:bg-gray-300:hover {
+	--tw-bg-opacity: 1;
+	background-color: rgba(209, 213, 219, var(--tw-bg-opacity));
 }
 .hover\:bg-black:hover {
 	--tw-bg-opacity: 1;
@@ -2920,6 +2923,10 @@ select {
 	--tw-text-opacity: 1;
 	color: rgba(99, 102, 241, var(--tw-text-opacity));
 }
+.hover\:text-primary:hover {
+	--tw-text-opacity: 1;
+	color: rgba(253, 61, 87, var(--tw-text-opacity));
+}
 .hover\:text-white:hover {
 	--tw-text-opacity: 1;
 	color: rgba(255, 255, 255, var(--tw-text-opacity));
@@ -2927,10 +2934,6 @@ select {
 .hover\:text-blue-600:hover {
 	--tw-text-opacity: 1;
 	color: rgba(37, 99, 235, var(--tw-text-opacity));
-}
-.hover\:text-primary:hover {
-	--tw-text-opacity: 1;
-	color: rgba(253, 61, 87, var(--tw-text-opacity));
 }
 .hover\:text-blue-900:hover {
 	--tw-text-opacity: 1;

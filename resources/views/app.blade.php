@@ -21,7 +21,9 @@
 
         <!-- Scripts -->
         @routes
-        <script src="{{ mix('js/app.js') }}" defer></script>
+        @foreach(json_decode(file_get_contents(public_path('mix-manifest.json')), true) as $path)
+        <script src="{{ mix($path) }}" defer></script>
+        @endforeach
     </head>
     <body class="font-sans antialiased">
         @inertia

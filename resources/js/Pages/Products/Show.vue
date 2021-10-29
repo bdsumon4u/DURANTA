@@ -60,25 +60,15 @@
             <!-- product image end -->
             <!-- product content -->
             <div>
-                <h2 class="md:text-3xl text-2xl font-medium uppercase mb-2">{{ product.data.name }}</h2>
+                <h2 class="md:text-3xl text-2xl font-medium mb-2">{{ product.data.name }}</h2>
                 <div class="space-y-2">
-                    <p class="text-gray-800 font-semibold space-x-2">
-                        <span>Availability: </span>
-                        <span class="text-green-600">{{ product.data.stock_track ? product.data.stock_count : '' }} In Stock</span>
-                    </p>
-                    <p v-if="product.data.brand" class="space-x-2">
-                        <span class="text-gray-800 font-semibold">Brand: </span>
-                        <inertia-link class="text-gray-100 text-sm bg-primary px-2 py-1 rounded-md whitespace-nowrap" :href="route('brands.show', product.data.brand_slug)">{{ product.data.brand_name }}</inertia-link>
-                    </p>
-                    <p class="space-x-1">
-                        <span class="text-gray-800 font-semibold">Categories: </span>
-                        <span class="flex flex-wrap gap-1">
-                            <inertia-link v-for="category in product.data.categories" class="text-gray-100 text-sm bg-primary px-2 py-1 rounded-md whitespace-nowrap" :href="route('categories.show', category)">{{ category.name }}</inertia-link>
-                        </span>
-                    </p>
                     <p class="space-x-2">
                         <span class="text-gray-800 font-semibold">SKU: </span>
-                        <span class="text-gray-600 uppercase">{{ product.data.sku }}</span>
+                        <span class="text-gray-600">{{ product.data.sku }}</span>
+                    </p>
+                    <p class="text-gray-800 font-semibold space-x-2">
+                        <span>Stock: </span>
+                        <span class="text-green-600">{{ product.data.stock_track ? product.data.stock_count : '' }} In Stock</span>
                     </p>
                 </div>
                 <div class="mt-4 flex items-baseline gap-3">
@@ -162,7 +152,7 @@
                 <!-- color end -->
                 <!-- quantity -->
                 <div class="mt-4">
-                    <h3 class="text-base text-gray-800 mb-1">Quantity</h3>
+                    <h3 class="text-base font-semibold text-gray-800 mb-1">Quantity</h3>
                     <div class="flex border border-gray-300 text-gray-600 divide-x divide-gray-300 w-max">
                         <div class="h-8 w-8 text-xl flex items-center justify-center cursor-pointer select-none" @click.prevent="decrement">-</div>
                         <div class="h-8 w-10 flex items-center justify-center">{{ quantity }}</div>
@@ -181,6 +171,18 @@
                     </a>
                 </div>
                 <!-- add to cart button end -->
+                <div class="mt-4 space-y-2">
+                    <p v-if="product.data.brand" class="space-x-2">
+                        <span class="text-gray-800 font-semibold text-sm">Brand: </span>
+                        <inertia-link class="text-gray-900 text-sm underline px-2 py-1 font-bold rounded-md whitespace-nowrap" :href="route('brands.show', product.data.brand_slug)">{{ product.data.brand_name }}</inertia-link>
+                    </p>
+                    <p class="flex items-center space-x-1">
+                        <span class="text-gray-800 font-semibold text-sm">Categories: </span>
+                        <span class="flex flex-wrap gap-1">
+                            <inertia-link v-for="category in product.data.categories" class="text-gray-900 text-sm underline px-2 py-1 font-bold rounded-md whitespace-nowrap" :href="route('categories.show', category)">{{ category.name }}</inertia-link>
+                        </span>
+                    </p>
+                </div>
             </div>
             <!-- product content end -->
         </div>

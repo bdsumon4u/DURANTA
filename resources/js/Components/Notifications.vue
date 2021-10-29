@@ -1,7 +1,7 @@
 <template>
     <div class="relative">
         <div @click="open = ! open">
-            <button class="relative h-10 w-10 bg-gray-200 focus:outline-none hover:bg-gray-300 border-transparent rounded-md focus:outline-none focus:border-gray-300 transition flex items-center justify-center">
+            <button class="relative h-10 w-10 focus:outline-none text-center text-gray-700 hover:text-primary border-transparent rounded-md shadow focus:outline-none focus:border-gray-300 transition flex items-center justify-center">
                 <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="24" width="24" xmlns="http://www.w3.org/2000/svg">
                     <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                     <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>

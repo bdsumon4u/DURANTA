@@ -60,13 +60,13 @@
             <div class="grid lg:grid-cols-8 md:grid-cols-6 grid-cols-3 lg:gap-6 md:gap-4 gap-2">
                 <!-- single brand -->
                 <div v-for="brand in brands.data" class="group flex flex-col rounded bg-white shadow overflow-hidden">
-                    <!-- brand image -->
-                    <div class="relative p-2">
-                        <img :src="brand.image" class="w-full">
-                        <div class="absolute inset-0 bg-gray-100 bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"></div>
-                    </div>
-                    <!-- brand image end -->
                     <inertia-link :href="route('brands.show', brand.slug)">
+                        <!-- brand image -->
+                        <div class="relative p-2">
+                            <img :src="brand.image" class="w-full">
+                            <div class="absolute inset-0 bg-gray-100 bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"></div>
+                        </div>
+                        <!-- brand image end -->
                         <h4 class="font-medium text-sm text-center font-roboto line-clamp-2 mb-2 text-gray-800 hover:text-primary transition">{{ brand.name }}</h4>
                     </inertia-link>
                 </div>
@@ -96,13 +96,13 @@
             <div class="grid lg:grid-cols-8 md:grid-cols-6 grid-cols-3 lg:gap-6 md:gap-4 gap-2">
                 <!-- single store -->
                 <div v-for="store in stores.data" class="group flex flex-col rounded bg-white shadow overflow-hidden">
-                    <!-- store image -->
-                    <div class="relative p-2">
-                        <img :src="store.store_logo" class="w-full">
-                        <div class="absolute inset-0 bg-gray-100 bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"></div>
-                    </div>
-                    <!-- store image end -->
                     <inertia-link :href="route('sellers.show', store.slug)">
+                        <!-- store image -->
+                        <div class="relative p-2">
+                            <img :src="store.store_logo" class="w-full">
+                            <div class="absolute inset-0 bg-gray-100 bg-opacity-40 flex items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition"></div>
+                        </div>
+                        <!-- store image end -->
                         <h4 class="font-medium text-sm text-center font-roboto line-clamp-2 mb-2 text-gray-800 hover:text-primary transition">{{ store.store_name }}</h4>
                     </inertia-link>
                 </div>
@@ -130,7 +130,8 @@
             <!-- products widget -->
             <div v-if="widget.name === 'Products'" class="container pb-16">
                 <div class="flex items-center justify-between text-xs md:text-sm mb-6">
-                    <h2 class="text-xl md:text-2xl font-medium font-roboto text-gray-800 uppercase">{{ widget.title }}</h2>
+                    <h2 class="text-xl md:text-2xl font-medium font-roboto text-gray-800 uppercase mr-2">{{ widget.title }}</h2>
+                    <div class="border-t border-2 flex-1"></div>
                     <inertia-link :href="route('widget', widget.slug)" class="bg-black px-3 py-1 ml-2 rounded-sm text-white text-center font-bold">View All</inertia-link>
                 </div>
 

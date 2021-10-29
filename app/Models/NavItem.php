@@ -16,6 +16,11 @@ class NavItem extends Model
         return $this->belongsTo(NavMenu::class, 'parent_id');
     }
 
+    public function navMenu()
+    {
+        return $this->belongsTo(NavMenu::class);
+    }
+
     public function getLinkAttribute($link)
     {
         return url($link);
